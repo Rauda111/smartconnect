@@ -1,0 +1,22 @@
+test_baseline_and_handovers (test_simulation.SimulationTests.test_baseline_and_handovers) ... ok
+test_bounds_and_reproducibility (test_simulation.SimulationTests.test_bounds_and_reproducibility) ... ok
+test_configuration (test_simulation.SimulationTests.test_configuration) ... ok
+test_scenario_behavior_across_seeds (test_simulation.SimulationTests.test_scenario_behavior_across_seeds) ... ok
+test_unknown_scenario (test_simulation.SimulationTests.test_unknown_scenario) ... ok
+test_cli_identical_traces (test_smartconnect.SmartConnectTests.test_cli_identical_traces) ... ok
+test_design_contract (test_smartconnect.SmartConnectTests.test_design_contract) ... ok
+test_hold_and_guardrail (test_smartconnect.SmartConnectTests.test_hold_and_guardrail) ... ok
+test_reproducibility_causality_and_rules (test_smartconnect.SmartConnectTests.test_reproducibility_causality_and_rules) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 2.043s
+
+OK
+congested_wifi | method=baseline | application=video_call | seed=42 | 100 simulated time steps
+Selected: WiFi=100, 5G=0; handovers=0 at time steps []
+CSV: /var/folders/v1/6bcj3qb96m1fw279ztstwr3m0000gn/T/tmp5pjzmdvo/outputs/congested_wifi_seed42_baseline.csv
+Verification plots: 0 PNG files in /var/folders/v1/6bcj3qb96m1fw279ztstwr3m0000gn/T/tmp5pjzmdvo/plots
+congested_wifi | method=smartconnect | application=video_call | seed=42 | 100 simulated time steps
+Selected: WiFi=53, 5G=47; handovers=1 at time steps [53]
+CSV: /var/folders/v1/6bcj3qb96m1fw279ztstwr3m0000gn/T/tmp5pjzmdvo/outputs/congested_wifi_seed42_smartconnect_video_call.csv
+Verification plots: 0 PNG files in /var/folders/v1/6bcj3qb96m1fw279ztstwr3m0000gn/T/tmp5pjzmdvo/plots

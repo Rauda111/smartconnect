@@ -1,0 +1,207 @@
+scenario,seed,application,method,raw_csv,event_number,step,source_network,target_network,gap_since_previous_handover,decision_explanation
+leaving_wifi,0,,baseline,leaving_wifi_seed0_baseline.csv,1,58,WiFi,5G,,Strongest Signal First RSSI selection
+leaving_wifi,0,,baseline,leaving_wifi_seed0_baseline.csv,2,62,5G,WiFi,4.0,Strongest Signal First RSSI selection
+leaving_wifi,0,,baseline,leaving_wifi_seed0_baseline.csv,3,63,WiFi,5G,1.0,Strongest Signal First RSSI selection
+leaving_wifi,0,video_call,smartconnect,leaving_wifi_seed0_smartconnect_video_call.csv,1,34,WiFi,5G,,"Switch to 5G: advantage 0.078, held for 3 steps; dwell satisfied."
+leaving_wifi,0,file_download,smartconnect,leaving_wifi_seed0_smartconnect_file_download.csv,1,44,WiFi,5G,,"Switch to 5G: advantage 0.102, held for 3 steps; dwell satisfied."
+leaving_wifi,1,,baseline,leaving_wifi_seed1_baseline.csv,1,55,WiFi,5G,,Strongest Signal First RSSI selection
+leaving_wifi,1,,baseline,leaving_wifi_seed1_baseline.csv,2,56,5G,WiFi,1.0,Strongest Signal First RSSI selection
+leaving_wifi,1,,baseline,leaving_wifi_seed1_baseline.csv,3,57,WiFi,5G,1.0,Strongest Signal First RSSI selection
+leaving_wifi,1,,baseline,leaving_wifi_seed1_baseline.csv,4,60,5G,WiFi,3.0,Strongest Signal First RSSI selection
+leaving_wifi,1,,baseline,leaving_wifi_seed1_baseline.csv,5,61,WiFi,5G,1.0,Strongest Signal First RSSI selection
+leaving_wifi,1,video_call,smartconnect,leaving_wifi_seed1_smartconnect_video_call.csv,1,36,WiFi,5G,,"Switch to 5G: advantage 0.074, held for 3 steps; dwell satisfied."
+leaving_wifi,1,file_download,smartconnect,leaving_wifi_seed1_smartconnect_file_download.csv,1,46,WiFi,5G,,"Switch to 5G: advantage 0.093, held for 3 steps; dwell satisfied."
+leaving_wifi,2,,baseline,leaving_wifi_seed2_baseline.csv,1,52,WiFi,5G,,Strongest Signal First RSSI selection
+leaving_wifi,2,,baseline,leaving_wifi_seed2_baseline.csv,2,53,5G,WiFi,1.0,Strongest Signal First RSSI selection
+leaving_wifi,2,,baseline,leaving_wifi_seed2_baseline.csv,3,57,WiFi,5G,4.0,Strongest Signal First RSSI selection
+leaving_wifi,2,,baseline,leaving_wifi_seed2_baseline.csv,4,58,5G,WiFi,1.0,Strongest Signal First RSSI selection
+leaving_wifi,2,,baseline,leaving_wifi_seed2_baseline.csv,5,59,WiFi,5G,1.0,Strongest Signal First RSSI selection
+leaving_wifi,2,,baseline,leaving_wifi_seed2_baseline.csv,6,60,5G,WiFi,1.0,Strongest Signal First RSSI selection
+leaving_wifi,2,,baseline,leaving_wifi_seed2_baseline.csv,7,61,WiFi,5G,1.0,Strongest Signal First RSSI selection
+leaving_wifi,2,,baseline,leaving_wifi_seed2_baseline.csv,8,62,5G,WiFi,1.0,Strongest Signal First RSSI selection
+leaving_wifi,2,,baseline,leaving_wifi_seed2_baseline.csv,9,63,WiFi,5G,1.0,Strongest Signal First RSSI selection
+leaving_wifi,2,video_call,smartconnect,leaving_wifi_seed2_smartconnect_video_call.csv,1,33,WiFi,5G,,"Switch to 5G: advantage 0.087, held for 3 steps; dwell satisfied."
+leaving_wifi,2,file_download,smartconnect,leaving_wifi_seed2_smartconnect_file_download.csv,1,45,WiFi,5G,,"Switch to 5G: advantage 0.094, held for 3 steps; dwell satisfied."
+leaving_wifi,3,,baseline,leaving_wifi_seed3_baseline.csv,1,54,WiFi,5G,,Strongest Signal First RSSI selection
+leaving_wifi,3,,baseline,leaving_wifi_seed3_baseline.csv,2,56,5G,WiFi,2.0,Strongest Signal First RSSI selection
+leaving_wifi,3,,baseline,leaving_wifi_seed3_baseline.csv,3,57,WiFi,5G,1.0,Strongest Signal First RSSI selection
+leaving_wifi,3,,baseline,leaving_wifi_seed3_baseline.csv,4,58,5G,WiFi,1.0,Strongest Signal First RSSI selection
+leaving_wifi,3,,baseline,leaving_wifi_seed3_baseline.csv,5,60,WiFi,5G,2.0,Strongest Signal First RSSI selection
+leaving_wifi,3,,baseline,leaving_wifi_seed3_baseline.csv,6,62,5G,WiFi,2.0,Strongest Signal First RSSI selection
+leaving_wifi,3,,baseline,leaving_wifi_seed3_baseline.csv,7,64,WiFi,5G,2.0,Strongest Signal First RSSI selection
+leaving_wifi,3,video_call,smartconnect,leaving_wifi_seed3_smartconnect_video_call.csv,1,35,WiFi,5G,,"Switch to 5G: advantage 0.075, held for 3 steps; dwell satisfied."
+leaving_wifi,3,file_download,smartconnect,leaving_wifi_seed3_smartconnect_file_download.csv,1,47,WiFi,5G,,"Switch to 5G: advantage 0.122, held for 3 steps; dwell satisfied."
+leaving_wifi,4,,baseline,leaving_wifi_seed4_baseline.csv,1,56,WiFi,5G,,Strongest Signal First RSSI selection
+leaving_wifi,4,,baseline,leaving_wifi_seed4_baseline.csv,2,57,5G,WiFi,1.0,Strongest Signal First RSSI selection
+leaving_wifi,4,,baseline,leaving_wifi_seed4_baseline.csv,3,58,WiFi,5G,1.0,Strongest Signal First RSSI selection
+leaving_wifi,4,,baseline,leaving_wifi_seed4_baseline.csv,4,60,5G,WiFi,2.0,Strongest Signal First RSSI selection
+leaving_wifi,4,,baseline,leaving_wifi_seed4_baseline.csv,5,62,WiFi,5G,2.0,Strongest Signal First RSSI selection
+leaving_wifi,4,video_call,smartconnect,leaving_wifi_seed4_smartconnect_video_call.csv,1,33,WiFi,5G,,"Switch to 5G: advantage 0.067, held for 3 steps; dwell satisfied."
+leaving_wifi,4,file_download,smartconnect,leaving_wifi_seed4_smartconnect_file_download.csv,1,42,WiFi,5G,,"Switch to 5G: advantage 0.053, held for 3 steps; dwell satisfied."
+leaving_wifi,5,,baseline,leaving_wifi_seed5_baseline.csv,1,53,WiFi,5G,,Strongest Signal First RSSI selection
+leaving_wifi,5,,baseline,leaving_wifi_seed5_baseline.csv,2,55,5G,WiFi,2.0,Strongest Signal First RSSI selection
+leaving_wifi,5,,baseline,leaving_wifi_seed5_baseline.csv,3,61,WiFi,5G,6.0,Strongest Signal First RSSI selection
+leaving_wifi,5,,baseline,leaving_wifi_seed5_baseline.csv,4,64,5G,WiFi,3.0,Strongest Signal First RSSI selection
+leaving_wifi,5,,baseline,leaving_wifi_seed5_baseline.csv,5,65,WiFi,5G,1.0,Strongest Signal First RSSI selection
+leaving_wifi,5,video_call,smartconnect,leaving_wifi_seed5_smartconnect_video_call.csv,1,35,WiFi,5G,,"Switch to 5G: advantage 0.067, held for 3 steps; dwell satisfied."
+leaving_wifi,5,file_download,smartconnect,leaving_wifi_seed5_smartconnect_file_download.csv,1,43,WiFi,5G,,"Switch to 5G: advantage 0.070, held for 3 steps; dwell satisfied."
+leaving_wifi,6,,baseline,leaving_wifi_seed6_baseline.csv,1,52,WiFi,5G,,Strongest Signal First RSSI selection
+leaving_wifi,6,,baseline,leaving_wifi_seed6_baseline.csv,2,53,5G,WiFi,1.0,Strongest Signal First RSSI selection
+leaving_wifi,6,,baseline,leaving_wifi_seed6_baseline.csv,3,54,WiFi,5G,1.0,Strongest Signal First RSSI selection
+leaving_wifi,6,,baseline,leaving_wifi_seed6_baseline.csv,4,57,5G,WiFi,3.0,Strongest Signal First RSSI selection
+leaving_wifi,6,,baseline,leaving_wifi_seed6_baseline.csv,5,58,WiFi,5G,1.0,Strongest Signal First RSSI selection
+leaving_wifi,6,video_call,smartconnect,leaving_wifi_seed6_smartconnect_video_call.csv,1,34,WiFi,5G,,"Switch to 5G: advantage 0.100, held for 3 steps; dwell satisfied."
+leaving_wifi,6,file_download,smartconnect,leaving_wifi_seed6_smartconnect_file_download.csv,1,43,WiFi,5G,,"Switch to 5G: advantage 0.061, held for 3 steps; dwell satisfied."
+leaving_wifi,7,,baseline,leaving_wifi_seed7_baseline.csv,1,56,WiFi,5G,,Strongest Signal First RSSI selection
+leaving_wifi,7,,baseline,leaving_wifi_seed7_baseline.csv,2,57,5G,WiFi,1.0,Strongest Signal First RSSI selection
+leaving_wifi,7,,baseline,leaving_wifi_seed7_baseline.csv,3,59,WiFi,5G,2.0,Strongest Signal First RSSI selection
+leaving_wifi,7,,baseline,leaving_wifi_seed7_baseline.csv,4,60,5G,WiFi,1.0,Strongest Signal First RSSI selection
+leaving_wifi,7,,baseline,leaving_wifi_seed7_baseline.csv,5,61,WiFi,5G,1.0,Strongest Signal First RSSI selection
+leaving_wifi,7,video_call,smartconnect,leaving_wifi_seed7_smartconnect_video_call.csv,1,31,WiFi,5G,,"Switch to 5G: advantage 0.052, held for 3 steps; dwell satisfied."
+leaving_wifi,7,file_download,smartconnect,leaving_wifi_seed7_smartconnect_file_download.csv,1,49,WiFi,5G,,"Switch to 5G: advantage 0.051, held for 3 steps; dwell satisfied."
+leaving_wifi,8,,baseline,leaving_wifi_seed8_baseline.csv,1,60,WiFi,5G,,Strongest Signal First RSSI selection
+leaving_wifi,8,,baseline,leaving_wifi_seed8_baseline.csv,2,64,5G,WiFi,4.0,Strongest Signal First RSSI selection
+leaving_wifi,8,,baseline,leaving_wifi_seed8_baseline.csv,3,65,WiFi,5G,1.0,Strongest Signal First RSSI selection
+leaving_wifi,8,video_call,smartconnect,leaving_wifi_seed8_smartconnect_video_call.csv,1,30,WiFi,5G,,"Switch to 5G: advantage 0.064, held for 3 steps; dwell satisfied."
+leaving_wifi,8,file_download,smartconnect,leaving_wifi_seed8_smartconnect_file_download.csv,1,44,WiFi,5G,,"Switch to 5G: advantage 0.076, held for 3 steps; dwell satisfied."
+leaving_wifi,9,,baseline,leaving_wifi_seed9_baseline.csv,1,53,WiFi,5G,,Strongest Signal First RSSI selection
+leaving_wifi,9,,baseline,leaving_wifi_seed9_baseline.csv,2,56,5G,WiFi,3.0,Strongest Signal First RSSI selection
+leaving_wifi,9,,baseline,leaving_wifi_seed9_baseline.csv,3,57,WiFi,5G,1.0,Strongest Signal First RSSI selection
+leaving_wifi,9,,baseline,leaving_wifi_seed9_baseline.csv,4,58,5G,WiFi,1.0,Strongest Signal First RSSI selection
+leaving_wifi,9,,baseline,leaving_wifi_seed9_baseline.csv,5,59,WiFi,5G,1.0,Strongest Signal First RSSI selection
+leaving_wifi,9,,baseline,leaving_wifi_seed9_baseline.csv,6,63,5G,WiFi,4.0,Strongest Signal First RSSI selection
+leaving_wifi,9,,baseline,leaving_wifi_seed9_baseline.csv,7,64,WiFi,5G,1.0,Strongest Signal First RSSI selection
+leaving_wifi,9,video_call,smartconnect,leaving_wifi_seed9_smartconnect_video_call.csv,1,34,WiFi,5G,,"Switch to 5G: advantage 0.105, held for 3 steps; dwell satisfied."
+leaving_wifi,9,file_download,smartconnect,leaving_wifi_seed9_smartconnect_file_download.csv,1,46,WiFi,5G,,"Switch to 5G: advantage 0.071, held for 3 steps; dwell satisfied."
+congested_wifi,0,video_call,smartconnect,congested_wifi_seed0_smartconnect_video_call.csv,1,53,WiFi,5G,,"Switch to 5G: advantage 0.078, held for 3 steps; dwell satisfied."
+congested_wifi,0,file_download,smartconnect,congested_wifi_seed0_smartconnect_file_download.csv,1,63,WiFi,5G,,"Switch to 5G: advantage 0.056, held for 3 steps; dwell satisfied."
+congested_wifi,1,video_call,smartconnect,congested_wifi_seed1_smartconnect_video_call.csv,1,49,WiFi,5G,,"Switch to 5G: advantage 0.054, held for 3 steps; dwell satisfied."
+congested_wifi,1,file_download,smartconnect,congested_wifi_seed1_smartconnect_file_download.csv,1,65,WiFi,5G,,"Switch to 5G: advantage 0.052, held for 3 steps; dwell satisfied."
+congested_wifi,2,video_call,smartconnect,congested_wifi_seed2_smartconnect_video_call.csv,1,50,WiFi,5G,,"Switch to 5G: advantage 0.053, held for 3 steps; dwell satisfied."
+congested_wifi,2,file_download,smartconnect,congested_wifi_seed2_smartconnect_file_download.csv,1,66,WiFi,5G,,"Switch to 5G: advantage 0.092, held for 3 steps; dwell satisfied."
+congested_wifi,3,video_call,smartconnect,congested_wifi_seed3_smartconnect_video_call.csv,1,51,WiFi,5G,,"Switch to 5G: advantage 0.081, held for 3 steps; dwell satisfied."
+congested_wifi,3,file_download,smartconnect,congested_wifi_seed3_smartconnect_file_download.csv,1,62,WiFi,5G,,"Switch to 5G: advantage 0.066, held for 3 steps; dwell satisfied."
+congested_wifi,4,video_call,smartconnect,congested_wifi_seed4_smartconnect_video_call.csv,1,51,WiFi,5G,,"Switch to 5G: advantage 0.073, held for 3 steps; dwell satisfied."
+congested_wifi,4,file_download,smartconnect,congested_wifi_seed4_smartconnect_file_download.csv,1,61,WiFi,5G,,"Switch to 5G: advantage 0.070, held for 3 steps; dwell satisfied."
+congested_wifi,5,video_call,smartconnect,congested_wifi_seed5_smartconnect_video_call.csv,1,53,WiFi,5G,,"Switch to 5G: advantage 0.059, held for 3 steps; dwell satisfied."
+congested_wifi,5,file_download,smartconnect,congested_wifi_seed5_smartconnect_file_download.csv,1,66,WiFi,5G,,"Switch to 5G: advantage 0.113, held for 3 steps; dwell satisfied."
+congested_wifi,6,video_call,smartconnect,congested_wifi_seed6_smartconnect_video_call.csv,1,53,WiFi,5G,,"Switch to 5G: advantage 0.068, held for 3 steps; dwell satisfied."
+congested_wifi,6,file_download,smartconnect,congested_wifi_seed6_smartconnect_file_download.csv,1,67,WiFi,5G,,"Switch to 5G: advantage 0.111, held for 3 steps; dwell satisfied."
+congested_wifi,7,video_call,smartconnect,congested_wifi_seed7_smartconnect_video_call.csv,1,53,WiFi,5G,,"Switch to 5G: advantage 0.100, held for 3 steps; dwell satisfied."
+congested_wifi,7,file_download,smartconnect,congested_wifi_seed7_smartconnect_file_download.csv,1,61,WiFi,5G,,"Switch to 5G: advantage 0.108, held for 3 steps; dwell satisfied."
+congested_wifi,8,video_call,smartconnect,congested_wifi_seed8_smartconnect_video_call.csv,1,54,WiFi,5G,,"Switch to 5G: advantage 0.106, held for 3 steps; dwell satisfied."
+congested_wifi,8,file_download,smartconnect,congested_wifi_seed8_smartconnect_file_download.csv,1,67,WiFi,5G,,"Switch to 5G: advantage 0.122, held for 3 steps; dwell satisfied."
+congested_wifi,9,video_call,smartconnect,congested_wifi_seed9_smartconnect_video_call.csv,1,50,WiFi,5G,,"Switch to 5G: advantage 0.066, held for 3 steps; dwell satisfied."
+congested_wifi,9,file_download,smartconnect,congested_wifi_seed9_smartconnect_file_download.csv,1,64,WiFi,5G,,"Switch to 5G: advantage 0.075, held for 3 steps; dwell satisfied."
+large_download,0,file_download,smartconnect,large_download_seed0_smartconnect_file_download.csv,1,2,WiFi,5G,,"Switch to 5G: advantage 0.153, held for 3 steps; dwell satisfied."
+large_download,1,file_download,smartconnect,large_download_seed1_smartconnect_file_download.csv,1,2,WiFi,5G,,"Switch to 5G: advantage 0.108, held for 3 steps; dwell satisfied."
+large_download,2,file_download,smartconnect,large_download_seed2_smartconnect_file_download.csv,1,4,WiFi,5G,,"Switch to 5G: advantage 0.145, held for 3 steps; dwell satisfied."
+large_download,3,file_download,smartconnect,large_download_seed3_smartconnect_file_download.csv,1,2,WiFi,5G,,"Switch to 5G: advantage 0.063, held for 3 steps; dwell satisfied."
+large_download,4,file_download,smartconnect,large_download_seed4_smartconnect_file_download.csv,1,2,WiFi,5G,,"Switch to 5G: advantage 0.120, held for 3 steps; dwell satisfied."
+large_download,5,file_download,smartconnect,large_download_seed5_smartconnect_file_download.csv,1,2,WiFi,5G,,"Switch to 5G: advantage 0.178, held for 3 steps; dwell satisfied."
+large_download,6,file_download,smartconnect,large_download_seed6_smartconnect_file_download.csv,1,2,WiFi,5G,,"Switch to 5G: advantage 0.088, held for 3 steps; dwell satisfied."
+large_download,7,file_download,smartconnect,large_download_seed7_smartconnect_file_download.csv,1,2,WiFi,5G,,"Switch to 5G: advantage 0.159, held for 3 steps; dwell satisfied."
+large_download,8,file_download,smartconnect,large_download_seed8_smartconnect_file_download.csv,1,2,WiFi,5G,,"Switch to 5G: advantage 0.133, held for 3 steps; dwell satisfied."
+large_download,9,file_download,smartconnect,large_download_seed9_smartconnect_file_download.csv,1,2,WiFi,5G,,"Switch to 5G: advantage 0.131, held for 3 steps; dwell satisfied."
+recovery,0,,baseline,recovery_seed0_baseline.csv,1,30,WiFi,5G,,Strongest Signal First RSSI selection
+recovery,0,,baseline,recovery_seed0_baseline.csv,2,31,5G,WiFi,1.0,Strongest Signal First RSSI selection
+recovery,0,,baseline,recovery_seed0_baseline.csv,3,33,WiFi,5G,2.0,Strongest Signal First RSSI selection
+recovery,0,,baseline,recovery_seed0_baseline.csv,4,67,5G,WiFi,34.0,Strongest Signal First RSSI selection
+recovery,0,,baseline,recovery_seed0_baseline.csv,5,69,WiFi,5G,2.0,Strongest Signal First RSSI selection
+recovery,0,,baseline,recovery_seed0_baseline.csv,6,70,5G,WiFi,1.0,Strongest Signal First RSSI selection
+recovery,0,video_call,smartconnect,recovery_seed0_smartconnect_video_call.csv,1,21,WiFi,5G,,"Switch to 5G: advantage 0.059, held for 3 steps; dwell satisfied."
+recovery,0,video_call,smartconnect,recovery_seed0_smartconnect_video_call.csv,2,95,5G,WiFi,74.0,"Switch to WiFi: advantage 0.051, held for 3 steps; dwell satisfied."
+recovery,0,file_download,smartconnect,recovery_seed0_smartconnect_file_download.csv,1,27,WiFi,5G,,"Switch to 5G: advantage 0.093, held for 3 steps; dwell satisfied."
+recovery,0,file_download,smartconnect,recovery_seed0_smartconnect_file_download.csv,2,83,5G,WiFi,56.0,"Switch to WiFi: advantage 0.052, held for 3 steps; dwell satisfied."
+recovery,1,,baseline,recovery_seed1_baseline.csv,1,24,WiFi,5G,,Strongest Signal First RSSI selection
+recovery,1,,baseline,recovery_seed1_baseline.csv,2,25,5G,WiFi,1.0,Strongest Signal First RSSI selection
+recovery,1,,baseline,recovery_seed1_baseline.csv,3,34,WiFi,5G,9.0,Strongest Signal First RSSI selection
+recovery,1,,baseline,recovery_seed1_baseline.csv,4,35,5G,WiFi,1.0,Strongest Signal First RSSI selection
+recovery,1,,baseline,recovery_seed1_baseline.csv,5,36,WiFi,5G,1.0,Strongest Signal First RSSI selection
+recovery,1,,baseline,recovery_seed1_baseline.csv,6,69,5G,WiFi,33.0,Strongest Signal First RSSI selection
+recovery,1,,baseline,recovery_seed1_baseline.csv,7,71,WiFi,5G,2.0,Strongest Signal First RSSI selection
+recovery,1,,baseline,recovery_seed1_baseline.csv,8,72,5G,WiFi,1.0,Strongest Signal First RSSI selection
+recovery,1,video_call,smartconnect,recovery_seed1_smartconnect_video_call.csv,1,21,WiFi,5G,,"Switch to 5G: advantage 0.062, held for 3 steps; dwell satisfied."
+recovery,1,video_call,smartconnect,recovery_seed1_smartconnect_video_call.csv,2,94,5G,WiFi,73.0,"Switch to WiFi: advantage 0.116, held for 3 steps; dwell satisfied."
+recovery,1,file_download,smartconnect,recovery_seed1_smartconnect_file_download.csv,1,26,WiFi,5G,,"Switch to 5G: advantage 0.054, held for 3 steps; dwell satisfied."
+recovery,1,file_download,smartconnect,recovery_seed1_smartconnect_file_download.csv,2,88,5G,WiFi,62.0,"Switch to WiFi: advantage 0.126, held for 3 steps; dwell satisfied."
+recovery,2,,baseline,recovery_seed2_baseline.csv,1,33,WiFi,5G,,Strongest Signal First RSSI selection
+recovery,2,,baseline,recovery_seed2_baseline.csv,2,68,5G,WiFi,35.0,Strongest Signal First RSSI selection
+recovery,2,video_call,smartconnect,recovery_seed2_smartconnect_video_call.csv,1,19,WiFi,5G,,"Switch to 5G: advantage 0.073, held for 3 steps; dwell satisfied."
+recovery,2,video_call,smartconnect,recovery_seed2_smartconnect_video_call.csv,2,94,5G,WiFi,75.0,"Switch to WiFi: advantage 0.087, held for 3 steps; dwell satisfied."
+recovery,2,file_download,smartconnect,recovery_seed2_smartconnect_file_download.csv,1,26,WiFi,5G,,"Switch to 5G: advantage 0.071, held for 3 steps; dwell satisfied."
+recovery,2,file_download,smartconnect,recovery_seed2_smartconnect_file_download.csv,2,84,5G,WiFi,58.0,"Switch to WiFi: advantage 0.067, held for 3 steps; dwell satisfied."
+recovery,3,,baseline,recovery_seed3_baseline.csv,1,33,WiFi,5G,,Strongest Signal First RSSI selection
+recovery,3,,baseline,recovery_seed3_baseline.csv,2,35,5G,WiFi,2.0,Strongest Signal First RSSI selection
+recovery,3,,baseline,recovery_seed3_baseline.csv,3,36,WiFi,5G,1.0,Strongest Signal First RSSI selection
+recovery,3,,baseline,recovery_seed3_baseline.csv,4,63,5G,WiFi,27.0,Strongest Signal First RSSI selection
+recovery,3,,baseline,recovery_seed3_baseline.csv,5,64,WiFi,5G,1.0,Strongest Signal First RSSI selection
+recovery,3,,baseline,recovery_seed3_baseline.csv,6,66,5G,WiFi,2.0,Strongest Signal First RSSI selection
+recovery,3,,baseline,recovery_seed3_baseline.csv,7,68,WiFi,5G,2.0,Strongest Signal First RSSI selection
+recovery,3,,baseline,recovery_seed3_baseline.csv,8,69,5G,WiFi,1.0,Strongest Signal First RSSI selection
+recovery,3,video_call,smartconnect,recovery_seed3_smartconnect_video_call.csv,1,23,WiFi,5G,,"Switch to 5G: current path breaches QoE guardrail; advantage 0.130, held for 3 steps; dwell satisfied."
+recovery,3,video_call,smartconnect,recovery_seed3_smartconnect_video_call.csv,2,94,5G,WiFi,71.0,"Switch to WiFi: advantage 0.064, held for 3 steps; dwell satisfied."
+recovery,3,file_download,smartconnect,recovery_seed3_smartconnect_file_download.csv,1,28,WiFi,5G,,"Switch to 5G: advantage 0.086, held for 3 steps; dwell satisfied."
+recovery,3,file_download,smartconnect,recovery_seed3_smartconnect_file_download.csv,2,89,5G,WiFi,61.0,"Switch to WiFi: advantage 0.100, held for 3 steps; dwell satisfied."
+recovery,4,,baseline,recovery_seed4_baseline.csv,1,29,WiFi,5G,,Strongest Signal First RSSI selection
+recovery,4,,baseline,recovery_seed4_baseline.csv,2,30,5G,WiFi,1.0,Strongest Signal First RSSI selection
+recovery,4,,baseline,recovery_seed4_baseline.csv,3,32,WiFi,5G,2.0,Strongest Signal First RSSI selection
+recovery,4,,baseline,recovery_seed4_baseline.csv,4,65,5G,WiFi,33.0,Strongest Signal First RSSI selection
+recovery,4,,baseline,recovery_seed4_baseline.csv,5,66,WiFi,5G,1.0,Strongest Signal First RSSI selection
+recovery,4,,baseline,recovery_seed4_baseline.csv,6,69,5G,WiFi,3.0,Strongest Signal First RSSI selection
+recovery,4,video_call,smartconnect,recovery_seed4_smartconnect_video_call.csv,1,22,WiFi,5G,,"Switch to 5G: advantage 0.109, held for 3 steps; dwell satisfied."
+recovery,4,video_call,smartconnect,recovery_seed4_smartconnect_video_call.csv,2,95,5G,WiFi,73.0,"Switch to WiFi: advantage 0.105, held for 3 steps; dwell satisfied."
+recovery,4,file_download,smartconnect,recovery_seed4_smartconnect_file_download.csv,1,23,WiFi,5G,,"Switch to 5G: advantage 0.058, held for 3 steps; dwell satisfied."
+recovery,4,file_download,smartconnect,recovery_seed4_smartconnect_file_download.csv,2,89,5G,WiFi,66.0,"Switch to WiFi: advantage 0.147, held for 3 steps; dwell satisfied."
+recovery,5,,baseline,recovery_seed5_baseline.csv,1,30,WiFi,5G,,Strongest Signal First RSSI selection
+recovery,5,,baseline,recovery_seed5_baseline.csv,2,64,5G,WiFi,34.0,Strongest Signal First RSSI selection
+recovery,5,,baseline,recovery_seed5_baseline.csv,3,65,WiFi,5G,1.0,Strongest Signal First RSSI selection
+recovery,5,,baseline,recovery_seed5_baseline.csv,4,67,5G,WiFi,2.0,Strongest Signal First RSSI selection
+recovery,5,video_call,smartconnect,recovery_seed5_smartconnect_video_call.csv,1,20,WiFi,5G,,"Switch to 5G: current path breaches QoE guardrail; advantage 0.126, held for 3 steps; dwell satisfied."
+recovery,5,video_call,smartconnect,recovery_seed5_smartconnect_video_call.csv,2,94,5G,WiFi,74.0,"Switch to WiFi: advantage 0.095, held for 3 steps; dwell satisfied."
+recovery,5,file_download,smartconnect,recovery_seed5_smartconnect_file_download.csv,1,29,WiFi,5G,,"Switch to 5G: advantage 0.090, held for 3 steps; dwell satisfied."
+recovery,5,file_download,smartconnect,recovery_seed5_smartconnect_file_download.csv,2,87,5G,WiFi,58.0,"Switch to WiFi: advantage 0.091, held for 3 steps; dwell satisfied."
+recovery,6,,baseline,recovery_seed6_baseline.csv,1,34,WiFi,5G,,Strongest Signal First RSSI selection
+recovery,6,,baseline,recovery_seed6_baseline.csv,2,67,5G,WiFi,33.0,Strongest Signal First RSSI selection
+recovery,6,,baseline,recovery_seed6_baseline.csv,3,70,WiFi,5G,3.0,Strongest Signal First RSSI selection
+recovery,6,,baseline,recovery_seed6_baseline.csv,4,71,5G,WiFi,1.0,Strongest Signal First RSSI selection
+recovery,6,video_call,smartconnect,recovery_seed6_smartconnect_video_call.csv,1,20,WiFi,5G,,"Switch to 5G: advantage 0.085, held for 3 steps; dwell satisfied."
+recovery,6,video_call,smartconnect,recovery_seed6_smartconnect_video_call.csv,2,91,5G,WiFi,71.0,"Switch to WiFi: advantage 0.055, held for 3 steps; dwell satisfied."
+recovery,6,file_download,smartconnect,recovery_seed6_smartconnect_file_download.csv,1,25,WiFi,5G,,"Switch to 5G: advantage 0.080, held for 3 steps; dwell satisfied."
+recovery,6,file_download,smartconnect,recovery_seed6_smartconnect_file_download.csv,2,86,5G,WiFi,61.0,"Switch to WiFi: advantage 0.082, held for 3 steps; dwell satisfied."
+recovery,7,,baseline,recovery_seed7_baseline.csv,1,32,WiFi,5G,,Strongest Signal First RSSI selection
+recovery,7,,baseline,recovery_seed7_baseline.csv,2,34,5G,WiFi,2.0,Strongest Signal First RSSI selection
+recovery,7,,baseline,recovery_seed7_baseline.csv,3,35,WiFi,5G,1.0,Strongest Signal First RSSI selection
+recovery,7,,baseline,recovery_seed7_baseline.csv,4,65,5G,WiFi,30.0,Strongest Signal First RSSI selection
+recovery,7,,baseline,recovery_seed7_baseline.csv,5,66,WiFi,5G,1.0,Strongest Signal First RSSI selection
+recovery,7,,baseline,recovery_seed7_baseline.csv,6,69,5G,WiFi,3.0,Strongest Signal First RSSI selection
+recovery,7,,baseline,recovery_seed7_baseline.csv,7,71,WiFi,5G,2.0,Strongest Signal First RSSI selection
+recovery,7,,baseline,recovery_seed7_baseline.csv,8,72,5G,WiFi,1.0,Strongest Signal First RSSI selection
+recovery,7,video_call,smartconnect,recovery_seed7_smartconnect_video_call.csv,1,22,WiFi,5G,,"Switch to 5G: advantage 0.110, held for 3 steps; dwell satisfied."
+recovery,7,video_call,smartconnect,recovery_seed7_smartconnect_video_call.csv,2,95,5G,WiFi,73.0,"Switch to WiFi: advantage 0.092, held for 3 steps; dwell satisfied."
+recovery,7,file_download,smartconnect,recovery_seed7_smartconnect_file_download.csv,1,29,WiFi,5G,,"Switch to 5G: advantage 0.097, held for 3 steps; dwell satisfied."
+recovery,7,file_download,smartconnect,recovery_seed7_smartconnect_file_download.csv,2,90,5G,WiFi,61.0,"Switch to WiFi: advantage 0.120, held for 3 steps; dwell satisfied."
+recovery,8,,baseline,recovery_seed8_baseline.csv,1,28,WiFi,5G,,Strongest Signal First RSSI selection
+recovery,8,,baseline,recovery_seed8_baseline.csv,2,29,5G,WiFi,1.0,Strongest Signal First RSSI selection
+recovery,8,,baseline,recovery_seed8_baseline.csv,3,31,WiFi,5G,2.0,Strongest Signal First RSSI selection
+recovery,8,,baseline,recovery_seed8_baseline.csv,4,32,5G,WiFi,1.0,Strongest Signal First RSSI selection
+recovery,8,,baseline,recovery_seed8_baseline.csv,5,33,WiFi,5G,1.0,Strongest Signal First RSSI selection
+recovery,8,,baseline,recovery_seed8_baseline.csv,6,36,5G,WiFi,3.0,Strongest Signal First RSSI selection
+recovery,8,,baseline,recovery_seed8_baseline.csv,7,37,WiFi,5G,1.0,Strongest Signal First RSSI selection
+recovery,8,,baseline,recovery_seed8_baseline.csv,8,64,5G,WiFi,27.0,Strongest Signal First RSSI selection
+recovery,8,,baseline,recovery_seed8_baseline.csv,9,65,WiFi,5G,1.0,Strongest Signal First RSSI selection
+recovery,8,,baseline,recovery_seed8_baseline.csv,10,66,5G,WiFi,1.0,Strongest Signal First RSSI selection
+recovery,8,video_call,smartconnect,recovery_seed8_smartconnect_video_call.csv,1,23,WiFi,5G,,"Switch to 5G: current path breaches QoE guardrail; advantage 0.121, held for 3 steps; dwell satisfied."
+recovery,8,video_call,smartconnect,recovery_seed8_smartconnect_video_call.csv,2,93,5G,WiFi,70.0,"Switch to WiFi: advantage 0.073, held for 3 steps; dwell satisfied."
+recovery,8,file_download,smartconnect,recovery_seed8_smartconnect_file_download.csv,1,26,WiFi,5G,,"Switch to 5G: advantage 0.110, held for 3 steps; dwell satisfied."
+recovery,8,file_download,smartconnect,recovery_seed8_smartconnect_file_download.csv,2,89,5G,WiFi,63.0,"Switch to WiFi: advantage 0.133, held for 3 steps; dwell satisfied."
+recovery,9,,baseline,recovery_seed9_baseline.csv,1,32,WiFi,5G,,Strongest Signal First RSSI selection
+recovery,9,,baseline,recovery_seed9_baseline.csv,2,63,5G,WiFi,31.0,Strongest Signal First RSSI selection
+recovery,9,,baseline,recovery_seed9_baseline.csv,3,64,WiFi,5G,1.0,Strongest Signal First RSSI selection
+recovery,9,,baseline,recovery_seed9_baseline.csv,4,67,5G,WiFi,3.0,Strongest Signal First RSSI selection
+recovery,9,,baseline,recovery_seed9_baseline.csv,5,68,WiFi,5G,1.0,Strongest Signal First RSSI selection
+recovery,9,,baseline,recovery_seed9_baseline.csv,6,69,5G,WiFi,1.0,Strongest Signal First RSSI selection
+recovery,9,video_call,smartconnect,recovery_seed9_smartconnect_video_call.csv,1,20,WiFi,5G,,"Switch to 5G: advantage 0.109, held for 3 steps; dwell satisfied."
+recovery,9,video_call,smartconnect,recovery_seed9_smartconnect_video_call.csv,2,94,5G,WiFi,74.0,"Switch to WiFi: advantage 0.077, held for 3 steps; dwell satisfied."
+recovery,9,file_download,smartconnect,recovery_seed9_smartconnect_file_download.csv,1,28,WiFi,5G,,"Switch to 5G: advantage 0.070, held for 3 steps; dwell satisfied."
+recovery,9,file_download,smartconnect,recovery_seed9_smartconnect_file_download.csv,2,88,5G,WiFi,60.0,"Switch to WiFi: advantage 0.093, held for 3 steps; dwell satisfied."

@@ -1,0 +1,754 @@
+{
+  "complete": true,
+  "caption": "Controlled simulation results using realistic assumed Wi-Fi and 5G-like network conditions.",
+  "source": {
+    "commit": "ac860776ba1d168cfa2e1dea8a496c9fa086d7d9",
+    "file_sha256": {
+      "simulate.py": "6e5d3e7e656498c96d14074307938d95299dba4b9a9264b8e724323a3de07a11",
+      "config.py": "9686b1dc8b2f41f7a2a0d3517ddeba3a99da4950ce02fde8a22af5a8fedb8e4c",
+      "baseline.py": "b3d0b6d4e9692ca24ea2b4fac8d6ed6ba3373c448e8216f8003284846e542d8a",
+      "smartconnect.py": "8781b945ad48de38f78562b06bad6e9dc4f00045c39a372a682e9bb75c73ee5d",
+      "scenarios.py": "ed614d9abb06e90c48b545b21f2f42f8735413e99bb80f16e234ba66ba8d42bb"
+    },
+    "limits": {
+      "video_call": {
+        "latency": 60,
+        "loss": 2,
+        "jitter": 20
+      },
+      "file_download": {
+        "loss": 3,
+        "throughput": 20
+      }
+    },
+    "duration_steps": 100,
+    "dwell_steps": 8,
+    "hold_steps": 3
+  },
+  "analysis_code_sha256": "15f36145dfe05d2f129a536e27e284977592b12d1a6f8b30450e5639ec3455b0",
+  "dependencies": {
+    "python": "3.14.8",
+    "numpy": "2.5.3",
+    "pandas": "3.0.6"
+  },
+  "design": {
+    "scenarios": [
+      "leaving_wifi",
+      "congested_wifi",
+      "large_download",
+      "recovery"
+    ],
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "applications": [
+      "video_call",
+      "file_download"
+    ],
+    "raw_runs": 120,
+    "paired_scenario_seed_groups": 40,
+    "steps_per_run": 100
+  },
+  "aggregation": {
+    "method": "arithmetic mean of each run's selected-network samples; arithmetic mean across ten seeds",
+    "standard_deviation": "sample standard deviation across ten per-run metrics, ddof=1",
+    "paired_difference": "SmartConnect minus Baseline for each matching scenario/application/seed",
+    "baseline_reuse": "Each baseline CSV is evaluated for both profiles; it remains ten runs per scenario"
+  },
+  "guardrails": {
+    "source": "smartconnect.py LIMITS and guardrail_breaches",
+    "profiles": {
+      "video_call": {
+        "latency": {
+          "threshold": 60,
+          "operator": ">",
+          "unit": "ms"
+        },
+        "loss": {
+          "threshold": 2,
+          "operator": ">",
+          "unit": "%"
+        },
+        "jitter": {
+          "threshold": 20,
+          "operator": ">",
+          "unit": "ms"
+        }
+      },
+      "file_download": {
+        "loss": {
+          "threshold": 3,
+          "operator": ">",
+          "unit": "%"
+        },
+        "throughput": {
+          "threshold": 20,
+          "operator": "<",
+          "unit": "Mbps"
+        }
+      }
+    },
+    "any_breach": "Union of selected-network profile breaches, counted once per step",
+    "threshold_equality": "passes",
+    "status": "assumed prototype guardrails, not validated service guarantees",
+    "unevaluated_fields": "Blank for undefined per-profile guardrails; baseline raw-run row has no app-specific QoE evaluation"
+  },
+  "switching_definitions": {
+    "handovers": "Changes between consecutive selected networks; initial attachment excluded",
+    "first5g_step": "First step selected on 5G-like, including initial attachment if applicable; blank if never selected",
+    "lastreturn_to_wifi": "Last handover from 5G-like to Wi-Fi; blank if no return",
+    "minimum_gap": "Smallest step difference between adjacent handovers; blank when fewer than two",
+    "reversal_pairs_under8": "Adjacent opposite-direction handover pairs separated by strictly fewer than source default dwell_steps=8",
+    "interpretation": "Reversal count is descriptive and does not establish that a switch was unnecessary"
+  },
+  "occupancy": "Equal simulation-step counts and percentages; no seconds or physical elapsed duration are defined",
+  "verification": {
+    "expected_raw_files": 120,
+    "verified_raw_files": 120,
+    "rows_each": 100,
+    "time_values": "0..99",
+    "numeric_values_finite": true,
+    "handover_flags_match_transitions": true,
+    "source_guardrail_flags_match": true,
+    "baseline_rssi_choices_match": true,
+    "paired_traces_exactly_equal": true,
+    "paired_groups": 40,
+    "trace_columns": [
+      "time",
+      "wifi_rssi",
+      "wifi_latency",
+      "wifi_loss",
+      "wifi_jitter",
+      "wifi_throughput",
+      "g5_rssi",
+      "g5_latency",
+      "g5_loss",
+      "g5_jitter",
+      "g5_throughput"
+    ],
+    "csv_float_reader": "pandas float_precision=round_trip",
+    "trace_hash_encoding": "11 columns in declared order, 100 rows, little-endian float64, C order",
+    "source_commit_verified": true,
+    "source_files_unmodified_against_commit": true
+  },
+  "outputs": {
+    "per_run_metrics_rows": 120,
+    "per_application_metrics_rows": 160,
+    "mean_sd_rows": 216,
+    "paired_differences_rows": 108,
+    "events_rows": 206,
+    "switching_behavior_rows": 120,
+    "trace_match_report_rows": 40
+  },
+  "raw_csv_sha256": [
+    {
+      "file": "leaving_wifi_seed0_baseline.csv",
+      "sha256": "82dbdfe1dcaee381c11c0129b2bceb7e868f12e25b9b9c313093d2d527459388",
+      "rows": 100
+    },
+    {
+      "file": "leaving_wifi_seed0_smartconnect_video_call.csv",
+      "sha256": "b41e8181a1fdfdc765db42ce71e1f321fbf57d55973342410318c9eb14893fd0",
+      "rows": 100
+    },
+    {
+      "file": "leaving_wifi_seed0_smartconnect_file_download.csv",
+      "sha256": "5cc1879bb82b83b66334064b12c5d9272e486a30e0a4a6472d15ec4a951163c7",
+      "rows": 100
+    },
+    {
+      "file": "leaving_wifi_seed1_baseline.csv",
+      "sha256": "d496ea9445f5fecceff698a40811ca5329f1c3c691ffa27bc1570864d06c5178",
+      "rows": 100
+    },
+    {
+      "file": "leaving_wifi_seed1_smartconnect_video_call.csv",
+      "sha256": "e560731e4e1d9f37bbdcd6d72c4ef57577c3b56b513db350b3420d1be7e3b69a",
+      "rows": 100
+    },
+    {
+      "file": "leaving_wifi_seed1_smartconnect_file_download.csv",
+      "sha256": "a12fcf75532e1512f3a3a68610c0e39d7a9cd27a75d94e02fc81dd3b360aba24",
+      "rows": 100
+    },
+    {
+      "file": "leaving_wifi_seed2_baseline.csv",
+      "sha256": "f1a1503ca4ea98eeb09b8a83a4967eb4df94d2cff565b3deb325a66e9633675d",
+      "rows": 100
+    },
+    {
+      "file": "leaving_wifi_seed2_smartconnect_video_call.csv",
+      "sha256": "fa2e32dd8637df0f54f4fc64943cb348e3643438cd0ca6e1eeffbd60f22dd5d9",
+      "rows": 100
+    },
+    {
+      "file": "leaving_wifi_seed2_smartconnect_file_download.csv",
+      "sha256": "c7f0ab762a277d5cbacffc43fe1ee30f45995bdf162a4588a4aa8be8671ade54",
+      "rows": 100
+    },
+    {
+      "file": "leaving_wifi_seed3_baseline.csv",
+      "sha256": "9e3e8fbc2d2eca97610c9e2195e227ac1281f7877ed1ec07e9609c607c1aa24c",
+      "rows": 100
+    },
+    {
+      "file": "leaving_wifi_seed3_smartconnect_video_call.csv",
+      "sha256": "2ae5e98ab9db9a0b1df072500f6d6d9362c798ab97c9d1f80b5ca4b76ba93a42",
+      "rows": 100
+    },
+    {
+      "file": "leaving_wifi_seed3_smartconnect_file_download.csv",
+      "sha256": "569fb65f40924fb976341e5f92dbdbc9d0913b38ad31dd5dbe3e1bdb4915ae09",
+      "rows": 100
+    },
+    {
+      "file": "leaving_wifi_seed4_baseline.csv",
+      "sha256": "84b430b847c287994711908898bbf1aead5f74e14b3e4b3a81e07b856a3ade99",
+      "rows": 100
+    },
+    {
+      "file": "leaving_wifi_seed4_smartconnect_video_call.csv",
+      "sha256": "76a24aaddeeb863f567634d4db6e0dbaea3449ced649c0cff988d0fcb439146c",
+      "rows": 100
+    },
+    {
+      "file": "leaving_wifi_seed4_smartconnect_file_download.csv",
+      "sha256": "fb60233ca3ae886f85fef73ab1261e0ab448fdd21c2fe08a39b1b75a5b52546a",
+      "rows": 100
+    },
+    {
+      "file": "leaving_wifi_seed5_baseline.csv",
+      "sha256": "ae2ffaeb7f8e607a18f67190bf504dc8016b41dc0fb0f6326579aa1110f7c06c",
+      "rows": 100
+    },
+    {
+      "file": "leaving_wifi_seed5_smartconnect_video_call.csv",
+      "sha256": "ebbee34d72537fe1919b43caf4e16ed656272bb5ebe130823b1d6c17e2db045e",
+      "rows": 100
+    },
+    {
+      "file": "leaving_wifi_seed5_smartconnect_file_download.csv",
+      "sha256": "069e3b941da947bf8362fa20b7688b544473e2361067c4978ec26d5161287d5a",
+      "rows": 100
+    },
+    {
+      "file": "leaving_wifi_seed6_baseline.csv",
+      "sha256": "1a2805a13e883fae488eed36777d722621717d3f82a515d5f10f05c7e898594d",
+      "rows": 100
+    },
+    {
+      "file": "leaving_wifi_seed6_smartconnect_video_call.csv",
+      "sha256": "2ddef958bd427b51e95e48efbe32a0b6ca1041273729d5edd3271314f28f0b71",
+      "rows": 100
+    },
+    {
+      "file": "leaving_wifi_seed6_smartconnect_file_download.csv",
+      "sha256": "5df974792e6d6d407ddc0155bd12244ccb85cf2428bd605b9395fede262855b2",
+      "rows": 100
+    },
+    {
+      "file": "leaving_wifi_seed7_baseline.csv",
+      "sha256": "e78eb3d21526565721f7964c1e970e68d48c941c3ee714f5eb701de6cc498638",
+      "rows": 100
+    },
+    {
+      "file": "leaving_wifi_seed7_smartconnect_video_call.csv",
+      "sha256": "e850b8c73fddb1af251905717c106ab80a11d9fddc1f86eaa8bbec7963969886",
+      "rows": 100
+    },
+    {
+      "file": "leaving_wifi_seed7_smartconnect_file_download.csv",
+      "sha256": "ad51ff133d01dd3c359f5e91c6db44ec2bbdecdaab3fdfdc3ca9ba3d53adddb2",
+      "rows": 100
+    },
+    {
+      "file": "leaving_wifi_seed8_baseline.csv",
+      "sha256": "ba658cb725f3d95287c104fbe126a7b27cf0c00ad0cb93afb0c468642e7a246f",
+      "rows": 100
+    },
+    {
+      "file": "leaving_wifi_seed8_smartconnect_video_call.csv",
+      "sha256": "f92d7ddffc88e576efe05ae0e4fbfbb9b4baeb20e8b902e6b18a9d8e2f629941",
+      "rows": 100
+    },
+    {
+      "file": "leaving_wifi_seed8_smartconnect_file_download.csv",
+      "sha256": "a20e6c7c9bd9b2c4c064266392242eee3d819fed2b10eaf9c2d618fb8bc3fe64",
+      "rows": 100
+    },
+    {
+      "file": "leaving_wifi_seed9_baseline.csv",
+      "sha256": "68ab75f03559046a001e48a6a379411b0a31930a63255e373ea9fb6c46588d30",
+      "rows": 100
+    },
+    {
+      "file": "leaving_wifi_seed9_smartconnect_video_call.csv",
+      "sha256": "db26218a13b88527933523f8cd60a6ae6960f6ac4f3a2d19895285f4f47bb87f",
+      "rows": 100
+    },
+    {
+      "file": "leaving_wifi_seed9_smartconnect_file_download.csv",
+      "sha256": "7a75c3960e04862e1b9cd22aa2401ea86b42d7f005a857f9ae0cf4db0526d50c",
+      "rows": 100
+    },
+    {
+      "file": "congested_wifi_seed0_baseline.csv",
+      "sha256": "bf9bf812f862a70af8a40616d10cb878e2b4087b395d5b5e3656aa8eca4784e0",
+      "rows": 100
+    },
+    {
+      "file": "congested_wifi_seed0_smartconnect_video_call.csv",
+      "sha256": "c0fb35c0819719aad6bb9a03cfa57dbe73b38334ab189a710a95ab1d9b298ca0",
+      "rows": 100
+    },
+    {
+      "file": "congested_wifi_seed0_smartconnect_file_download.csv",
+      "sha256": "75671ce84037d206ef814741f63ad030c4bede6e8915530870291a9e9eb8f06d",
+      "rows": 100
+    },
+    {
+      "file": "congested_wifi_seed1_baseline.csv",
+      "sha256": "f6e7bd89256a2932e61749216924cce1255d4499b9efe586dfe0865be3eab47b",
+      "rows": 100
+    },
+    {
+      "file": "congested_wifi_seed1_smartconnect_video_call.csv",
+      "sha256": "8927df78242cefa0a5cc967145ba07851c40190cdc24262f987e6285ea0b1817",
+      "rows": 100
+    },
+    {
+      "file": "congested_wifi_seed1_smartconnect_file_download.csv",
+      "sha256": "884aca76d2cc5d2bf430d17d535996d109a2516cefd429bd9d2c03fbdbb182b0",
+      "rows": 100
+    },
+    {
+      "file": "congested_wifi_seed2_baseline.csv",
+      "sha256": "c03530d1e00645ea32f725f17ce2a99b8cb052e4856b0e3af6563efb0cbb10a4",
+      "rows": 100
+    },
+    {
+      "file": "congested_wifi_seed2_smartconnect_video_call.csv",
+      "sha256": "4559a40c504410fb86802a70737841f6ea709d78ff963e9672f6acc79d581cf6",
+      "rows": 100
+    },
+    {
+      "file": "congested_wifi_seed2_smartconnect_file_download.csv",
+      "sha256": "936b171fe6ab9c15f972a5c1200b7082ddf95b0824356e22af880ffef2a31263",
+      "rows": 100
+    },
+    {
+      "file": "congested_wifi_seed3_baseline.csv",
+      "sha256": "eb186f20b1ef59dd5f42bb47c0f3ec9f4636eec8f65bc491f894d1abe3ac30e2",
+      "rows": 100
+    },
+    {
+      "file": "congested_wifi_seed3_smartconnect_video_call.csv",
+      "sha256": "1593eb851a9a96c7f496300445d90c06e3eed1c9244a26ccdea2e74882fa846e",
+      "rows": 100
+    },
+    {
+      "file": "congested_wifi_seed3_smartconnect_file_download.csv",
+      "sha256": "0fcbc6a73e271132af51efde46a319e0df197fa9a64d82e3559db99972d86786",
+      "rows": 100
+    },
+    {
+      "file": "congested_wifi_seed4_baseline.csv",
+      "sha256": "2797ecac5fde4542efd9d9370e72d4651ced187ec8c389e183caa84836f1bb5c",
+      "rows": 100
+    },
+    {
+      "file": "congested_wifi_seed4_smartconnect_video_call.csv",
+      "sha256": "cc34613cb8fa4167c2d16dcff5173f2046132b40c431a457d38649868974979f",
+      "rows": 100
+    },
+    {
+      "file": "congested_wifi_seed4_smartconnect_file_download.csv",
+      "sha256": "817590122dfe169b5ffa4bbcb1e13b60cf832c65a037a359aab1837064ea1107",
+      "rows": 100
+    },
+    {
+      "file": "congested_wifi_seed5_baseline.csv",
+      "sha256": "e819533ce0f7d3522a6de35f54526b2baeb47c973682d2f4dec535fa9e40d358",
+      "rows": 100
+    },
+    {
+      "file": "congested_wifi_seed5_smartconnect_video_call.csv",
+      "sha256": "2dfe1f01f8732b42fec50396dbc85f63b44fdf7d13011ededa3164991894afe4",
+      "rows": 100
+    },
+    {
+      "file": "congested_wifi_seed5_smartconnect_file_download.csv",
+      "sha256": "cfa15b83512e079b8b2d3175870126f8ee533302587d61904c32ef3ecc1c8f01",
+      "rows": 100
+    },
+    {
+      "file": "congested_wifi_seed6_baseline.csv",
+      "sha256": "c213ff67b5ca6b0e4f1a35052276e70683f150afa3d01d87f8705533b256d8d1",
+      "rows": 100
+    },
+    {
+      "file": "congested_wifi_seed6_smartconnect_video_call.csv",
+      "sha256": "26bed0c716337efc4c7d26e44e2e6bd1f393d750c296b70dd1b04edc89be02d7",
+      "rows": 100
+    },
+    {
+      "file": "congested_wifi_seed6_smartconnect_file_download.csv",
+      "sha256": "3f52234f893845ea857d5efa8bf6bd9105eaeda51bc624ae82f7990fe73e5b78",
+      "rows": 100
+    },
+    {
+      "file": "congested_wifi_seed7_baseline.csv",
+      "sha256": "7a146f297392c720fd4ec2022f5b86f1fd234bdfb593981b4fb7acc175054ba5",
+      "rows": 100
+    },
+    {
+      "file": "congested_wifi_seed7_smartconnect_video_call.csv",
+      "sha256": "c8bac4ac37f1da9e1f00fffb093f6fcfbdf809fb34c185577c15aee0b434a310",
+      "rows": 100
+    },
+    {
+      "file": "congested_wifi_seed7_smartconnect_file_download.csv",
+      "sha256": "7d4e33994a6ae15f348e4d97ac5002689ac966faa043e6f7b54f6eec1553b86d",
+      "rows": 100
+    },
+    {
+      "file": "congested_wifi_seed8_baseline.csv",
+      "sha256": "3d868b76c613dd58cda34ddb7c2099d77b89fd266811a4171f17d78a4a7551e6",
+      "rows": 100
+    },
+    {
+      "file": "congested_wifi_seed8_smartconnect_video_call.csv",
+      "sha256": "498f303b533c4bd0fbab5ef23b38428d4feb4bb5991d193b1e7bfe6d45ffbe04",
+      "rows": 100
+    },
+    {
+      "file": "congested_wifi_seed8_smartconnect_file_download.csv",
+      "sha256": "0a2b6e5ca464b3699bcfea1a4327c12022d5b372d0378075923cc2fef4f69697",
+      "rows": 100
+    },
+    {
+      "file": "congested_wifi_seed9_baseline.csv",
+      "sha256": "7a2aa905c23c6c8e3fe4999537a2f8b86e0f42c0b8f473919fcd5e908725cde0",
+      "rows": 100
+    },
+    {
+      "file": "congested_wifi_seed9_smartconnect_video_call.csv",
+      "sha256": "9fa6aa3b7c9b9925046c582bfba5ef71f90e0016387ba0e5bb835de62fb4da00",
+      "rows": 100
+    },
+    {
+      "file": "congested_wifi_seed9_smartconnect_file_download.csv",
+      "sha256": "64482a862cdc25c7cc009f0611075889f48bd31523d42830d675311a969e4d78",
+      "rows": 100
+    },
+    {
+      "file": "large_download_seed0_baseline.csv",
+      "sha256": "f7651fd532f8294d93a4a5f8342b7ae422c0cf0f01ca302ef799f7699495db5d",
+      "rows": 100
+    },
+    {
+      "file": "large_download_seed0_smartconnect_video_call.csv",
+      "sha256": "614fcf537cf985dd46df75bc19c856a5e71a9dba6adfd4f4e56443a93b770cac",
+      "rows": 100
+    },
+    {
+      "file": "large_download_seed0_smartconnect_file_download.csv",
+      "sha256": "15e0909a78c4fd4d518cad968dd7c12b54d1f221e72b4dd86ff0bf059ae98d05",
+      "rows": 100
+    },
+    {
+      "file": "large_download_seed1_baseline.csv",
+      "sha256": "730f1ce2ef22ad4c222d291a30fcd0c9923807d13c661a98513d5dbf89be5ded",
+      "rows": 100
+    },
+    {
+      "file": "large_download_seed1_smartconnect_video_call.csv",
+      "sha256": "cdd6c2d6590809ab523e14e7408321ae3f91f107bd7536b6fce9e2bb02ba2060",
+      "rows": 100
+    },
+    {
+      "file": "large_download_seed1_smartconnect_file_download.csv",
+      "sha256": "5ad6f41190edca90e96871ff5e4a8aafd910be8a53e39ccec930186af181b722",
+      "rows": 100
+    },
+    {
+      "file": "large_download_seed2_baseline.csv",
+      "sha256": "8f114a7aee35eff1ec4b7bd9a4aecdde7c36f4f7bf7c1e5bc927753643243016",
+      "rows": 100
+    },
+    {
+      "file": "large_download_seed2_smartconnect_video_call.csv",
+      "sha256": "9ccf55f30ef1223bf7377351eb28a5e794b170cd261f8c5854951637569a69d3",
+      "rows": 100
+    },
+    {
+      "file": "large_download_seed2_smartconnect_file_download.csv",
+      "sha256": "7227540e6072b22304f795214b8220767345af5bda7259717baa77f7aee3c9c8",
+      "rows": 100
+    },
+    {
+      "file": "large_download_seed3_baseline.csv",
+      "sha256": "737fc753de1f55884f0f6e751ba28b2ebc59e6704fe784efbee54431f0bcf2e6",
+      "rows": 100
+    },
+    {
+      "file": "large_download_seed3_smartconnect_video_call.csv",
+      "sha256": "4bfec8cd314b0b182b3cc66b27bc11fa116f1539b2c97c2b039e3c2514890c4d",
+      "rows": 100
+    },
+    {
+      "file": "large_download_seed3_smartconnect_file_download.csv",
+      "sha256": "c9c51eb3c16f9d498f44672a86a037b8bee9de65e1f401dbc2d383e0cfdd39dd",
+      "rows": 100
+    },
+    {
+      "file": "large_download_seed4_baseline.csv",
+      "sha256": "afc8934b2862c87a3b3d9682744faa4fa90c1011bacce83e474ba1be80ae574d",
+      "rows": 100
+    },
+    {
+      "file": "large_download_seed4_smartconnect_video_call.csv",
+      "sha256": "fe14e538541e1b6e127cb2c7fda5080d79c20785ef5f1d47dd51c4dbc0026892",
+      "rows": 100
+    },
+    {
+      "file": "large_download_seed4_smartconnect_file_download.csv",
+      "sha256": "46c39ee7b19355d0f525b64dde6a29d5864968f0f5a19a7ad5d831080355b263",
+      "rows": 100
+    },
+    {
+      "file": "large_download_seed5_baseline.csv",
+      "sha256": "75be83431b1d63a1a782b0c975e12fc012169b85981f8309a9338c42b17fbf71",
+      "rows": 100
+    },
+    {
+      "file": "large_download_seed5_smartconnect_video_call.csv",
+      "sha256": "1d8a207b1a8dc91347bc42691ae26655c306a5cec693a0c2f2d70e2ba044c357",
+      "rows": 100
+    },
+    {
+      "file": "large_download_seed5_smartconnect_file_download.csv",
+      "sha256": "304ab77b8bcf5ff5a9c74253be818c7fecd3e954a4c54c5007b1aa12b5a9ab5c",
+      "rows": 100
+    },
+    {
+      "file": "large_download_seed6_baseline.csv",
+      "sha256": "3076567f9be63c626ac1c437cd36a461129c3a73e73336d74727615beb55cf00",
+      "rows": 100
+    },
+    {
+      "file": "large_download_seed6_smartconnect_video_call.csv",
+      "sha256": "21ab9b818c6ffa6ba4f7401be46e21f6e544758c06a877ab0ffc4dc2c8b3df05",
+      "rows": 100
+    },
+    {
+      "file": "large_download_seed6_smartconnect_file_download.csv",
+      "sha256": "150fca781cb3ad2cfa114d8ae32487b51dcffc53288ac6897b460964b457ea66",
+      "rows": 100
+    },
+    {
+      "file": "large_download_seed7_baseline.csv",
+      "sha256": "b33118a030a0e3335fb41f95bd872af4e47d84bad6400877a11c01babb57535a",
+      "rows": 100
+    },
+    {
+      "file": "large_download_seed7_smartconnect_video_call.csv",
+      "sha256": "b1ab149b592ed2b039391fa4f7f9f56998b63223e544c47897baac087b6abc35",
+      "rows": 100
+    },
+    {
+      "file": "large_download_seed7_smartconnect_file_download.csv",
+      "sha256": "dc1348ba303ea35765ac64163351c6550df72fabc6e4667eae50b8d3e8ccbd84",
+      "rows": 100
+    },
+    {
+      "file": "large_download_seed8_baseline.csv",
+      "sha256": "0cbf1e8299e47fb477f21bba3a3ec9da28004d6b813680ebe33d10fd6b736594",
+      "rows": 100
+    },
+    {
+      "file": "large_download_seed8_smartconnect_video_call.csv",
+      "sha256": "c24cb4708aa71c8924c9b5fca67ccb62aefe5fd8144238f06f0d85614fb711a3",
+      "rows": 100
+    },
+    {
+      "file": "large_download_seed8_smartconnect_file_download.csv",
+      "sha256": "2b97ecbff070909108a943763e670660bbd26670b033a345a8e0f2c09f849cdc",
+      "rows": 100
+    },
+    {
+      "file": "large_download_seed9_baseline.csv",
+      "sha256": "5101d84691ad4cb84eb748c600f0932b79bec85e937582b95d2e5558e861f1e4",
+      "rows": 100
+    },
+    {
+      "file": "large_download_seed9_smartconnect_video_call.csv",
+      "sha256": "72a9cd1b0aaaa99f200a05f306ea6c0711aa024bf51b7d67e9260066c3fcf3d3",
+      "rows": 100
+    },
+    {
+      "file": "large_download_seed9_smartconnect_file_download.csv",
+      "sha256": "fe972f9d0d90c30b10369dfccc273625725bf14041ff4656f178c55aff9f55c2",
+      "rows": 100
+    },
+    {
+      "file": "recovery_seed0_baseline.csv",
+      "sha256": "6a6302ed37e63a03f02a61ac6bf83d2806e6ba12e4f6f82c3bde35b93961459c",
+      "rows": 100
+    },
+    {
+      "file": "recovery_seed0_smartconnect_video_call.csv",
+      "sha256": "b52ee1498094c2f77eb04cf53faf2fba2fe0dcee61b64d5b4c5dfb38fc561708",
+      "rows": 100
+    },
+    {
+      "file": "recovery_seed0_smartconnect_file_download.csv",
+      "sha256": "318288e345b49a062e8ebcd16bc045b78124689549456bf306b597d8c808e515",
+      "rows": 100
+    },
+    {
+      "file": "recovery_seed1_baseline.csv",
+      "sha256": "3eee77153f3e34cd7cff777174f8a4893804167a313024a8daea49bc659e4ca3",
+      "rows": 100
+    },
+    {
+      "file": "recovery_seed1_smartconnect_video_call.csv",
+      "sha256": "67a2cec9502e0cd72ba2c6cc40a2ada1d0ec77e582f365afa886b558a51a89cd",
+      "rows": 100
+    },
+    {
+      "file": "recovery_seed1_smartconnect_file_download.csv",
+      "sha256": "bf18946386d6940f94bb2e50059371c7efd4fe91ca7f2fae6e113bcdd3528b52",
+      "rows": 100
+    },
+    {
+      "file": "recovery_seed2_baseline.csv",
+      "sha256": "1d6528504f97f661820d2b3113ac60e3f76223e744a2081f03dc7c7d1711e967",
+      "rows": 100
+    },
+    {
+      "file": "recovery_seed2_smartconnect_video_call.csv",
+      "sha256": "f1a9eeef2fbeb0d44ecff0503e7c3484e9e0afae3d3987e9b77c9a1765f7dc60",
+      "rows": 100
+    },
+    {
+      "file": "recovery_seed2_smartconnect_file_download.csv",
+      "sha256": "9c334222e1624b3a2bde298cf1d3f2486658db963c5355c83f54673fbffbe9a0",
+      "rows": 100
+    },
+    {
+      "file": "recovery_seed3_baseline.csv",
+      "sha256": "6fbd97741846e89305518a24b97ac9d7283cfbe05eb7e6cb3b91ef03ad0aa50b",
+      "rows": 100
+    },
+    {
+      "file": "recovery_seed3_smartconnect_video_call.csv",
+      "sha256": "abe8098401547389700e93030285ca216ecd1c6b80cd6d82a0e7da2de45713ea",
+      "rows": 100
+    },
+    {
+      "file": "recovery_seed3_smartconnect_file_download.csv",
+      "sha256": "495b50675a3ad10c4ac697895d5f4fcf384098c8ccc95502a7016edc8b87b77d",
+      "rows": 100
+    },
+    {
+      "file": "recovery_seed4_baseline.csv",
+      "sha256": "38984eeb530d0c9340b40a5411efcec4365f7f7dd0eb07f8fe8d845ed9fd2d55",
+      "rows": 100
+    },
+    {
+      "file": "recovery_seed4_smartconnect_video_call.csv",
+      "sha256": "39e77cd4c0551220bccefa4cd4073973c9cd34bafca2d99fe88898927dec11f9",
+      "rows": 100
+    },
+    {
+      "file": "recovery_seed4_smartconnect_file_download.csv",
+      "sha256": "8225d9d6a6e752349c86f6aeb010a05f348e833a3089a0d652ef3da2dd2f9131",
+      "rows": 100
+    },
+    {
+      "file": "recovery_seed5_baseline.csv",
+      "sha256": "fdc5bfa6561b7e1f75be194535acc3e72fc37784398d2a2423f8a51145558dbe",
+      "rows": 100
+    },
+    {
+      "file": "recovery_seed5_smartconnect_video_call.csv",
+      "sha256": "14274e1cdc32838bc09118ef2c718717cee37b216944fd5a7add6a9803b58259",
+      "rows": 100
+    },
+    {
+      "file": "recovery_seed5_smartconnect_file_download.csv",
+      "sha256": "0eb8e7b1e5ffcbcf29f5e5423826c0f1e6d90ce0a105f704e88fc93503d98d2c",
+      "rows": 100
+    },
+    {
+      "file": "recovery_seed6_baseline.csv",
+      "sha256": "6ce0563857faf6c5657f5cadc5a57fd5a4d41a15bbc804d75b61320c807eaca8",
+      "rows": 100
+    },
+    {
+      "file": "recovery_seed6_smartconnect_video_call.csv",
+      "sha256": "3577864c7d0fc80e3dacbaaefe412839ad8ec4ce04ad1759691870447eb32bea",
+      "rows": 100
+    },
+    {
+      "file": "recovery_seed6_smartconnect_file_download.csv",
+      "sha256": "51bdf455ccfa6b6ce003348ecdbec5323c8f0477e7e20926e72aa87d650e33d8",
+      "rows": 100
+    },
+    {
+      "file": "recovery_seed7_baseline.csv",
+      "sha256": "46c54a981155a46ecac2dfba9077ddb2d18d212b78326874ed22dc4c567839cb",
+      "rows": 100
+    },
+    {
+      "file": "recovery_seed7_smartconnect_video_call.csv",
+      "sha256": "9bc0df9aa530b105b28e1fd507444ba39523e83589706d843689a43976a7643c",
+      "rows": 100
+    },
+    {
+      "file": "recovery_seed7_smartconnect_file_download.csv",
+      "sha256": "f4d4dde9e4ca842b5a92e5fb0372286922e2f072f6187fd1689bee325191b3ce",
+      "rows": 100
+    },
+    {
+      "file": "recovery_seed8_baseline.csv",
+      "sha256": "2d7b9ab6fe145d98b631cf8bfa2c5403a4a181a1950dce509b4c528f127f5192",
+      "rows": 100
+    },
+    {
+      "file": "recovery_seed8_smartconnect_video_call.csv",
+      "sha256": "9bc3aef775e9830fd0566fa6d8d0b24571eb557afcaf2f029d14beac08d89630",
+      "rows": 100
+    },
+    {
+      "file": "recovery_seed8_smartconnect_file_download.csv",
+      "sha256": "6e7fac8ea012db2e4170141a4e93952e46d74750e1a7ae150eb55eb58852508b",
+      "rows": 100
+    },
+    {
+      "file": "recovery_seed9_baseline.csv",
+      "sha256": "03ac217dbf87db7cda2ee154f9bb16069b09c379b9858d8a761be35dc4c778f0",
+      "rows": 100
+    },
+    {
+      "file": "recovery_seed9_smartconnect_video_call.csv",
+      "sha256": "14b2c397c5f1350a7dc01842e4985ef8355d1c529253540e24be54a3e93fdf2f",
+      "rows": 100
+    },
+    {
+      "file": "recovery_seed9_smartconnect_file_download.csv",
+      "sha256": "c556a5299eeb9f7fba5045584482edca6022bcc16b2b725d87d944d17561e9ec",
+      "rows": 100
+    }
+  ]
+}
