@@ -103,7 +103,7 @@ The [Streamlit app](app.py) lets a judge select a scenario, application, method,
   <img src="docs/images/smartconnect_topology.png" alt="Cisco Packet Tracer topology: a mobile user, Wi-Fi and conceptual alternative access paths, two gateways, a core switch, and an application server." width="100%">
 </p>
 
-[Cisco Packet Tracer topology file](cisco/SmartConnect_Topology.pkt)
+[View the full-resolution topology](docs/images/smartconnect_topology.png) · [Cisco Packet Tracer topology file](cisco/SmartConnect_Topology.pkt)
 
 Packet Tracer illustrates **network topology and connectivity**. The access point labeled as the 5G-like alternative is a conceptual representation, not a 5G radio/core implementation. The Python simulation evaluates QoS degradation and handover behavior; it does not drive this topology.
 
@@ -189,7 +189,7 @@ smartconnect/
 
 ## Installation
 
-The finalized analysis records **Python 3.14.8**. Use the pinned dependencies in `requirements.txt` for reproducibility. On macOS, activate the existing project environment:
+The finalized repeated-seed analysis was recorded using **Python 3.14.8**, as documented in the [analysis manifest](results/analysis_manifest.json). Other development environments may differ; use the pinned dependencies in `requirements.txt`. On macOS, activate the existing project environment:
 
 ```sh
 cd ~/smartconnect
