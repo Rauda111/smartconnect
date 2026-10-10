@@ -12,6 +12,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 from baseline import apply_baseline
+from smartconnect import apply_smartconnect, WEIGHTS
 from config import RANDOM_SEED, SCENARIOS
 from scenarios import generate_scenario
 
@@ -45,17 +46,23 @@ def save_plots(trace, scenario, seed, directory):
     return paths
 
 
-def run_simulation(scenario, seed=RANDOM_SEED):
+def run_simulation(scenario, seed=RANDOM_SEED, method="baseline", application="video_call"):
+    if method not in ("baseline", "smartconnect"):
+        raise ValueError("Use baseline or smartconnect.")
+    if application not in WEIGHTS:
+        raise ValueError("Use video_call or file_download.")
     trace = generate_scenario(scenario, seed=seed)
-    result = apply_baseline(trace)
+    result = (apply_baseline(trace) if method == "baseline"
+              else apply_smartconnect(trace, application))
     output_dir = ROOT / "outputs"
     output_dir.mkdir(parents=True, exist_ok=True)
-    csv_path = output_dir / f"{scenario}_seed{seed}_baseline.csv"
+    suffix = "baseline" if method == "baseline" else f"smartconnect_{application}"
+    csv_path = output_dir / f"{scenario}_seed{seed}_{suffix}.csv"
     result.to_csv(csv_path, index=False)
     plot_paths = save_plots(trace, scenario, seed, ROOT / "plots")
     counts = result["selected_network"].value_counts()
     events = result.loc[result["handover"], "time"].tolist()
-    print(f"{scenario} | seed={seed} | {len(result)} simulated time steps")
+    print(f"{scenario} | method={method} | application={application} | seed={seed} | {len(result)} simulated time steps")
     print(f"Selected: WiFi={counts.get('WiFi', 0)}, 5G={counts.get('5G', 0)}; "
           f"handovers={len(events)} at time steps {events}")
     print(f"CSV: {csv_path}")
@@ -68,10 +75,12 @@ def main():
     parser.add_argument("--scenario", choices=SCENARIOS, required=True)
     parser.add_argument("--seed", type=int, default=RANDOM_SEED,
                         help=f"Nonnegative random seed (default: {RANDOM_SEED})")
+    parser.add_argument("--method", choices=["baseline", "smartconnect"], default="baseline")
+    parser.add_argument("--application", choices=list(WEIGHTS), default="video_call")
     args = parser.parse_args()
     if args.seed < 0:
         parser.error("--seed must be nonnegative")
-    run_simulation(args.scenario, args.seed)
+    run_simulation(args.scenario, args.seed, args.method, args.application)
 
 
 if __name__ == "__main__":
