@@ -1,0 +1,99 @@
+{
+  "passed": true,
+  "audited_utc": "2026-10-10T14:53:09.840894+00:00",
+  "implementation": "Independent Python standard library csv/statistics; no simulator or analysis imports.",
+  "commit": "ac860776ba1d168cfa2e1dea8a496c9fa086d7d9",
+  "raw_csv_count": 120,
+  "manifest_run_count": 120,
+  "samples_per_run_expected": 100,
+  "selected_path_samples": 12000,
+  "unique_scenario_seed_traces": 40,
+  "unique_trace_samples": 4000,
+  "trace_columns_verified": [
+    "time",
+    "wifi_rssi",
+    "wifi_latency",
+    "wifi_loss",
+    "wifi_jitter",
+    "wifi_throughput",
+    "g5_rssi",
+    "g5_latency",
+    "g5_loss",
+    "g5_jitter",
+    "g5_throughput"
+  ],
+  "paired_trace_field_comparisons": 88000,
+  "raw_hashes_verified": 120,
+  "smartconnect_minimum_observed_handover_gap_steps": 56,
+  "smartconnect_final_selected_network_counts": {
+    "leaving_wifi/video_call": {
+      "WiFi": 0,
+      "5G": 10
+    },
+    "leaving_wifi/file_download": {
+      "WiFi": 0,
+      "5G": 10
+    },
+    "congested_wifi/video_call": {
+      "WiFi": 0,
+      "5G": 10
+    },
+    "congested_wifi/file_download": {
+      "WiFi": 0,
+      "5G": 10
+    },
+    "large_download/video_call": {
+      "WiFi": 10,
+      "5G": 0
+    },
+    "large_download/file_download": {
+      "WiFi": 0,
+      "5G": 10
+    },
+    "recovery/video_call": {
+      "WiFi": 10,
+      "5G": 0
+    },
+    "recovery/file_download": {
+      "WiFi": 10,
+      "5G": 0
+    }
+  },
+  "source_files_verified_against_manifest_snapshot_and_git": [
+    "simulate.py",
+    "baseline.py",
+    "smartconnect.py",
+    "scenarios.py",
+    "config.py",
+    "test_simulation.py",
+    "test_smartconnect.py",
+    "requirements.txt",
+    "README.md",
+    "app.py",
+    ".gitignore"
+  ],
+  "summary_rows_compared": 216,
+  "numeric_mean_and_sd_comparisons": 432,
+  "numeric_per_run_metric_comparisons": 3600,
+  "sample_sd_definition": "statistics.stdev over 10 per-run metrics; sample denominator n-1.",
+  "numeric_absolute_tolerance": 1e-09,
+  "maximum_absolute_error": 1.4210854715202004e-14,
+  "maximum_per_run_absolute_error": 2.1316282072803006e-14,
+  "additional_summary_metrics_not_independently_checked": [],
+  "guardrails_independently_applied": {
+    "video_call": {
+      "latency": 60.0,
+      "loss": 2.0,
+      "jitter": 20.0
+    },
+    "file_download": {
+      "loss": 3.0,
+      "throughput": 20.0
+    }
+  },
+  "guardrail_inequalities": "latency/loss/jitter > limit; throughput < limit; equality is allowed.",
+  "handover_definition": "Changes between consecutive selected networks; initial attachment excluded.",
+  "time_definition": "Simulation steps; no wall-clock duration assumed.",
+  "simulation_label": "Controlled simulation results using realistic assumed Wi-Fi and 5G-like network conditions.",
+  "failures": []
+}
