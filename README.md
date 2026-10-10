@@ -3,7 +3,7 @@
 University competition project investigating how network quality and application
 needs can improve handover decisions. This Student 1 contribution supplies the
 network simulation, reproducible traces, and a Strongest Signal First baseline.
-Student 2's application-aware algorithm is not implemented here.
+Student 2's application-aware engine is now integrated in smartconnect.py.
 
 ## Simulation assumptions
 
@@ -90,7 +90,8 @@ from baseline import apply_baseline
 
 trace = generate_scenario("congested_wifi", seed=42)
 baseline_result = apply_baseline(trace)
-# Give trace.copy(deep=True) to Student 2's future algorithm.
+from smartconnect import apply_smartconnect
+smart_result = apply_smartconnect(trace.copy(deep=True), 'video_call')
 ```
 
 The generator uses a fresh local `numpy.random.default_rng(seed)` on each call.
@@ -107,7 +108,39 @@ fixed; Gaussian noise is not a guarantee of identical individual-step behavior.
 `test_simulation.py` checks settings, finite values and bounds, exact repeatability,
 input preservation, selection and handover correctness, and scenario trends over
 seven seeds. The four default runs provide the verification CSVs and plots.
-Student 2 should add normalization, application-aware weighting, trend scoring,
-QoE guardrails, hysteresis, and dwell time separately. None is present in this
-Student 1 baseline. Any future handover costs should be applied consistently to
+The RSSI baseline remains unchanged. SmartConnect adds normalization, application-aware weighting, trend scoring, QoE guardrails, hold time and dwell time. Any future handover costs should be applied consistently to
 both algorithms and documented separately from these assumed network conditions.
+
+## Integrated SmartConnect runner
+
+Run from the project directory:
+
+```sh
+python simulate.py --scenario congested_wifi --method baseline --seed 42
+python simulate.py --scenario congested_wifi --method smartconnect --application video_call --seed 42
+python simulate.py --scenario large_download --method smartconnect --application file_download --seed 42
+python -m unittest -v
+```
+
+Matching scenario and seed regenerate identical conditions for each method.
+Baseline outputs retain their original filenames. SmartConnect outputs include
+method and application, preventing collisions. Plots remain network-condition
+verification plots, not baseline-versus-SmartConnect outcome graphs.
+
+Download weights: latency .15, loss .15, jitter .10, throughput .45, RSSI .15.
+Application identifiers: video_call and file_download. Trend numeric values are
+wifi_trend_slope and g5_trend_slope; wifi_trend and g5_trend are Improving, Stable,
+or Degrading. The prototype deadband is +/- .002 score units per sample.
+Decision strength is Low, Medium, or High (heuristic, not confidence).
+Default safety margin .05, hold 3 samples, dwell 8 samples, trend window 5.
+These are prototype assumptions. Guardrail rescue can waive the usual margin
+only when the current path breaches limits and a usable alternative scores
+better; hold and dwell still apply. Initial attachment is WiFi and is not a
+handover. No handover outage or application-goodput model is included.
+
+Validation: five original Student 1 tests and four engine/integration tests pass.
+The engine tests cover 56 combinations across seven seeds, causal prefix
+invariance, reproducibility, input preservation, switch rules, hold/guardrail
+edge cases, and runner trace equality. Broader experiment analysis remains
+Student 3's responsibility. AI assisted implementation and validation; the team
+should review and explain the algorithm and assumptions.

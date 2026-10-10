@@ -12,9 +12,9 @@ WEIGHTS = {
         "latency": 0.30, "loss": 0.30, "jitter": 0.20,
         "throughput": 0.10, "rssi": 0.10,
     },
-    "download": {
-        "latency": 0.10, "loss": 0.15, "jitter": 0.05,
-        "throughput": 0.60, "rssi": 0.10,
+    "file_download": {
+        "latency": 0.15, "loss": 0.15, "jitter": 0.10,
+        "throughput": 0.45, "rssi": 0.15,
     },
 }
 
@@ -30,7 +30,7 @@ BOUNDS = {
 # Prototype QoE guardrails. Packet loss is percent, not a fraction.
 LIMITS = {
     "video_call": {"latency": 60, "loss": 2, "jitter": 20},
-    "download": {"loss": 3, "throughput": 20},
+    "file_download": {"loss": 3, "throughput": 20},
 }
 
 
@@ -66,17 +66,26 @@ def guardrail_breaches(metrics, application):
     return breaches
 
 
+def classify_trend(slope, threshold=0.002):
+    """Score change per sample; threshold is a prototype noise deadband."""
+    if slope > threshold:
+        return "Improving"
+    if slope < -threshold:
+        return "Degrading"
+    return "Stable"
+
+
 def apply_smartconnect(
     trace, application="video_call", safety_margin=0.05,
     hold_steps=3, dwell_steps=8, trend_window=5,
-    trend_weight=0.5,
+    trend_weight=0.5, trend_threshold=0.002,
 ):
     """Return a new DataFrame; preserve input and use only past/current data."""
     if application not in WEIGHTS:
-        raise ValueError("Use 'video_call' or 'download'.")
+        raise ValueError("Use 'video_call' or 'file_download'.")
     if hold_steps < 1 or dwell_steps < 0 or trend_window < 2:
         raise ValueError("Invalid hold, dwell, or trend window.")
-    if safety_margin < 0 or trend_weight < 0:
+    if safety_margin < 0 or trend_weight < 0 or trend_threshold < 0:
         raise ValueError("Margin and trend weight must be nonnegative.")
 
     required = ["time"] + [
@@ -172,8 +181,8 @@ def apply_smartconnect(
 
         # This is a heuristic label, not statistical confidence.
         strength = (
-            "strong" if superior and advantage >= 2 * safety_margin
-            else "moderate" if superior else "weak"
+            "High" if superior and advantage >= 2 * safety_margin
+            else "Medium" if superior else "Low"
         )
 
         records.append({
@@ -184,8 +193,10 @@ def apply_smartconnect(
             "g5_score": scores["5G"],
             "wifi_adjusted_score": adjusted["WiFi"],
             "g5_adjusted_score": adjusted["5G"],
-            "wifi_trend": slopes["WiFi"],
-            "g5_trend": slopes["5G"],
+            "wifi_trend_slope": slopes["WiFi"],
+            "g5_trend_slope": slopes["5G"],
+            "wifi_trend": classify_trend(slopes["WiFi"], trend_threshold),
+            "g5_trend": classify_trend(slopes["5G"], trend_threshold),
             "wifi_guardrail": bool(breaches["WiFi"]),
             "g5_guardrail": bool(breaches["5G"]),
             "candidate_network": candidate,
