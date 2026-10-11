@@ -160,6 +160,7 @@ def comparison_dataframe(baseline: pd.DataFrame, smart: pd.DataFrame) -> pd.Data
     b = single_run_summary(baseline)
     s = single_run_summary(smart)
 
+    # Display columns mix labels and counts; keep Arrow serialization homogeneous.
     return pd.DataFrame(
         [
             ["Final network", b["Final network"], s["Final network"]],
@@ -172,7 +173,7 @@ def comparison_dataframe(baseline: pd.DataFrame, smart: pd.DataFrame) -> pd.Data
             ["5G-like use (%)", f'{b["5G-like use (%)"]:.1f}', f'{s["5G-like use (%)"]:.1f}'],
         ],
         columns=["Metric", "RSSI Baseline", "SmartConnect"],
-    )
+    ).astype(str)
 
 
 def improvement_metrics(baseline: pd.DataFrame, smart: pd.DataFrame) -> None:

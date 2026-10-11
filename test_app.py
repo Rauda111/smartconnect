@@ -8,6 +8,31 @@ from streamlit.testing.v1 import AppTest
 
 
 class HandoverDisplayTests(unittest.TestCase):
+    def test_competition_demo_and_stored_results(self):
+        app_path = Path(__file__).resolve().with_name("app.py")
+        app = AppTest.from_file(str(app_path)).run(timeout=30)
+        app.sidebar.selectbox[0].select("congested_wifi")
+        app.sidebar.selectbox[1].select("video_call")
+        app.sidebar.selectbox[2].select("compare")
+        app.sidebar.number_input[0].set_value(42)
+        app.sidebar.button[0].click().run(timeout=30)
+        self.assertEqual(list(app.exception), [])
+        self.assertEqual([tab.label for tab in app.tabs], [
+            "Overview", "Network Metrics", "Decision Details",
+            "Handover Events", "Final Results",
+        ])
+        self.assertTrue(app.tabs[0].dataframe)
+        self.assertEqual(len(app.tabs[1].get("vega_lite_chart")), 5)
+        self.assertTrue(app.tabs[2].slider)
+        self.assertEqual(len(app.tabs[3].dataframe), 1)
+        self.assertEqual(len(app.tabs[3].dataframe[0].value), 1)
+        pd.testing.assert_frame_equal(
+            app.tabs[4].dataframe[0].value,
+            pd.read_csv(app_path.parent / "results" / "final_summary.csv"),
+        )
+        self.assertTrue(any("repeated seeds" in item.value
+                            for item in app.tabs[4].markdown))
+
     def test_compare_both_handover_tables(self):
         for scenario, counts in (("leaving_wifi", (3, 1)), ("recovery", (4, 2))):
             with self.subTest(scenario=scenario):
