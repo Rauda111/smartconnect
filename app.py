@@ -274,6 +274,10 @@ def handover_table(result: pd.DataFrame, smartconnect: bool) -> pd.DataFrame:
     if events.empty:
         return events
 
+    if "previous_network" not in events.columns:
+        # Shift the full timeline before aligning to the event rows.
+        events["previous_network"] = result["selected_network"].shift().loc[events.index]
+
     columns = ["time", "previous_network", "selected_network"]
     if smartconnect:
         for col in (
