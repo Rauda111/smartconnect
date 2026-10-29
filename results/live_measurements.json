@@ -1,0 +1,17 @@
+{
+  "timestamp": "2026-10-29T15:01:13.746388+00:00",
+  "measurements": {
+    "A": {
+      "available": true,
+      "latency_ms": 1.482,
+      "jitter_ms": 0.2124999999999999,
+      "packet_loss_percent": 0.0
+    },
+    "B": {
+      "available": true,
+      "latency_ms": 1.42,
+      "jitter_ms": 0.19749999999999995,
+      "packet_loss_percent": 0.0
+    }
+  }
+}

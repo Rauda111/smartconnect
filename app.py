@@ -520,9 +520,24 @@ st.caption(
 )
 st.write(SCENARIO_DESCRIPTIONS[scenario])
 
-overview_tab, metrics_tab, decision_tab, events_tab, results_tab = st.tabs(
-    ["Overview", "Network Metrics", "Decision Details", "Handover Events", "Final Results"]
-)
+(
+      overview_tab,
+      metrics_tab,
+      decision_tab,
+      events_tab,
+      results_tab,
+      hardware_tab,
+  ) = st.tabs(
+      [
+          "Overview",
+          "Network Metrics",
+          "Decision Details",
+          "Handover Events",
+          "Final Results",
+          "Live Hardware Monitoring",
+      ]
+  )
+
 
 with overview_tab:
     if method == "baseline":
@@ -604,3 +619,119 @@ with events_tab:
 
 with results_tab:
     final_results_section()
+
+with hardware_tab:
+
+    st.subheader("SmartConnect Hardware Monitoring")
+    st.caption("Saved hardware measurements - monitoring only")
+
+    st.markdown("### Latest Saved Live Measurements")
+
+    import json
+
+    live_file = Path("results/live_measurements.json")
+
+    if live_file.exists():
+        with live_file.open() as f:
+            live_data = json.load(f)
+
+        st.caption(
+            f"Last measurement: {live_data['timestamp']}"
+        )
+
+        for path, metrics in live_data["measurements"].items():
+            st.markdown(f"#### Live Path {path}")
+
+            col1, col2, col3 = st.columns(3)
+
+            latency = metrics["latency_ms"]
+            jitter = metrics["jitter_ms"]
+
+            col1.metric(
+                "Latency",
+                f"{latency:.3f} ms" if latency is not None else "N/A"
+            )
+
+            col2.metric(
+                "Jitter",
+                f"{jitter:.3f} ms" if jitter is not None else "N/A"
+            )
+
+            col3.metric(
+                "Packet Loss",
+                f"{metrics['packet_loss_percent']:.1f}%"
+            )
+
+            st.write(f"Available: {metrics['available']}")
+
+    else:
+        st.info("No saved live measurements found.")
+
+
+    from hardware.end_to_end_decision import (
+        read_measurements,
+        calculate_score,
+    )
+
+    from hardware.live_path_monitor import measure_path, PATHS
+
+    if st.button("Load Hardware Measurements"):
+        try:
+            measurements = read_measurements()
+            scores = {}
+
+            for path in ("A", "B"):
+                st.markdown(f"### Path {path}")
+
+                if path not in measurements:
+                    st.warning(f"No measurements for Path {path}")
+                    continue
+
+                metrics = measurements[path]
+                score = calculate_score(metrics)
+                scores[path] = score
+
+                col1, col2, col3 = st.columns(3)
+
+                latency = metrics["latency_ms"]
+                jitter = metrics["jitter_ms"]
+
+                col1.metric(
+                    "Latency",
+                    f"{latency:.3f} ms" if latency is not None else "N/A"
+                )
+
+                col2.metric(
+                    "Jitter",
+                    f"{jitter:.3f} ms" if jitter is not None else "N/A"
+                )
+
+                col3.metric(
+                    "Packet Loss",
+                    f"{metrics['packet_loss_percent']:.1f}%"
+                )
+
+                st.write(f"Available: {metrics['available']}")
+
+                if score == float("inf"):
+                    st.write("Quality Score: Unavailable")
+                else:
+                    st.write(f"Quality Score: {score:.3f}")
+
+            available_scores = {
+                path: score
+                for path, score in scores.items()
+                if score != float("inf")
+            }
+
+            if available_scores:
+                best_path = min(
+                    available_scores,
+                    key=available_scores.get
+                )
+                st.success(f"Best measured path: {best_path}")
+            else:
+                st.error("No available network paths.")
+
+        except Exception as error:
+            st.error(f"Unable to load measurements: {error}")
