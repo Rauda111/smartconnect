@@ -1,0 +1,5 @@
+default via 10.10.176.1 dev wlo1 proto dhcp src 10.10.181.90 metric 600 
+10.10.176.0/20 dev wlo1 proto kernel scope link src 10.10.181.90 metric 600 
+192.168.10.0/24 dev eno2 proto kernel scope link src 192.168.10.10 metric 100 
+192.168.30.0/24 via 192.168.10.1 dev eno2 
+192.168.30.0/24 via 192.168.10.1 dev eno2 proto static metric 100 

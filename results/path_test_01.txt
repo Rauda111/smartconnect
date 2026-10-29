@@ -1,0 +1,18 @@
+SmartConnect End-to-End Path Monitor
+-----------------------------------
+
+Testing Path A via 192.168.10.1
+Path A results:
+Available: True
+Latency: 1.576
+Jitter: 0.12222222222222216
+Packet loss: 0.0%
+
+Testing Path B via 192.168.10.2
+Path B results:
+Available: True
+Latency: 1.525
+Jitter: 0.14
+Packet loss: 0.0%
+
+Restoring original gateway: 192.168.10.1
