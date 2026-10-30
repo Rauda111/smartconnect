@@ -1,0 +1,577 @@
+trial,application,cycle,condition,network,monitor_start_epoch,monitor_end_epoch,interface,status,latency,loss,rtt_variation,sent,received,adjacent_pairs,duration_seconds,error,raw_output,rssi,jitter,throughput
+0,video_call,0,stable_observation,wifi,1793380731.610591,1793380733.716189,en0,reachable,13.024666666666667,0.0,4.4965,3,3,2,2.0489281670888886,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=59 time=11.455 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=59 time=10.027 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=59 time=17.592 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 10.027/13.025/17.592/3.282 ms
+",,,
+0,video_call,0,stable_observation,cellular,1793380731.610591,1793380733.716189,en6,reachable,87.45866666666667,0.0,44.72599999999999,3,3,2,2.0936979580437765,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=55 time=76.620 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=55 time=117.276 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=55 time=68.480 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 68.480/87.459/117.276/21.344 ms
+",,,
+0,video_call,1,stable_observation,wifi,1793380739.6426518,1793380741.799689,en0,reachable,13.260333333333334,0.0,4.046,3,3,2,2.0460057919844985,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=59 time=10.598 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=59 time=10.563 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=59 time=18.620 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 10.563/13.260/18.620/3.790 ms
+",,,
+0,video_call,1,stable_observation,cellular,1793380739.6426518,1793380741.799689,en6,reachable,73.375,0.0,45.69,3,3,2,2.1510141670005396,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=55 time=51.056 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=55 time=42.915 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=55 time=126.154 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 42.915/73.375/126.154/37.468 ms
+",,,
+0,video_call,2,stable_observation,wifi,1793380747.650645,1793380749.731627,en0,reachable,18.325333333333333,0.0,0.8019999999999996,3,3,2,2.049544916022569,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=59 time=17.419 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=59 time=18.534 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=59 time=19.023 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 17.419/18.325/19.023/0.671 ms
+",,,
+0,video_call,2,stable_observation,cellular,1793380747.650645,1793380749.731627,en6,reachable,78.29866666666666,0.0,38.4615,3,3,2,2.0799925830215216,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=55 time=119.815 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=55 time=72.189 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=55 time=42.892 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 42.892/78.299/119.815/31.699 ms
+",,,
+0,video_call,3,stable_observation,wifi,1793380755.599781,1793380757.651372,en0,reachable,10.904,0.0,2.3834999999999997,3,3,2,2.0426747909514233,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=59 time=10.495 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=59 time=9.315 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=59 time=12.902 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 9.315/10.904/12.902/1.493 ms
+",,,
+0,video_call,3,stable_observation,cellular,1793380755.599781,1793380757.651372,en6,reachable,57.98466666666667,0.0,38.7065,3,3,2,2.050449291942641,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=55 time=100.009 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=55 time=51.349 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=55 time=22.596 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 22.596/57.985/100.009/31.950 ms
+",,,
+0,file_download,0,stable_observation,wifi,1793380758.580231,1793380760.631556,en0,reachable,15.684000000000001,0.0,8.032499999999999,3,3,2,2.050187584012747,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=59 time=13.455 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=59 time=10.329 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=59 time=23.268 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 10.329/15.684/23.268/5.512 ms
+",,,
+0,file_download,0,stable_observation,cellular,1793380758.580231,1793380760.631556,en6,reachable,19.474333333333334,0.0,0.9160000000000004,3,3,2,2.0507460410008207,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=55 time=20.142 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=55 time=19.971 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=55 time=18.310 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 18.310/19.474/20.142/0.826 ms
+",,,
+0,file_download,1,stable_observation,wifi,1793380766.53415,1793380768.616732,en0,reachable,14.808666666666666,0.0,3.641,3,3,2,2.0446150000207126,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=59 time=19.238 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=59 time=13.232 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=59 time=11.956 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 11.956/14.809/19.238/3.175 ms
+",,,
+0,file_download,1,stable_observation,cellular,1793380766.53415,1793380768.616732,en6,reachable,34.998333333333335,0.0,23.052500000000002,3,3,2,2.081801916938275,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=55 time=35.362 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=55 time=19.630 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=55 time=50.003 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 19.630/34.998/50.003/12.402 ms
+",,,
+0,file_download,2,stable_observation,wifi,1793380774.4963572,1793380776.597308,en0,reachable,17.488333333333333,0.0,10.829,3,3,2,2.0736614579800516,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=59 time=12.634 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=59 time=10.269 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=59 time=29.562 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 10.269/17.488/29.562/8.592 ms
+",,,
+0,file_download,2,stable_observation,cellular,1793380774.4963572,1793380776.597308,en6,reachable,73.72333333333333,0.0,41.16250000000001,3,3,2,2.096504708053544,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=55 time=65.369 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=55 time=101.165 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=55 time=54.636 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 54.636/73.723/101.165/19.893 ms
+",,,
+0,file_download,3,stable_observation,wifi,1793380782.6429,1793380784.7512221,en0,reachable,12.035333333333334,0.0,4.1115,3,3,2,2.0791747079929337,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=59 time=8.839 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=59 time=10.205 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=59 time=17.062 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 8.839/12.035/17.062/3.598 ms
+",,,
+0,file_download,3,stable_observation,cellular,1793380782.6429,1793380784.7512221,en6,reachable,44.943666666666665,0.0,5.394500000000001,3,3,2,2.1028990000486374,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=55 time=42.992 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=55 time=48.540 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=55 time=43.299 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 42.992/44.944/48.540/2.546 ms
+",,,
+1,file_download,0,stable_observation,wifi,1793380785.734366,1793380787.8337111,en0,reachable,11.370333333333333,0.0,2.125000000000001,3,3,2,2.0515897090081125,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=59 time=10.772 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=59 time=12.787 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=59 time=10.552 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 10.552/11.370/12.787/1.006 ms
+",,,
+1,file_download,0,stable_observation,cellular,1793380785.734366,1793380787.8337111,en6,reachable,72.37666666666667,0.0,27.142999999999997,3,3,2,2.0893734169658273,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=55 time=105.978 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=55 time=59.460 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=55 time=51.692 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 51.692/72.377/105.978/23.970 ms
+",,,
+1,file_download,1,stable_observation,wifi,1793380793.8129249,1793380795.897367,en0,reachable,10.522333333333334,0.0,0.4219999999999997,3,3,2,2.053049291949719,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=59 time=10.882 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=59 time=10.647 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=59 time=10.038 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 10.038/10.522/10.882/0.356 ms
+",,,
+1,file_download,1,stable_observation,cellular,1793380793.8129249,1793380795.897367,en6,reachable,53.800000000000004,0.0,33.259,3,3,2,2.0715255830436945,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=55 time=97.807 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=55 time=32.304 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=55 time=31.289 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 31.289/53.800/97.807/31.120 ms
+",,,
+1,file_download,2,stable_observation,wifi,1793380801.9615092,1793380804.034252,en0,reachable,13.904,0.0,6.172500000000001,3,3,2,2.03420904208906,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=59 time=20.693 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=59 time=9.789 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=59 time=11.230 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 9.789/13.904/20.693/4.836 ms
+",,,
+1,file_download,2,stable_observation,cellular,1793380801.9615092,1793380804.034252,en6,reachable,37.78,0.0,19.681500000000003,3,3,2,2.0649404579307884,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=55 time=47.590 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=55 time=24.659 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=55 time=41.091 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 24.659/37.780/47.590/9.650 ms
+",,,
+1,file_download,3,stable_observation,wifi,1793380809.870999,1793380812.039865,en0,reachable,10.705666666666666,0.0,0.27250000000000085,3,3,2,2.0461305419448763,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=59 time=10.620 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=59 time=10.524 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=59 time=10.973 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 10.524/10.706/10.973/0.193 ms
+",,,
+1,file_download,3,stable_observation,cellular,1793380809.870999,1793380812.039865,en6,reachable,111.79966666666667,0.0,40.72899999999999,3,3,2,2.163684666971676,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=55 time=127.164 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=55 time=84.647 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=55 time=123.588 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 84.647/111.800/127.164/19.255 ms
+",,,
+1,video_call,0,stable_observation,wifi,1793380813.223277,1793380815.316879,en0,reachable,10.944333333333333,0.0,1.2979999999999992,3,3,2,2.0489241660106927,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=59 time=10.849 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=59 time=10.079 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=59 time=11.905 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 10.079/10.944/11.905/0.749 ms
+",,,
+1,video_call,0,stable_observation,cellular,1793380813.223277,1793380815.316879,en6,reachable,41.19833333333334,0.0,21.681,3,3,2,2.092644957941957,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=55 time=17.786 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=55 time=44.661 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=55 time=61.148 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 17.786/41.198/61.148/17.871 ms
+",,,
+1,video_call,1,stable_observation,wifi,1793380821.239588,1793380823.3170838,en0,reachable,9.882666666666667,0.0,0.5825000000000005,3,3,2,2.0542227079859003,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=59 time=10.460 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=59 time=9.893 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=59 time=9.295 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 9.295/9.883/10.460/0.476 ms
+",,,
+1,video_call,1,stable_observation,cellular,1793380821.239588,1793380823.3170838,en6,reachable,36.25266666666667,0.0,3.5150000000000006,3,3,2,2.074948582914658,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=55 time=39.612 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=55 time=36.564 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=55 time=32.582 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 32.582/36.253/39.612/2.878 ms
+",,,
+1,video_call,2,stable_observation,wifi,1793380829.369108,1793380831.478396,en0,reachable,13.048,0.0,4.424999999999999,3,3,2,2.0626156670041382,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=59 time=15.633 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=59 time=10.098 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=59 time=13.413 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 10.098/13.048/15.633/2.274 ms
+",,,
+1,video_call,2,stable_observation,cellular,1793380829.369108,1793380831.478396,en6,reachable,32.906666666666666,0.0,19.0265,3,3,2,2.106483416049741,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=55 time=19.795 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=55 time=21.077 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=55 time=57.848 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 19.795/32.907/57.848/17.644 ms
+",,,
+1,video_call,3,stable_observation,wifi,1793380837.490544,1793380839.553601,en0,reachable,11.186333333333334,0.0,1.8999999999999995,3,3,2,2.047224583104253,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=59 time=10.337 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=59 time=12.453 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=59 time=10.769 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 10.337/11.186/12.453/0.913 ms
+",,,
+1,video_call,3,stable_observation,cellular,1793380837.490544,1793380839.553601,en6,reachable,30.502,0.0,12.183000000000002,3,3,2,2.0611940840026364,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=55 time=38.289 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=55 time=22.380 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=55 time=30.837 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 22.380/30.502/38.289/6.499 ms
+",,,
+2,video_call,0,stable_observation,wifi,1793380840.4407969,1793380842.515431,en0,reachable,17.36466666666667,0.0,10.771500000000001,3,3,2,2.0643918750574812,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=59 time=10.164 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=59 time=10.223 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=59 time=31.707 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 10.164/17.365/31.707/10.142 ms
+",,,
+2,video_call,0,stable_observation,cellular,1793380840.4407969,1793380842.515431,en6,reachable,61.91066666666667,0.0,44.42150000000001,3,3,2,2.0738751670578495,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=55 time=50.391 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=55 time=91.525 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=55 time=43.816 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 43.816/61.911/91.525/21.112 ms
+",,,
+2,video_call,1,stable_observation,wifi,1793380848.438633,1793380850.600669,en0,reachable,14.831666666666667,0.0,6.8665,3,3,2,2.0517265420639887,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=59 time=18.409 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=59 time=10.254 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=59 time=15.832 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 10.254/14.832/18.409/3.404 ms
+",,,
+2,video_call,1,stable_observation,cellular,1793380848.438633,1793380850.600669,en6,reachable,117.24366666666667,0.0,36.32950000000001,3,3,2,2.1591443750075996,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=55 time=129.568 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=55 time=93.024 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=55 time=129.139 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 93.024/117.244/129.568/17.127 ms
+",,,
+2,video_call,2,stable_observation,wifi,1793380856.423176,1793380858.5959659,en0,reachable,11.911333333333333,0.0,1.2575000000000003,3,3,2,2.050929084070958,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=59 time=13.356 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=59 time=11.537 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=59 time=10.841 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 10.841/11.911/13.356/1.060 ms
+",,,
+2,video_call,2,stable_observation,cellular,1793380856.423176,1793380858.5959659,en6,reachable,92.64966666666666,0.0,35.6645,3,3,2,2.1709077910054475,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=55 time=56.675 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=55 time=93.270 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=55 time=128.004 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 56.675/92.650/128.004/29.123 ms
+",,,
+2,video_call,3,stable_observation,wifi,1793380864.4379609,1793380866.5443652,en0,reachable,13.803666666666667,0.0,4.874499999999999,3,3,2,2.062208249932155,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=59 time=15.779 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=59 time=10.554 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=59 time=15.078 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 10.554/13.804/15.779/2.316 ms
+",,,
+2,video_call,3,stable_observation,cellular,1793380864.4379609,1793380866.5443652,en6,reachable,82.23633333333333,0.0,33.56,3,3,2,2.104115084046498,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=55 time=120.532 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=55 time=72.765 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=55 time=53.412 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 53.412/82.236/120.532/28.208 ms
+",,,
+2,file_download,0,stable_observation,wifi,1793380867.581706,1793380869.719936,en0,reachable,17.01,0.0,4.429500000000001,3,3,2,2.057889832998626,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=59 time=11.855 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=59 time=19.963 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=59 time=19.212 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 11.855/17.010/19.963/3.658 ms
+",,,
+2,file_download,0,stable_observation,cellular,1793380867.581706,1793380869.719936,en6,reachable,87.33633333333333,0.0,43.527499999999996,3,3,2,2.136963958037086,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=55 time=104.570 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=55 time=58.318 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=55 time=99.121 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 58.318/87.336/104.570/20.639 ms
+",,,
+2,file_download,1,stable_observation,wifi,1793380875.6662478,1793380877.796366,en0,reachable,18.644333333333332,0.0,0.16999999999999993,3,3,2,2.0752037920756266,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=59 time=18.857 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=59 time=18.559 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=59 time=18.517 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 18.517/18.644/18.857/0.151 ms
+",,,
+2,file_download,1,stable_observation,cellular,1793380875.6662478,1793380877.796366,en6,reachable,90.84933333333333,0.0,44.5915,3,3,2,2.127164125093259,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=55 time=79.094 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=55 time=120.577 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=55 time=72.877 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 72.877/90.849/120.577/21.173 ms
+",,,
+2,file_download,2,stable_observation,wifi,1793380883.780855,1793380885.8770041,en0,reachable,18.189666666666668,0.0,5.089999999999999,3,3,2,2.067396083031781,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=59 time=18.691 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=59 time=21.583 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=59 time=14.295 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 14.295/18.190/21.583/2.996 ms
+",,,
+2,file_download,2,stable_observation,cellular,1793380883.780855,1793380885.8770041,en6,reachable,86.39733333333334,0.0,46.4675,3,3,2,2.0913904999615625,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=55 time=133.482 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=55 time=85.163 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=55 time=40.547 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 40.547/86.397/133.482/37.951 ms
+",,,
+2,file_download,3,stable_observation,wifi,1793380891.9608982,1793380894.118171,en0,reachable,11.072333333333333,0.0,1.4090000000000007,3,3,2,2.0447126670042053,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=59 time=12.727 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=59 time=10.133 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=59 time=10.357 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 10.133/11.072/12.727/1.174 ms
+",,,
+2,file_download,3,stable_observation,cellular,1793380891.9608982,1793380894.118171,en6,reachable,84.47566666666667,0.0,36.739000000000004,3,3,2,2.1540158750722185,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=55 time=47.166 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=55 time=85.617 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=55 time=120.644 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 47.166/84.476/120.644/30.008 ms
+",,,
+3,file_download,0,stable_observation,wifi,1793380894.971328,1793380897.076734,en0,reachable,10.049999999999999,0.0,0.42900000000000027,3,3,2,2.0452623330056667,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=59 time=10.180 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=59 time=9.764 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=59 time=10.206 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 9.764/10.050/10.206/0.203 ms
+",,,
+3,file_download,0,stable_observation,cellular,1793380894.971328,1793380897.076734,en6,reachable,89.69066666666666,0.0,43.583,3,3,2,2.1044622499030083,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=55 time=80.198 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=55 time=118.746 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=55 time=70.128 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 70.128/89.691/118.746/20.952 ms
+",,,
+3,file_download,1,stable_observation,wifi,1793380903.07707,1793380905.23699,en0,reachable,15.947000000000001,0.0,4.123000000000001,3,3,2,2.0553056249627843,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=59 time=10.514 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=59 time=18.567 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=59 time=18.760 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 10.514/15.947/18.760/3.843 ms
+",,,
+3,file_download,1,stable_observation,cellular,1793380903.07707,1793380905.23699,en6,reachable,69.083,0.0,57.2115,3,3,2,2.1583253339631483,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=55 time=51.609 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=55 time=30.942 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=55 time=124.698 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 30.942/69.083/124.698/40.221 ms
+",,,
+3,file_download,2,stable_observation,wifi,1793380911.281291,1793380913.39755,en0,reachable,18.631666666666668,0.0,0.7519999999999989,3,3,2,2.0776799169834703,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=59 time=17.886 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=59 time=19.133 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=59 time=18.876 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 17.886/18.632/19.133/0.538 ms
+",,,
+3,file_download,2,stable_observation,cellular,1793380911.281291,1793380913.39755,en6,reachable,81.38033333333333,0.0,40.784499999999994,3,3,2,2.1114707089727744,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=55 time=71.591 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=55 time=108.570 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=55 time=63.980 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 63.980/81.380/108.570/19.475 ms
+",,,
+3,file_download,3,stable_observation,wifi,1793380919.3805299,1793380921.4936142,en0,reachable,17.633,0.0,11.345999999999998,3,3,2,2.0685285839717835,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=59 time=24.525 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=59 time=10.069 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=59 time=18.305 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 10.069/17.633/24.525/5.921 ms
+",,,
+3,file_download,3,stable_observation,cellular,1793380919.3805299,1793380921.4936142,en6,reachable,66.874,0.0,35.721000000000004,3,3,2,2.110925875022076,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=55 time=52.475 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=55 time=90.688 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=55 time=57.459 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 52.475/66.874/90.688/16.962 ms
+",,,
+3,video_call,0,stable_observation,wifi,1793380922.5445719,1793380924.681822,en0,reachable,19.064666666666668,0.0,4.9495,3,3,2,2.058580958051607,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=59 time=14.719 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=59 time=17.857 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=59 time=24.618 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 14.719/19.065/24.618/4.130 ms
+",,,
+3,video_call,0,stable_observation,cellular,1793380922.5445719,1793380924.681822,en6,reachable,89.068,0.0,43.953,3,3,2,2.1359591250075027,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=55 time=104.387 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=55 time=59.766 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=55 time=103.051 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 59.766/89.068/104.387/20.727 ms
+",,,
+3,video_call,1,stable_observation,wifi,1793380930.6526551,1793380932.754733,en0,reachable,23.666,0.0,7.153500000000003,3,3,2,2.077850249945186,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=59 time=23.696 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=59 time=18.897 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=59 time=28.405 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 18.897/23.666/28.405/3.882 ms
+",,,
+3,video_call,1,stable_observation,cellular,1793380930.6526551,1793380932.754733,en6,reachable,79.93133333333333,0.0,42.649,3,3,2,2.1003266249317676,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=55 time=74.450 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=55 time=108.364 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=55 time=56.980 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 56.980/79.931/108.364/21.332 ms
+",,,
+3,video_call,2,stable_observation,wifi,1793380938.62336,1793380940.758204,en0,reachable,20.992,0.0,11.382,3,3,2,2.072666374966502,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=59 time=33.308 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=59 time=19.124 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=59 time=10.544 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 10.544/20.992/33.308/9.387 ms
+",,,
+3,video_call,2,stable_observation,cellular,1793380938.62336,1793380940.758204,en6,reachable,75.77666666666667,0.0,70.5215,3,3,2,2.1293217500206083,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=55 time=31.956 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=55 time=122.791 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=55 time=72.583 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 31.956/75.777/122.791/37.152 ms
+",,,
+3,video_call,3,stable_observation,wifi,1793380946.766268,1793380948.863102,en0,reachable,13.947,0.0,4.684500000000001,3,3,2,2.06955899996683,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=59 time=10.091 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=59 time=17.070 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=59 time=14.680 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 10.091/13.947/17.070/2.896 ms
+",,,
+3,video_call,3,stable_observation,cellular,1793380946.766268,1793380948.863102,en6,reachable,69.03466666666667,0.0,34.806,3,3,2,2.0937177090672776,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=55 time=110.208 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=55 time=56.300 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=55 time=40.596 ms
+
+--- 1.1.1.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 40.596/69.035/110.208/29.811 ms
+",,,

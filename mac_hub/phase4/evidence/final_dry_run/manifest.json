@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "mode": "dry_run",
+  "condition": "stable_observation",
+  "trials": 2,
+  "cycles": 2,
+  "bytes_per_download": 262144,
+  "payload_budget_bytes": 8388608,
+  "interval_seconds": 5,
+  "start_epoch": 1793381204.79249,
+  "endpoint_host": "speed.cloudflare.com",
+  "uid": 501,
+  "platform": "macOS-10.16-x86_64-i386-64bit-Mach-O",
+  "python": "3.13.5",
+  "address": "1.1.1.1",
+  "dns_scope": "ordinary resolver, not interface-bound",
+  "egress": "unverified: no contemporaneous packet capture",
+  "policy": "phase4-goodput-adapter-v1",
+  "profiles": [
+    "video_call",
+    "file_download"
+  ],
+  "baseline": "Wi-Fi-first on shared ICMP reachability; cellular fallback",
+  "resets": "fresh controller per profile/trial; no warmup exclusion",
+  "hashes": {
+    "run.py": "9f85a72c19b6a48fcd8a978ca9a9e5f26fe1d6227456a1b76749fb679c87ffef",
+    "policy.py": "994757ca7f978f6b4c26e3d5f39c9acc7436679624ac8188599501f2a3dbd7fb",
+    "__init__.py": "1c52af4e95fb9435b48d29c666ee8b8261d1ba4eb1e802f3c10db3a6a5a06f28",
+    "dashboard.py": "e3627abcb2775b7c463280762cbbb2c685dcde73ef5ffde42febaef21bb0c5c4",
+    "report.py": "6eea712f4b6b86f24fab39c8fe3944322c2307ca6dae4f99514142530810daf1"
+  },
+  "dependencies": {
+    "/Users/raudaalshaeili/smartconnect/mac_hub/traffic/client.py": "395f1928193512a0f11edcd66fed4ee4dc717a227b127b0785f58b8af293a41c",
+    "/Users/raudaalshaeili/smartconnect/mac_hub/engine.py": "7d49fe96c59820fa0eae6b4429db698e1ed3f824d44eee4f71b949d1cd424337",
+    "/Users/raudaalshaeili/smartconnect/mac_hub/monitor.py": "23479a642e7cd034943f5d500178df0f00893c3e172d37de5524c52afc4585a7"
+  },
+  "end_epoch": 1793381205.2529888,
+  "cancelled": false,
+  "request_rows": 32,
+  "files": {
+    "rounds.csv": "a6419b4bf9f721ae797994df216f4bf1dda19813454195474b9b14ed636a6765",
+    "measurements.csv": "61a4a618142b6a1c1bb31a44a4cb53b111013d53618e79edfcc62154a5ec137d",
+    "requests.csv": "7faea7fccbf23d80261fde16039c9f511451bbe9cfd3f251acc437ae7979c3a9"
+  }
+}

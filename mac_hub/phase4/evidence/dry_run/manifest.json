@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "mode": "dry_run",
+  "condition": "stable_observation",
+  "trials": 2,
+  "cycles": 2,
+  "bytes_per_download": 262144,
+  "payload_budget_bytes": 8388608,
+  "interval_seconds": 5,
+  "start_epoch": 1793380604.749144,
+  "endpoint_host": "speed.cloudflare.com",
+  "address": "1.1.1.1",
+  "dns_scope": "ordinary resolver, not interface-bound",
+  "egress": "unverified: no contemporaneous packet capture",
+  "policy": "phase4-goodput-adapter-v1",
+  "profiles": [
+    "video_call",
+    "file_download"
+  ],
+  "baseline": "Wi-Fi-first on shared ICMP reachability; cellular fallback",
+  "resets": "fresh controller per profile/trial; no warmup exclusion",
+  "hashes": {
+    "run.py": "c8abe8e8411378ac783d0c5b5454b8e1525335a17afd4c260b9e997559284747",
+    "policy.py": "ac5aa8954474897799306d8ee7e5563b53ded2704da7aaad331d2f1702c53bbc",
+    "__init__.py": "1c52af4e95fb9435b48d29c666ee8b8261d1ba4eb1e802f3c10db3a6a5a06f28",
+    "dashboard.py": "43d089f7feaae87580319cc79620a03f529a4db3058792d061b90a7d3b3625c6",
+    "report.py": "b770feeec469f193131e98a904a19ef40e3669a699f9fd8c4eb35bfed57f81ee"
+  },
+  "end_epoch": 1793380604.766782,
+  "cancelled": false,
+  "request_rows": 32,
+  "files": {
+    "rounds.csv": "b1fe6c65617d7836b2d490bb3690c5f43e2a815c0cfd80b4173c05b51dfbb650",
+    "measurements.csv": "dd64c28509626cd4fa530f0a909c02f1ce17dbb915c4a914eeefb4e5703f8a86",
+    "requests.csv": "e8b09fed7631d3b92f69520e78b27d3cbfcb024568b7c98c517b1a44cb2dfcae"
+  }
+}

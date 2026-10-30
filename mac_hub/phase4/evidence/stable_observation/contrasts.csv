@@ -1,0 +1,5 @@
+same_requested_path_pairs,different_requested_path_pairs,application,metric,paired_successes,trials,smart_minus_wifi_mean,cluster_bootstrap_low,cluster_bootstrap_high
+16,0,file_download,request_duration_ms,16,4,0.08173171227099196,-7.72674987092614,7.1689606629661355
+16,0,file_download,goodput_mbps,16,4,0.021189363487671475,-0.14026459123365648,0.21844598287374783
+16,0,video_call,request_duration_ms,16,4,-5.369479178625625,-13.189010314818008,-0.6109218811616266
+16,0,video_call,goodput_mbps,16,4,0.012129372934979385,-0.008063150206567844,0.043296013416412114
