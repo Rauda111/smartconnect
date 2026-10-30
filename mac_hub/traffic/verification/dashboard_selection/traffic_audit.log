@@ -1,0 +1,1 @@
+PASS: 4 Stage A flows independently verified; both later workload reports and causal decisions checked; later egress remains unverified
