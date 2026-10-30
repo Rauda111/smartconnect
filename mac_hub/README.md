@@ -108,3 +108,10 @@ Short windows have coarse loss resolution (10 packets: 10 percentage points; 30 
 6. Present paired selection-proxy improvements with missing counts, run-to-run variability and degradation cases. A successful Phase 1 demonstrates monitoring and explainable recommendations; it cannot demonstrate seamless sessions, automatic switching or real 5G access.
 
 Next steps: independently validate binding with packet capture, gather repeated real traces, calibrate thresholds and loss windows, add authorized interface-bound goodput/application measurements, then separately design and verify a switching phase with session-continuity tests. Route control remains outside Phase 1.
+
+## Phase 2 experimental framework
+
+See [experiments/README.md](experiments/README.md) for the six-scenario repeated-seed
+comparison, measured-trace replay, response timing, stability definitions, static
+plots, dashboard results tab, safe collection protocol and exact reproduction
+commands. Phase 1 collection and its historical evidence remain available.

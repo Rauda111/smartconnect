@@ -7,7 +7,7 @@ import streamlit as st
 from mac_hub.compare import summarize
 
 st.set_page_config(page_title='SmartConnect Mac Hub',layout='wide')
-st.title('SmartConnect · Mac Hub · Phase 1')
+st.title('SmartConnect · Mac Hub · Decision-only evaluation')
 st.warning('Decision recommendations only. Actual application traffic follows macOS routing. No session continuity or 5G radio claim.')
 path=Path(st.sidebar.text_input('Monitor CSV path','mac_hub/logs/live.csv'))
 st.caption('RSSI, application jitter and throughput: unavailable. RTT variation is an ICMP-derived diagnostic, not application jitter. File Download capacity is unknown.')
@@ -55,4 +55,9 @@ def live():
     except (ValueError,KeyError,OSError,pd.errors.EmptyDataError) as exc:
         st.error(f'Cannot read monitor log: {exc}')
 
-live()
+live_tab, experiment_tab = st.tabs(['Live monitoring', 'Phase 2 experiments'])
+with live_tab:
+    live()
+with experiment_tab:
+    from mac_hub.experiments.dashboard import experiments
+    experiments()

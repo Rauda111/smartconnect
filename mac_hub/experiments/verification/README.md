@@ -1,0 +1,10 @@
+# Phase 2 verification
+
+- All **26 tests** passed: 12 existing simulation/dashboard tests, five Phase 1 monitor/adapter test groups and nine new experimental-framework tests. See `full_suite.log`.
+- New tests check seeded scenario generation, timestamp validation, input preservation and causal replay, Wi-Fi-first fairness, incomplete inputs, invalid metrics, profile-specific guardrails, hold/dwell timing with irregular cadence, alternating candidates, hand-calculated metrics, censored response timing, paired statistics, deterministic CSV artifacts, overwrite refusal, tamper detection and both synthetic/measured dashboard views.
+- The offline audit checks output SHA-256 hashes, replays the identical paired observations and recalculates all 248 policy-run summaries. It is an integrity/recalculation check, not an independent algorithm or field-validation claim. Metric unit tests use independently hand-calculated examples.
+- Comparative and recovery plots were visually inspected for labels, units, missing paths and recommendation timelines. Plots are derived from the same tables as the report.
+- A six-window read-only capture was collected with the unchanged Phase 1 collector, alongside preserved Phase 1 smoke evidence. Measured captures remain separate from synthetic runs, without synthetic replication or controlled-event labels.
+- Verified no changes relative to `6b1213d` under `hardware/`, `cisco/`, historical `results/` and simulation source files, or to the Phase 1 monitor/engine/runner. No route/configuration-changing tool was invoked. Existing `docs/slides/` is untracked and was not added or modified.
+
+Experiment manifests record the Phase 1 HEAD plus exact new-source hashes because artifacts were generated before the Phase 2 commit existed. The hashes, configuration and input traces identify the executed source; a later reproduction at the Phase 2 commit has a different revision field but the same numeric CSV evidence. Python 3.13.5 and the actual runtime dependency versions are recorded in the artifact manifest.
