@@ -1,0 +1,1 @@
+mac_hub/traffic/evidence/**/*.csv -text whitespace=cr-at-eol

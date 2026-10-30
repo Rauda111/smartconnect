@@ -1,0 +1,3 @@
+interface,planned,actual_attempts,successes,failures,timeouts,cancellations,confirmed_successes,mean_success_duration_ms,sample_sd_ms,evidence_type,scope
+en0,2,2,2,0,0,0,0,186.8140830192715,24.07433419934458,actual_http_outcomes,manual request sequence; not a SmartConnect versus baseline comparison
+en6,2,2,2,0,0,0,0,228.68947900133207,26.76219422770624,actual_http_outcomes,manual request sequence; not a SmartConnect versus baseline comparison
