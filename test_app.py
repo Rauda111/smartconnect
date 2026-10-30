@@ -19,7 +19,7 @@ class HandoverDisplayTests(unittest.TestCase):
         self.assertEqual(list(app.exception), [])
         self.assertEqual([tab.label for tab in app.tabs], [
             "Overview", "Network Metrics", "Decision Details",
-            "Handover Events", "Final Results",
+            "Handover Events", "Final Results", "Live Hardware Monitoring",
         ])
         self.assertTrue(app.tabs[0].dataframe)
         self.assertEqual(len(app.tabs[1].get("vega_lite_chart")), 5)
