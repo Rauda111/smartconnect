@@ -1,0 +1,35 @@
+{
+  "uid": 501,
+  "stage": "A",
+  "mode": "actual_https",
+  "target": {
+    "address": "1.1.1.1",
+    "server_name": "one.one.one.one",
+    "path": "/cdn-cgi/trace",
+    "port": 443,
+    "timeout": 10,
+    "max_bytes": 65536
+  },
+  "interfaces": [
+    "en0",
+    "en6",
+    "en0",
+    "en6"
+  ],
+  "platform": "macOS-10.16-x86_64-i386-64bit-Mach-O",
+  "python": "3.13.5",
+  "started_epoch": 1793377138.793576,
+  "policy": "manual sequence only; no SmartConnect integration",
+  "source_sha256": {
+    "mac_hub/traffic/run_stage_a.py": "37c20ee366f952e8026a0ed3b53f6e392a665166d4ef07cd93a7518fc3dc4bd5",
+    "mac_hub/traffic/client.py": "395f1928193512a0f11edcd66fed4ee4dc717a227b127b0785f58b8af293a41c",
+    "mac_hub/traffic/__init__.py": "9a0489537252260008170b282ba480d74ad9e26480eff7b7247856dacd6c5603",
+    "mac_hub/traffic/dashboard.py": "1131d35049bd126ac2613dc052b6799064f8f1e0e20216d6ade427cd252c241c",
+    "mac_hub/traffic/capture.py": "44d0c309a23efdcd94f0038a47b3199cb055eaa700ce5cebf64b6ee0f5fd96a2",
+    "mac_hub/traffic/verify.py": "5371e5578afa3a2349cf74b7c2c7f47992a9d35e2169f37e498499c2d2f33fad",
+    "mac_hub/traffic/report.py": "7db0a0f4d40d6a9084fbf6f8a67cf6f03d031318cd27e7fb3f9c24284063f895"
+  },
+  "revision": "44d202ea7d2945fcd4af535199083f7d1e5dc7db",
+  "ended_epoch": 1793377143.5406458,
+  "cancelled": false
+}

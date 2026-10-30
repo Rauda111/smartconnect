@@ -1,0 +1,8 @@
+{
+  "inputs": {
+    "rounds.csv": "a3591b4d568d729f7845e8792245e963b266e6ae51a3876f6a402706cb6a3b45",
+    "controller_source.txt": "b3be0588fa478ec95a5c64de3f4869421304115be0bb6002d10eb4f554237528",
+    "manifest.json": "5d43b1742c426cc4906ef06f4830febe15eb4df07e69b907589207956ff41113",
+    "requests.csv": "3c4efc97bb6f5526aa6487f3d8366956d1277ad0fb482772751f50749a25e2c8"
+  }
+}

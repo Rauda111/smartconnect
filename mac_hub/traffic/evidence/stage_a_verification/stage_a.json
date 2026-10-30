@@ -1,0 +1,313 @@
+{
+  "stage_a_passed": true,
+  "verified_epoch": 1793377783.490758,
+  "capture_ended_epoch": 1793377198.7988548,
+  "client_sha256": "395f1928193512a0f11edcd66fed4ee4dc717a227b127b0785f58b8af293a41c",
+  "criterion": "all requests successful and independently captured on requested path only; >=2 per interface",
+  "confirmed_successes": {
+    "en0": 2,
+    "en6": 2
+  },
+  "records": [
+    {
+      "request_id": "23bb1cdbd9d548adb35d8b6471559c8f",
+      "requested_interface": "en0",
+      "verified_egress": "en0",
+      "egress_status": "pcap_confirmed",
+      "outbound_syn": 1,
+      "inbound_synack": 1,
+      "outbound_payload_packets": 3,
+      "supporting_evidence": {
+        "en0": {
+          "syn": 1,
+          "synack": 1,
+          "payload": 3,
+          "outbound": 10,
+          "outbound_syn_times": [
+            1793377138.88257
+          ],
+          "inbound_synack_times": [
+            1793377138.894722
+          ],
+          "outbound_payload_times": [
+            1793377138.902025,
+            1793377138.926901,
+            1793377138.978634
+          ],
+          "syn_details": [
+            {
+              "time": 1793377138.88257,
+              "sequence": 3969717505,
+              "ack": 0,
+              "tcp_tsval": 258404678,
+              "tcp_tsecr": 0
+            }
+          ],
+          "synack_details": [
+            {
+              "time": 1793377138.894722,
+              "sequence": 458234923,
+              "ack": 3969717506,
+              "tcp_tsval": 4289711780,
+              "tcp_tsecr": 258404678
+            }
+          ],
+          "matching_handshake": true
+        },
+        "en6": {
+          "syn": 0,
+          "synack": 0,
+          "payload": 0,
+          "outbound": 0,
+          "outbound_syn_times": [],
+          "inbound_synack_times": [],
+          "outbound_payload_times": [],
+          "syn_details": [],
+          "synack_details": [],
+          "matching_handshake": false
+        }
+      },
+      "flow_tuple": {
+        "source_ip": "192.168.0.129",
+        "source_port": 57287,
+        "destination_ip": "1.1.1.1",
+        "destination_port": 443
+      },
+      "request_time_bounds": [
+        1793377138.8377678,
+        1793377138.994637
+      ],
+      "explanation": "Exact connection tuple and packet timestamps match SYN, SYN-ACK and outbound payload on the requested physical interface; no matching outbound packets on the other interface"
+    },
+    {
+      "request_id": "a9773136e56840e3a08c54b68e4caace",
+      "requested_interface": "en6",
+      "verified_egress": "en6",
+      "egress_status": "pcap_confirmed",
+      "outbound_syn": 1,
+      "inbound_synack": 1,
+      "outbound_payload_packets": 3,
+      "supporting_evidence": {
+        "en0": {
+          "syn": 0,
+          "synack": 0,
+          "payload": 0,
+          "outbound": 0,
+          "outbound_syn_times": [],
+          "inbound_synack_times": [],
+          "outbound_payload_times": [],
+          "syn_details": [],
+          "synack_details": [],
+          "matching_handshake": false
+        },
+        "en6": {
+          "syn": 1,
+          "synack": 1,
+          "payload": 3,
+          "outbound": 8,
+          "outbound_syn_times": [
+            1793377140.041587
+          ],
+          "inbound_synack_times": [
+            1793377140.066958
+          ],
+          "outbound_payload_times": [
+            1793377140.067415,
+            1793377140.097458,
+            1793377140.163417
+          ],
+          "syn_details": [
+            {
+              "time": 1793377140.041587,
+              "sequence": 4224356212,
+              "ack": 0,
+              "tcp_tsval": 1227006398,
+              "tcp_tsecr": 0
+            }
+          ],
+          "synack_details": [
+            {
+              "time": 1793377140.066958,
+              "sequence": 2586731185,
+              "ack": 4224356213,
+              "tcp_tsval": 3000945426,
+              "tcp_tsecr": 1227006398
+            }
+          ],
+          "matching_handshake": true
+        }
+      },
+      "flow_tuple": {
+        "source_ip": "172.20.10.2",
+        "source_port": 57288,
+        "destination_ip": "1.1.1.1",
+        "destination_port": 443
+      },
+      "request_time_bounds": [
+        1793377140.002383,
+        1793377140.192353
+      ],
+      "explanation": "Exact connection tuple and packet timestamps match SYN, SYN-ACK and outbound payload on the requested physical interface; no matching outbound packets on the other interface"
+    },
+    {
+      "request_id": "cc8273fac9e3430fbb2a007792dfd7bb",
+      "requested_interface": "en0",
+      "verified_egress": "en0",
+      "egress_status": "pcap_confirmed",
+      "outbound_syn": 1,
+      "inbound_synack": 1,
+      "outbound_payload_packets": 3,
+      "supporting_evidence": {
+        "en0": {
+          "syn": 1,
+          "synack": 1,
+          "payload": 3,
+          "outbound": 9,
+          "outbound_syn_times": [
+            1793377141.227083
+          ],
+          "inbound_synack_times": [
+            1793377141.237039
+          ],
+          "outbound_payload_times": [
+            1793377141.237428,
+            1793377141.253546,
+            1793377141.305334
+          ],
+          "syn_details": [
+            {
+              "time": 1793377141.227083,
+              "sequence": 2900819126,
+              "ack": 0,
+              "tcp_tsval": 665147902,
+              "tcp_tsecr": 0
+            }
+          ],
+          "synack_details": [
+            {
+              "time": 1793377141.237039,
+              "sequence": 1040176864,
+              "ack": 2900819127,
+              "tcp_tsval": 1747806784,
+              "tcp_tsecr": 665147902
+            }
+          ],
+          "matching_handshake": true
+        },
+        "en6": {
+          "syn": 0,
+          "synack": 0,
+          "payload": 0,
+          "outbound": 0,
+          "outbound_syn_times": [],
+          "inbound_synack_times": [],
+          "outbound_payload_times": [],
+          "syn_details": [],
+          "synack_details": [],
+          "matching_handshake": false
+        }
+      },
+      "flow_tuple": {
+        "source_ip": "192.168.0.129",
+        "source_port": 57289,
+        "destination_ip": "1.1.1.1",
+        "destination_port": 443
+      },
+      "request_time_bounds": [
+        1793377141.197414,
+        1793377141.3226292
+      ],
+      "explanation": "Exact connection tuple and packet timestamps match SYN, SYN-ACK and outbound payload on the requested physical interface; no matching outbound packets on the other interface"
+    },
+    {
+      "request_id": "e2add840b97a4833a3e1a6fac9c230a8",
+      "requested_interface": "en6",
+      "verified_egress": "en6",
+      "egress_status": "pcap_confirmed",
+      "outbound_syn": 1,
+      "inbound_synack": 1,
+      "outbound_payload_packets": 3,
+      "supporting_evidence": {
+        "en0": {
+          "syn": 0,
+          "synack": 0,
+          "payload": 0,
+          "outbound": 0,
+          "outbound_syn_times": [],
+          "inbound_synack_times": [],
+          "outbound_payload_times": [],
+          "syn_details": [],
+          "synack_details": [],
+          "matching_handshake": false
+        },
+        "en6": {
+          "syn": 1,
+          "synack": 1,
+          "payload": 3,
+          "outbound": 10,
+          "outbound_syn_times": [
+            1793377142.368247
+          ],
+          "inbound_synack_times": [
+            1793377142.412445
+          ],
+          "outbound_payload_times": [
+            1793377142.413345,
+            1793377142.450125,
+            1793377142.513452
+          ],
+          "syn_details": [
+            {
+              "time": 1793377142.368247,
+              "sequence": 2649067799,
+              "ack": 0,
+              "tcp_tsval": 1829406309,
+              "tcp_tsecr": 0
+            }
+          ],
+          "synack_details": [
+            {
+              "time": 1793377142.412445,
+              "sequence": 1513209552,
+              "ack": 2649067800,
+              "tcp_tsval": 3127682779,
+              "tcp_tsecr": 1829406309
+            }
+          ],
+          "matching_handshake": true
+        }
+      },
+      "flow_tuple": {
+        "source_ip": "172.20.10.2",
+        "source_port": 57290,
+        "destination_ip": "1.1.1.1",
+        "destination_port": 443
+      },
+      "request_time_bounds": [
+        1793377142.328598,
+        1793377142.536994
+      ],
+      "explanation": "Exact connection tuple and packet timestamps match SYN, SYN-ACK and outbound payload on the requested physical interface; no matching outbound packets on the other interface"
+    }
+  ],
+  "request_manifest_sha256": "dc0a5df369038ddcdfa4d0415c89788b01b31ee3dc9cff82c97fb58134606beb",
+  "request_csv_sha256": "2de3995ab78b9d79b6c3a867334e27d3add34332ee6f1cf232be39c992aa4b55",
+  "capture_manifest_sha256": "10a30e8daaebb4f72386958bf1ec23965b4b2615b9a29a8a908422024ad005a6",
+  "scope": "new HTTPS connections only; no existing-session continuity claim",
+  "interface_indices": {
+    "en0": [
+      11
+    ],
+    "en6": [
+      21
+    ]
+  },
+  "target": {
+    "address": "1.1.1.1",
+    "server_name": "one.one.one.one",
+    "path": "/cdn-cgi/trace",
+    "port": 443,
+    "timeout": 10,
+    "max_bytes": 65536
+  }
+}

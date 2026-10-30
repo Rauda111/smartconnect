@@ -1,0 +1,7 @@
+{
+  "inputs": {
+    "rounds.csv": "82f84abde88b14f93ab755b25f4cdd3eb68190dc46c199c899385dba36794b29",
+    "manifest.json": "cca49191b12b2b46fa5c6a734ce729ff4201e6dcc467ca0e551686bb4d86c361",
+    "requests.csv": "d6753130fa61196ad370d355b339743ea687ceeb69c796046f16559c6b88d8b8"
+  }
+}

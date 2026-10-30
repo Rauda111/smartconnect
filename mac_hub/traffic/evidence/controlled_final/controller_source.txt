@@ -1,0 +1,159 @@
+"""Stage B: gated, opt-in steering of fresh test requests only. No capture."""
+import argparse
+from concurrent.futures import ThreadPoolExecutor
+import csv
+from dataclasses import asdict
+import hashlib
+import json
+import os
+from pathlib import Path
+import signal
+import socket
+import threading
+import time
+from mac_hub.engine import Engine
+from mac_hub.monitor import Measurement, measure
+from mac_hub.traffic.client import Target, request, target_dict
+
+INTERFACES={'wifi':'en0','cellular':'en6'}
+
+
+def gate(path):
+    evidence=json.loads(path.read_text())
+    digest=hashlib.sha256(Path(__file__).with_name('client.py').read_bytes()).hexdigest()
+    if evidence.get('stage_a_passed') is not True or evidence.get('client_sha256')!=digest:
+        raise ValueError('Stage A has not independently verified this client')
+    age=time.time()-evidence['verified_epoch']
+    if not 0<=age<=86400:
+        raise ValueError('Stage A evidence is not recent (0..24 hours)')
+    for name in INTERFACES.values():
+        if evidence.get('interface_indices',{}).get(name)!=[socket.if_nametoindex(name)]:
+            raise ValueError('Interface identity changed since Stage A')
+    return evidence
+
+
+def control(elapsed):
+    """Labeled synthetic inputs induce new-flow choices without network changes.
+
+    Stable Wi-Fi 0..5s, assumed degraded Wi-Fi 5..40s, then recovery. These
+    are test-control values, never claimed to be measured network conditions.
+    """
+    bad=5<=elapsed<40
+    return {'wifi':Measurement('en0','reachable',120. if bad else 20.,6. if bad else 0.,3.),
+            'cellular':Measurement('en6','reachable',35.,0.,5.)}
+
+
+def decide(engine,measurements,elapsed):
+    policy={n:(Measurement(m.interface,error='Incomplete RTT/loss') if m.status=='reachable' and (m.latency is None or m.loss is None) else m) for n,m in measurements.items()}
+    decision=engine.step(policy,elapsed)
+    baseline=next((n for n in INTERFACES if measurements[n].status=='reachable'),'none')
+    return decision,baseline
+
+
+def run(output,mode='live',cycles=16,interval=5.,execute=False,stage_a=None,application='video_call'):
+    if mode not in ('live','controlled') or not 1<=cycles<=30 or not 3<=interval<=30:
+        raise ValueError('Use live/controlled mode, 1..30 cycles and 3..30s cadence')
+    target=Target(timeout=5)
+    if execute:
+        if stage_a is None:
+            raise ValueError('Execution requires a passed Stage A verification file')
+        evidence=gate(stage_a)
+        for key in ('address','server_name','path','port'):
+            if evidence.get('target',{}).get(key)!=target_dict(target)[key]:
+                raise ValueError('Stage A target differs from this workload')
+    output.mkdir(parents=True,exist_ok=False)
+    cancel=threading.Event()
+    old={sig:signal.signal(sig,lambda *_:cancel.set()) for sig in (signal.SIGINT,signal.SIGTERM)}
+    engine=Engine(application)
+    start=time.monotonic()
+    writer=None
+    rounds=[]
+    previous={'smartconnect':None,'wifi_first':None}
+    manifest=dict(uid=os.getuid(),stage='B',application=application,mode=mode,execute=execute,
+                  target=target_dict(target),cycles=cycles,interval_seconds=interval,
+                  stage_a=str(stage_a) if stage_a else None,
+                  stage_a_sha256=hashlib.sha256(stage_a.read_bytes()).hexdigest() if stage_a else None,
+                  input_scope='synthetic control with actual HTTPS' if mode=='controlled' and execute else 'live ICMP with actual HTTPS' if execute else 'dry_run',
+                  started_epoch=time.time(),egress_scope='Stage A validated backend; each later request unverified without its own capture',
+                  source_sha256={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in Path(__file__).parent.glob('*.py')})
+    try:
+        with (output/'requests.csv').open('x',newline='') as stream,ThreadPoolExecutor(max_workers=2) as pool:
+            for cycle in range(cycles):
+                due=start+cycle*interval
+                if execute and cancel.wait(max(0,due-time.monotonic())):
+                    break
+                monitor_start=time.monotonic()
+                if mode=='controlled':
+                    inputs=control(monitor_start-start if execute else cycle*interval)
+                    source='synthetic_control'
+                elif execute:
+                    futures={n:pool.submit(measure,interface,'1.1.1.1',3) for n,interface in INTERFACES.items()}
+                    inputs={n:f.result() for n,f in futures.items()}
+                    source='measured_icmp'
+                else:
+                    inputs={n:Measurement(i,error='Dry-run: no probes') for n,i in INTERFACES.items()}
+                    source='dry_run'
+                monitor_end=time.monotonic()
+                if cancel.is_set():
+                    break
+                policy_elapsed=monitor_end-start if execute else cycle*interval
+                decision,baseline=decide(engine,inputs,policy_elapsed)
+                decision_end=time.monotonic()
+                decision_epoch=time.time()
+                choices={'smartconnect':decision['recommended'],'wifi_first':baseline}
+                order=('wifi_first','smartconnect') if cycle%2==0 else ('smartconnect','wifi_first')
+                round_row=dict(cycle=cycle,monitor_source=source,elapsed_seconds=policy_elapsed,
+                               monitor_window_ms=(monitor_end-monitor_start)*1000,
+                               decision_compute_ms=(decision_end-monitor_end)*1000,decision_epoch=decision_epoch,
+                               smartconnect=choices['smartconnect'],wifi_first=baseline,explanation=decision['explanation'])
+                for n,m in inputs.items():
+                    round_row.update({f'{n}_{k}':v for k,v in asdict(m).items() if k!='raw_output'})
+                rounds.append(round_row)
+                for order_index,policy in enumerate(order):
+                    if cancel.is_set():
+                        break
+                    choice=choices[policy]
+                    dispatch=time.monotonic()
+                    if choice=='none':
+                        row=request('en0',target,execute=False)
+                        row.update(source='actual_https' if execute else 'dry_run',requested_interface='',status='no_eligible_path')
+                    else:
+                        row=request(INTERFACES[choice],target,execute=execute,cancel=cancel)
+                    changed=previous[policy] in INTERFACES and choice in INTERFACES and previous[policy]!=choice
+                    row.update(cycle=cycle,policy=policy,profile=application,monitor_source=source,
+                               decision_epoch=decision_epoch,selected_path=choice,recommended_change=changed,
+                               decision_to_request_start_ms=(dispatch-decision_end)*1000,
+                               decision_to_response_ms=(time.monotonic()-decision_end)*1000 if row['status']=='success' else None,
+                               confirmed_transition_ms=None,order_index=order_index,
+                               monitor_window_ms=round_row['monitor_window_ms'],decision_compute_ms=round_row['decision_compute_ms'])
+                    previous[policy]=choice
+                    if writer is None:
+                        writer=csv.DictWriter(stream,fieldnames=list(row));writer.writeheader()
+                    writer.writerow(row);stream.flush()
+                    print(f"round={cycle} policy={policy} requested={choice} status={row['status']} egress={row['egress_status']}",flush=True)
+    finally:
+        manifest.update(ended_epoch=time.time(),cancelled=cancel.is_set(),completed_rounds=len(rounds))
+        (output/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
+        if rounds:
+            with (output/'rounds.csv').open('x',newline='') as stream:
+                writer=csv.DictWriter(stream,fieldnames=list(rounds[0]));writer.writeheader();writer.writerows(rounds)
+        for sig,handler in old.items():
+            signal.signal(sig,handler)
+    return manifest
+
+
+def main():
+    p=argparse.ArgumentParser(description=__doc__)
+    p.add_argument('--output-dir',type=Path,required=True)
+    p.add_argument('--execute',action='store_true')
+    p.add_argument('--stage-a',type=Path)
+    p.add_argument('--mode',choices=['live','controlled'],default='live')
+    p.add_argument('--application',choices=['video_call','file_download'],default='video_call')
+    p.add_argument('--cycles',type=int,default=16)
+    p.add_argument('--interval',type=float,default=5)
+    a=p.parse_args()
+    run(a.output_dir,a.mode,a.cycles,a.interval,a.execute,a.stage_a,a.application)
+
+
+if __name__=='__main__':
+    main()

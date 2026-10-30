@@ -1,0 +1,70 @@
+{
+  "mode": "packet_capture",
+  "address": "1.1.1.1",
+  "duration_seconds": 60,
+  "started_epoch": 1793377138.400341,
+  "interfaces": {
+    "en0": {
+      "command": [
+        "/usr/bin/sudo",
+        "-n",
+        "/usr/sbin/tcpdump",
+        "-i",
+        "en0",
+        "-p",
+        "-n",
+        "-s",
+        "96",
+        "-U",
+        "-w",
+        "mac_hub/logs/phase3-stage-a-clean-capture/en0.pcap",
+        "tcp and host 1.1.1.1 and port 443"
+      ],
+      "ready_epoch": 1793377138.597667,
+      "returncode": 0,
+      "stopped_epoch": 1793377198.798742
+    },
+    "en6": {
+      "command": [
+        "/usr/bin/sudo",
+        "-n",
+        "/usr/sbin/tcpdump",
+        "-i",
+        "en6",
+        "-p",
+        "-n",
+        "-s",
+        "96",
+        "-U",
+        "-w",
+        "mac_hub/logs/phase3-stage-a-clean-capture/en6.pcap",
+        "tcp and host 1.1.1.1 and port 443"
+      ],
+      "ready_epoch": 1793377138.597627,
+      "returncode": 0,
+      "stopped_epoch": 1793377198.798762
+    }
+  },
+  "status": "complete",
+  "snaplen": 96,
+  "promiscuous": false,
+  "request_command": [
+    "/Users/raudaalshaeili/smartconnect/venv/bin/python",
+    "-m",
+    "mac_hub.traffic.run_stage_a",
+    "--execute",
+    "--address",
+    "1.1.1.1",
+    "--output-dir",
+    "mac_hub/logs/phase3-stage-a-clean-requests"
+  ],
+  "request_returncode": 0,
+  "stop_requested_epoch": 1793377198.722226,
+  "ended_epoch": 1793377198.7988548,
+  "sha256": {
+    "en0.stderr": "ba338d37da52f6fe88d8b65bd6f1bd60e2315ba5a2bc179a2a3a8e72cb57d136",
+    "en6.pcap": "9c9e889c0321c3cce41671940f56ff3d7522b83583a62df3ba7af234898ab515",
+    "en6.stderr": "0481416c44d723435e22011a7d12214e23913adeb6e441b3b8de687367867aeb",
+    "en0.pcap": "a626a11dd9b7b03d0fa0d36f7088af34c0e2baed41847f3c91c7beffde47c722"
+  }
+}
