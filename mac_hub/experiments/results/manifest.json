@@ -1,0 +1,100 @@
+{
+  "dependencies": {
+    "matplotlib": "3.11.2",
+    "numpy": "2.5.3",
+    "pandas": "3.0.6",
+    "streamlit": "1.65.0"
+  },
+  "measured_inputs": [
+    {
+      "path": "/Users/raudaalshaeili/smartconnect/mac_hub/verification/live_smoke_20261030.csv",
+      "sha256": "9ffe9a7c542df74feec1b1f9e850ac379af72321f63eb33a41633823f44f7a4e",
+      "windows": 1
+    },
+    {
+      "path": "mac_hub/experiments/measurements/quiet_capture_20261030.csv",
+      "sha256": "6e7436b8e0f2beb03e63d5c829f40b96188e690a86485c29d4e9dd9e8d39968a",
+      "windows": 6
+    }
+  ],
+  "methods": [
+    "wifi_first",
+    "smartconnect"
+  ],
+  "output_sha256": {
+    "REPORT.md": "8bedcd2dc7dc2aa5b62741870d869267df122bab2e406e37f42284ad30e4fb7f",
+    "aggregate.csv": "9701662ebe20400f04fec1239c1549aeba5dd905e9f5c4f819fcb34605258b45",
+    "decisions.csv": "284d05697ca7f8aafca107c14b0fc4317d169231d2ca305b3dd52435645cffee",
+    "event_responses.csv": "352cf2c36acc9fcc57bd8a67c49919481a20f5e789e56ba1934b6313709daa3d",
+    "observations.csv": "bddac2441f4e44c5153899f6fb84fdc44d43d795ab239565922fbb14bffb7feb",
+    "paired_differences.csv": "47468937588e584397e39e0fe8cd0810a9cc904d39fb2a60e3c8ccf858ef7711",
+    "paired_summary.csv": "a019fc6cbdc15ffea4499ae67209ec4cdb261e4eef7db8fba807a498062d3d40",
+    "per_run.csv": "3c1ae27ff31d49aaece6845ce3125054ac879f1238b589bd72b94220418af2af",
+    "plots/cellular_degradation_file_download.png": "19b16d7c10f93c8758851f605454206643b058aec6912927633e23941fbc8545",
+    "plots/cellular_degradation_video_call.png": "da8ff697e7789a0d2e53c55a391e575231f801f797e5e30d7a9e9d3ee5684fde",
+    "plots/comparison_file_download.png": "f56e19dab417472de3be8bfaa072e95de316188de4570a2da20e90502472c32b",
+    "plots/comparison_video_call.png": "95016d2430e138f52e35f004984fa16150c45dfdf53dee559e47d86dd387842b",
+    "plots/congested_wifi_file_download.png": "f217963518e64419fedf304146adb9ffbaecb025ec73c34bd0610da812a9d4c4",
+    "plots/congested_wifi_video_call.png": "73f8ab784e7892e2f77fbd34c98077cb3337594ffacb4e1eed035a348929b60d",
+    "plots/deteriorating_wifi_file_download.png": "2fc803e6607c19f6dc7e9ab241c6340334b0d00d9270df9578649a1f25ae8e79",
+    "plots/deteriorating_wifi_video_call.png": "629147c82af0a0ca700d0c5d6b859011e852d236f9143f1cee7c1a8c59a2b488",
+    "plots/measured_0_live_smoke_20261030_file_download.png": "8c907ef1c1b0ccd949e89d8c644d5c18062ac3de5c573314a110c74c0f0c629e",
+    "plots/measured_0_live_smoke_20261030_video_call.png": "4a64f9d2c107dca3616d617add256ace1ad4da5c4b9507172d024a3edbc279f6",
+    "plots/measured_1_quiet_capture_20261030_file_download.png": "4f77dd5622b053750b70439d898a90071b2bc0bd47aeb324ece43f3b873adf90",
+    "plots/measured_1_quiet_capture_20261030_video_call.png": "bc667fb80010de333c5710c712560ca1e3d204911923c06a68f3574314bb1c8a",
+    "plots/network_unavailability_file_download.png": "faec683f65620e43aa1e0b3eeb1d881172780983d2dbd4b4680ef845f648c140",
+    "plots/network_unavailability_video_call.png": "511eafc01ad68aee66e86b12066f44e43ebe199d2fbb66c04829b171706fe4b8",
+    "plots/stable_file_download.png": "e0d7f36f9ab7c5f9b69c79d96ab6713302e162125282094418592bcc6893ee71",
+    "plots/stable_video_call.png": "6bf7f2db1ec7c9828173d73908ae011da3ee5d909bfa772a1f48ea301eb79b77",
+    "plots/wifi_recovery_file_download.png": "04735efb643b38c9c59efbe888cd6e5ddd9b9e44a57a392e5e08bccfaa605682",
+    "plots/wifi_recovery_video_call.png": "9692c94be9e9bdf3f891305e8c41eb1b1058e30bb38ffdbaf495b9770c315740",
+    "response_summary.csv": "82637b8c683d9199ec83e5cae8ac64a68106a5d94b7fd526c9ec8962ea356e7e"
+  },
+  "policy": {
+    "dwell_seconds": 30,
+    "hold_windows": 3,
+    "margin": 0.05,
+    "trend_weight": 0.5,
+    "trend_window": 5
+  },
+  "profiles": [
+    "video_call",
+    "file_download"
+  ],
+  "python": "3.13.5 | packaged by Anaconda, Inc. | (main, Jun 12 2025, 11:09:21) [Clang 14.0.6 ]",
+  "requirements_sha256": "3fe340a5d34a9001e87fc9d329d867c73cee6c0750de000269ec2c183238fa0b",
+  "revision": "6b1213d8b563609d7024ff1e63269f76e4c1d262",
+  "schema_version": 1,
+  "scope": "counterfactual selection proxies; no actual switching or application QoE measurement",
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "source_sha256": {
+    "mac_hub/__init__.py": "3ee218e2de09c6723f23cc820bdee6d657b91a603c202ef14dc1b5913afdecad",
+    "mac_hub/compare.py": "0ba5acd8494876efcea4506692632957a338e9e608768e700fb16003419dd7cf",
+    "mac_hub/dashboard.py": "b216525575e7a0d27696493cb13ed6c402a194a38e7deb7f53616abc3395c75b",
+    "mac_hub/engine.py": "7d49fe96c59820fa0eae6b4429db698e1ed3f824d44eee4f71b949d1cd424337",
+    "mac_hub/experiments/__init__.py": "26e2517599a3cb5013b88a62a802477fe06a216d3f0c1654806d4428858372b0",
+    "mac_hub/experiments/audit.py": "13f11ab9a76611589532b0029262ed2809c9d554a8097353d3bb3843218b2ad6",
+    "mac_hub/experiments/dashboard.py": "d5a281e8d32a3e1b0b5df880bf84a8b8945d29bab88bca7d3f0148a5b2daf9ab",
+    "mac_hub/experiments/evaluate.py": "b63cf2ae45fcbf48d87151ae38dbadfa02264cbd4f50bf6852534e510358c5f2",
+    "mac_hub/experiments/run.py": "6fad63c9fd10d8776617d901650e5abc40640bb6d4f132749474b086f646e070",
+    "mac_hub/experiments/scenarios.py": "95e0445a1d998485f875aba8d4cf4d64faa1ac472e0c831d01fc1e49de2d9340",
+    "mac_hub/experiments/visuals.py": "fcf27c5a34ae713fd888885c4c49dd1f7c5fee99fabed2167394b6d257e660ff",
+    "mac_hub/monitor.py": "23479a642e7cd034943f5d500178df0f00893c3e172d37de5524c52afc4585a7",
+    "mac_hub/run.py": "65dd4d4f06b139a2ab86442baf5e9ba37515a7c67b7dc9eb307c543344b9e6cb",
+    "mac_hub/scenarios.py": "53c6c111c976722c57820813a2ceb72528d37f7742af7fb374c41cd45a67ff84",
+    "smartconnect.py": "8781b945ad48de38f78562b06bad6e9dc4f00045c39a372a682e9bb75c73ee5d"
+  },
+  "synthetic_window_seconds": 5,
+  "synthetic_windows": 90
+}

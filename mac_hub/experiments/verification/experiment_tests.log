@@ -1,0 +1,18 @@
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:181: IOError: sysctlbyname failed for 'hw.l1dcachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:181: IOError: sysctlbyname failed for 'hw.l2cachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:181: IOError: sysctlbyname failed for 'hw.l3cachesize'. Detail: [errno 1] Operation not permitted
+test_aggregation_pairing (test_mac_hub_experiments.ExperimentTests.test_aggregation_pairing) ... ok
+test_alternating_candidate_does_not_satisfy_hold (test_mac_hub_experiments.ExperimentTests.test_alternating_candidate_does_not_satisfy_hold) ... ok
+test_artifacts_reproducibility_audit_and_dashboard (test_mac_hub_experiments.ExperimentTests.test_artifacts_reproducibility_audit_and_dashboard) ... 2026-10-30 19:45:12.064 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+test_fairness_causality_and_behavior (test_mac_hub_experiments.ExperimentTests.test_fairness_causality_and_behavior) ... ok
+test_independent_metrics (test_mac_hub_experiments.ExperimentTests.test_independent_metrics) ... ok
+test_missing_and_invalid_inputs (test_mac_hub_experiments.ExperimentTests.test_missing_and_invalid_inputs) ... ok
+test_profile_guardrails_are_distinct (test_mac_hub_experiments.ExperimentTests.test_profile_guardrails_are_distinct) ... ok
+test_response_timing_and_censoring (test_mac_hub_experiments.ExperimentTests.test_response_timing_and_censoring) ... ok
+test_seeded_scenarios (test_mac_hub_experiments.ExperimentTests.test_seeded_scenarios) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 7.562s
+
+OK

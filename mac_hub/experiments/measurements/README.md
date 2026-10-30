@@ -1,0 +1,7 @@
+# Additional measured input
+
+`quiet_capture_20261030.csv` contains six completed, concurrent en0/en6 ICMP probe windows, ten echo requests per interface per window, with a two-second pause after each window. Capture completion times: 30 October 2026, 19:40:33–19:41:29 Asia/Dubai (15:40:33–15:41:29 UTC). The original Phase 1 collector and policy were used. Raw ping text, timestamped metrics and collector source/configuration manifest are retained.
+
+The file name describes a nominal observational capture; ambient household workload, device location, radio mode and carrier conditions were not controlled or independently recorded. It is not a validated stable-network experiment. No router, interface, route, DNS, firewall or Internet Sharing settings were changed. No congestion or workload was generated. Collection was outside the execution sandbox, which previously prevented reliable probe connectivity.
+
+This short trace and the separate Phase 1 one-window smoke capture are observational inputs, not independent replicated field trials. Replaying both profiles/policies does not create extra field observations. There are no controlled event or quiet-region annotations for either measured capture. Both policies recommended Wi-Fi throughout the six-window collection; no automatic switching occurred. No application-level QoE, throughput, RSSI or jitter was measured. Interface binding uses Apple ping's `-b`; independent packet-capture verification remains future work.

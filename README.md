@@ -281,3 +281,9 @@ are changed. RSSI, application jitter and throughput remain unavailable. Existin
 simulation and Cisco implementations are preserved. See the linked setup,
 experimental method, limitations and draft QoS/QoE guidelines before interpreting
 results.
+
+The [Phase 2 experimental framework](mac_hub/experiments/README.md) adds six
+seeded scenarios, paired measured-trace replay, response timing and stability
+metrics, comparative plots, CSV evidence and a dashboard results tab. Its
+outcomes are counterfactual selection proxies; network configuration remains
+read-only and actual application QoE has not been demonstrated.
