@@ -42,7 +42,8 @@ def plots(tables, output):
             for ax in axes:
                 ax.legend(fontsize=7,loc='upper left',ncol=2)
             source=data.source.iloc[0]
-            fig.suptitle(f'{scenario} / {app} / seed {seed}\nInput: {source}; selected values are counterfactual proxies')
+            run_label=f'seed {seed}' if source=='synthetic' else 'observational capture (no noise seed)'
+            fig.suptitle(f'{scenario} / {app} / {run_label}\nInput: {source}; selected values are counterfactual proxies')
             fig.tight_layout(rect=(0,0,1,.95))
             fig.savefig(folder/f'{scenario}_{app}.png',dpi=120)
             plt.close(fig)
@@ -57,11 +58,11 @@ def plots(tables, output):
             for j,method in enumerate(LABELS):
                 group=subset[subset.method==method].set_index('scenario').loc[names]
                 ax.bar([i+(j-.5)*.36 for i in range(len(names))],group['mean'],width=.36,
-                       yerr=group.sample_sd.fillna(0),label=LABELS[method],color=COLORS[method],capsize=2)
+                       yerr=group.sample_sd.to_numpy() if group.sample_sd.notna().any() else None,label=LABELS[method],color=COLORS[method],capsize=2)
             ax.set_xticks(range(len(names)),[n.replace('_','\n') for n in names],fontsize=7)
             ax.set_title({'latency_mean':'Selected-probe RTT (ms)', 'loss_mean':'Selected-probe loss (%)', 'rtt_variation_mean':'Selected RTT variation (ms)', 'recommended_handovers':'Recommended path-to-path changes', 'observed_guardrail_violation_windows':'Observed guardrail violations (windows)', 'quiet_region_changes':'Quiet-region recommendation changes'}[metric])
             ax.legend(fontsize=8)
-        fig.suptitle(f'{app}: synthetic input, counterfactual selection proxies\nMean ± sample SD across seeds; unknown guardrails excluded')
+        fig.suptitle(f'{app}: synthetic input, counterfactual selection proxies\nMean ± sample SD where n > 1; unknown guardrails excluded')
         fig.tight_layout(rect=(0,0,1,.94))
         fig.savefig(folder/f'comparison_{app}.png',dpi=130)
         plt.close(fig)
@@ -85,7 +86,9 @@ def report(tables, output):
                 parts=[]
                 for method in ('wifi_first','smartconnect'):
                     r=group[(group.method==method)&(group.metric==metric)].iloc[0]
-                    parts.append(f'{r["mean"]:.2f} ± {r.sample_sd:.2f}')
+                    precision=3 if metric == 'loss_mean' else 2
+                    uncertainty=f'{r.sample_sd:.{precision}f}' if r.n > 1 else 'SD unavailable (n=1)'
+                    parts.append(f'{r["mean"]:.{precision}f} ± {uncertainty}')
                 cells.append(' → '.join(parts))
             lines.append(f'| {scenario} / {app} | '+ ' | '.join(cells)+' |')
     lines += ['', '## Synthetic event response', '',
@@ -101,7 +104,7 @@ def report(tables, output):
     lines += ['', 'Response delays are conditional on an observed response. Failed responses remain explicitly counted; already-on-target cases are not switching-speed evidence.', '']
     real=tables['per_run'].query("source == 'measured_icmp'")
     lines += ['', 'Synthetic QoS table values are mean ± sample SD across seed-level summaries; SD is not a confidence interval. See aggregate.csv for variation, guardrail, stability and missing-data results, paired_differences.csv for within-trace differences, and event_responses.csv for response times (including failures to respond).', '',
-              'The cellular-degradation fixture illustrates a trade-off: SmartConnect may temporarily select higher loss and variation while waiting for sustained superiority. Stable and unavailable-path conditions may show no advantage over the baseline. Quiet-region changes can include legitimate initial policy adaptation or recovery; they are not automatically unnecessary switches.', '', '## Measured-input replay', '']
+              'The cellular-degradation fixture illustrates a trade-off: SmartConnect selects cellular at 100 and 105 seconds after degradation begins and recommends Wi-Fi at 110 seconds. The three-window hold therefore retains a known guardrail-breaching path for two observations despite a usable alternative. Lower whole-run RTT and higher whole-run loss are a genuine policy trade-off, not an across-the-board improvement. Stable and unavailable-path conditions may show no advantage over the baseline. Quiet-region changes can include legitimate initial policy adaptation or recovery; they are not automatically unnecessary switches.', '', '## Measured-input replay', '']
     if real.empty:
         lines.append('No measured input included.')
     else:

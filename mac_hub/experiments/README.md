@@ -91,3 +91,20 @@ python -m mac_hub.experiments.audit mac_hub/logs/with-natural-observation-01
 ```
 
 Collect repeated independent sessions and varied permitted targets before drawing field conclusions. ICMP nonresponse can be filtering rather than access failure. Replaying probes ignores switching costs, application load effects and feedback from real switching. No seamless connectivity, automatic network switching, actual handover success, achieved application QoE or verified 5G radio access has been demonstrated by this framework.
+
+## Pre-Phase-3 methodological review
+
+See [verification/FINAL_REVIEW.md](verification/FINAL_REVIEW.md). The reviewed
+results preserve all eight original numeric CSVs and the fixed policy. The audit
+now checks original inputs, causal replay, independently recomputed per-run,
+aggregate, paired and response statistics, and exact report rendering from CSV.
+Checksum-consistent corruption and numeric-to-missing substitutions are tested.
+Undefined sample SD remains missing and has no error bar.
+
+The cellular-degradation result is a safety trade-off: whole-run RTT decreases
+while loss and variation increase, with two observed guardrail-breaching windows
+before the hold condition permits the return recommendation. Neither this case
+nor the short measured captures demonstrates an overall QoS/QoE improvement.
+No policy was retuned to conceal the adverse result. The reviewed suite has
+29 passing tests; no new network measurements or configuration changes were
+made during the review.
