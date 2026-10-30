@@ -1,4 +1,3 @@
-PASS: all eight CSV artifacts are byte-identical between two complete ten-seed runs using the same two measured inputs.
-Files: observations.csv, decisions.csv, per_run.csv, event_responses.csv, aggregate.csv, paired_differences.csv, paired_summary.csv, response_summary.csv.
-The report wording was clarified between these runs; numeric CSV contents were unchanged.
-PASS: git diff against 6b1213d shows no changes to hardware/, cisco/, historical results/, original simulation sources, app.py, or Phase 1 engine.py, monitor.py and run.py.
+PASS: all eight numeric CSV artifacts in the reviewed results are byte-identical to commit 0017b0d.
+PASS: profile outcomes and selected-metric denominators match within every current trace.
+PASS: all RSSI, throughput and application-jitter observations remain missing; all 248 policy-runs have zero fully assessed guardrail windows.

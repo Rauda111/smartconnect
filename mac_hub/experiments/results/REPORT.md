@@ -12,18 +12,18 @@ RTT/loss weights renormalize to 50%/50% in both profiles (60% original weight co
 
 | Scenario / profile | RTT: Wi-Fi-first → SmartConnect (ms) | Loss: baseline → SmartConnect (%) | Recommended path changes: baseline → SmartConnect |
 |---|---:|---:|---:|
-| cellular_degradation / video_call | 47.98 ± 0.09 → 44.68 ± 0.07 | 0.05 ± 0.01 → 0.15 ± 0.02 | 0.00 ± 0.00 → 2.00 ± 0.00 |
-| cellular_degradation / file_download | 47.98 ± 0.09 → 44.68 ± 0.07 | 0.05 ± 0.01 → 0.15 ± 0.02 | 0.00 ± 0.00 → 2.00 ± 0.00 |
-| congested_wifi / video_call | 78.76 ± 0.09 → 35.79 ± 0.12 | 3.13 ± 0.02 → 0.14 ± 0.01 | 0.00 ± 0.00 → 1.00 ± 0.00 |
-| congested_wifi / file_download | 78.76 ± 0.09 → 35.79 ± 0.12 | 3.13 ± 0.02 → 0.14 ± 0.01 | 0.00 ± 0.00 → 1.00 ± 0.00 |
-| deteriorating_wifi / video_call | 87.43 ± 0.09 → 34.27 ± 0.15 | 4.15 ± 0.02 → 0.08 ± 0.02 | 0.00 ± 0.00 → 1.00 ± 0.00 |
-| deteriorating_wifi / file_download | 87.43 ± 0.09 → 34.27 ± 0.15 | 4.15 ± 0.02 → 0.08 ± 0.02 | 0.00 ± 0.00 → 1.00 ± 0.00 |
-| network_unavailability / video_call | 25.22 ± 0.09 → 25.22 ± 0.09 | 0.05 ± 0.01 → 0.05 ± 0.01 | 1.00 ± 0.00 → 1.00 ± 0.00 |
-| network_unavailability / file_download | 25.22 ± 0.09 → 25.22 ± 0.09 | 0.05 ± 0.01 → 0.05 ± 0.01 | 1.00 ± 0.00 → 1.00 ± 0.00 |
-| stable / video_call | 21.98 ± 0.09 → 21.98 ± 0.09 | 0.05 ± 0.01 → 0.05 ± 0.01 | 0.00 ± 0.00 → 0.00 ± 0.00 |
-| stable / file_download | 21.98 ± 0.09 → 21.98 ± 0.09 | 0.05 ± 0.01 → 0.05 ± 0.01 | 0.00 ± 0.00 → 0.00 ± 0.00 |
-| wifi_recovery / video_call | 56.29 ± 0.09 → 30.55 ± 0.68 | 2.19 ± 0.02 → 0.08 ± 0.02 | 0.00 ± 0.00 → 2.00 ± 0.00 |
-| wifi_recovery / file_download | 56.29 ± 0.09 → 30.55 ± 0.68 | 2.19 ± 0.02 → 0.08 ± 0.02 | 0.00 ± 0.00 → 2.00 ± 0.00 |
+| cellular_degradation / video_call | 47.98 ± 0.09 → 44.68 ± 0.07 | 0.052 ± 0.013 → 0.155 ± 0.019 | 0.00 ± 0.00 → 2.00 ± 0.00 |
+| cellular_degradation / file_download | 47.98 ± 0.09 → 44.68 ± 0.07 | 0.052 ± 0.013 → 0.155 ± 0.019 | 0.00 ± 0.00 → 2.00 ± 0.00 |
+| congested_wifi / video_call | 78.76 ± 0.09 → 35.79 ± 0.12 | 3.131 ± 0.020 → 0.137 ± 0.013 | 0.00 ± 0.00 → 1.00 ± 0.00 |
+| congested_wifi / file_download | 78.76 ± 0.09 → 35.79 ± 0.12 | 3.131 ± 0.020 → 0.137 ± 0.013 | 0.00 ± 0.00 → 1.00 ± 0.00 |
+| deteriorating_wifi / video_call | 87.43 ± 0.09 → 34.27 ± 0.15 | 4.146 ± 0.021 → 0.077 ± 0.020 | 0.00 ± 0.00 → 1.00 ± 0.00 |
+| deteriorating_wifi / file_download | 87.43 ± 0.09 → 34.27 ± 0.15 | 4.146 ± 0.021 → 0.077 ± 0.020 | 0.00 ± 0.00 → 1.00 ± 0.00 |
+| network_unavailability / video_call | 25.22 ± 0.09 → 25.22 ± 0.09 | 0.048 ± 0.015 → 0.048 ± 0.015 | 1.00 ± 0.00 → 1.00 ± 0.00 |
+| network_unavailability / file_download | 25.22 ± 0.09 → 25.22 ± 0.09 | 0.048 ± 0.015 → 0.048 ± 0.015 | 1.00 ± 0.00 → 1.00 ± 0.00 |
+| stable / video_call | 21.98 ± 0.09 → 21.98 ± 0.09 | 0.052 ± 0.013 → 0.052 ± 0.013 | 0.00 ± 0.00 → 0.00 ± 0.00 |
+| stable / file_download | 21.98 ± 0.09 → 21.98 ± 0.09 | 0.052 ± 0.013 → 0.052 ± 0.013 | 0.00 ± 0.00 → 0.00 ± 0.00 |
+| wifi_recovery / video_call | 56.29 ± 0.09 → 30.55 ± 0.68 | 2.191 ± 0.022 → 0.076 ± 0.019 | 0.00 ± 0.00 → 2.00 ± 0.00 |
+| wifi_recovery / file_download | 56.29 ± 0.09 → 30.55 ± 0.68 | 2.191 ± 0.022 → 0.076 ± 0.019 | 0.00 ± 0.00 → 2.00 ± 0.00 |
 
 ## Synthetic event response
 
@@ -51,7 +51,7 @@ Response delays are conditional on an observed response. Failed responses remain
 
 Synthetic QoS table values are mean ± sample SD across seed-level summaries; SD is not a confidence interval. See aggregate.csv for variation, guardrail, stability and missing-data results, paired_differences.csv for within-trace differences, and event_responses.csv for response times (including failures to respond).
 
-The cellular-degradation fixture illustrates a trade-off: SmartConnect may temporarily select higher loss and variation while waiting for sustained superiority. Stable and unavailable-path conditions may show no advantage over the baseline. Quiet-region changes can include legitimate initial policy adaptation or recovery; they are not automatically unnecessary switches.
+The cellular-degradation fixture illustrates a trade-off: SmartConnect selects cellular at 100 and 105 seconds after degradation begins and recommends Wi-Fi at 110 seconds. The three-window hold therefore retains a known guardrail-breaching path for two observations despite a usable alternative. Lower whole-run RTT and higher whole-run loss are a genuine policy trade-off, not an across-the-board improvement. Stable and unavailable-path conditions may show no advantage over the baseline. Quiet-region changes can include legitimate initial policy adaptation or recovery; they are not automatically unnecessary switches.
 
 ## Measured-input replay
 

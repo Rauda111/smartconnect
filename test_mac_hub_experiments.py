@@ -154,3 +154,80 @@ class ExperimentTests(unittest.TestCase):
         f['cellular_loss']=0
         f['cellular_latency']=[10 if i%2 else 80 for i in range(len(f))]
         self.assertTrue(replay(f,'video_call').smartconnect.eq('wifi').all())
+
+    def test_independent_audit_rejects_rehashed_wrong_statistics(self):
+        import hashlib
+        import json
+        from unittest.mock import patch
+        from mac_hub.experiments.audit import audit
+        with tempfile.TemporaryDirectory() as tmp, patch('mac_hub.experiments.visuals.plots'):
+            folder=Path(tmp)/'evidence'
+            build(folder,[0],include_smoke=True)
+            self.assertEqual(audit(folder),28)
+            cases=[('per_run.csv','latency_mean',float('nan')),
+                   ('aggregate.csv','mean',999),
+                   ('paired_differences.csv','smartconnect_minus_wifi_first',999),
+                   ('paired_summary.csv','n',999),
+                   ('event_responses.csv','response_seconds',999),
+                   ('response_summary.csv','mean_response_seconds',999)]
+            for filename,column,value in cases:
+                path=folder/filename
+                original=path.read_bytes()
+                manifest_path=folder/'manifest.json'
+                original_manifest=manifest_path.read_bytes()
+                with self.subTest(filename=filename):
+                    frame=pd.read_csv(path)
+                    frame.loc[0,column]=value
+                    frame.to_csv(path,index=False)
+                    manifest=json.loads(original_manifest)
+                    manifest['output_sha256'][filename]=hashlib.sha256(path.read_bytes()).hexdigest()
+                    manifest_path.write_text(json.dumps(manifest))
+                    with self.assertRaises((ValueError,AssertionError)):
+                        audit(folder)
+                path.write_bytes(original)
+                manifest_path.write_bytes(original_manifest)
+            path=folder/'REPORT.md'
+            path.write_text(path.read_text().replace('Six synthetic scenarios','Five synthetic scenarios'))
+            manifest=json.loads((folder/'manifest.json').read_text())
+            manifest['output_sha256']['REPORT.md']=hashlib.sha256(path.read_bytes()).hexdigest()
+            (folder/'manifest.json').write_text(json.dumps(manifest))
+            with self.assertRaises(ValueError):
+                audit(folder)
+
+    def test_missingness_and_profile_scores(self):
+        import math
+        from mac_hub.engine import Engine
+        from mac_hub.monitor import Measurement
+        from mac_hub.experiments.independent import same, moments
+        measurements={'wifi':Measurement('en0','reachable',25,1),
+                      'cellular':Measurement('en6','reachable',40,0)}
+        video=Engine('video_call').step(measurements,0)
+        download=Engine('file_download').step(measurements,0)
+        for path in ('wifi','cellular'):
+            self.assertAlmostEqual(video['details'][path]['score'],download['details'][path]['score'])
+        self.assertAlmostEqual(video['coverage'],.6)
+        self.assertAlmostEqual(download['coverage'],.3)
+        self.assertFalse(same('0',None))
+        self.assertFalse(same('',0))
+        self.assertIsNone(moments([None])['mean'])
+        self.assertIsNone(moments([2])['sample_sd'])
+        f=replay(pd.DataFrame(generate('stable')[0]).iloc[:3],'video_call')
+        f['wifi_rtt_variation']=float('nan')
+        result=metrics(f,'wifi_first','video_call')
+        self.assertTrue(math.isnan(result['rtt_variation_mean']))
+        self.assertEqual(result['rtt_variation_observed_windows'],0)
+
+    def test_event_interval_boundary_and_cellular_hold(self):
+        f=pd.DataFrame(dict(elapsed_seconds=[0,5,10,15],smartconnect=['wifi','wifi','cellular','wifi']))
+        events=[dict(onset_seconds=5,expected_path='cellular',event='first'),
+                dict(onset_seconds=10,expected_path='wifi',event='second')]
+        values=responses(f,'smartconnect',events)
+        self.assertIsNone(values[0]['response_seconds']) # target arrives at next event: excluded
+        self.assertEqual(values[1]['response_seconds'],5)
+        for seed in range(10):
+            for app in ('video_call','file_download'):
+                f=replay(pd.DataFrame(generate('cellular_degradation',seed)[0]),app)
+                self.assertEqual(f.loc[f.elapsed_seconds.isin([100,105]),'smartconnect'].tolist(),['cellular','cellular'])
+                self.assertEqual(f.loc[f.elapsed_seconds==110,'smartconnect'].item(),'wifi')
+                self.assertEqual(f.iloc[changes(f.smartconnect)].elapsed_seconds.tolist(),[30.,110.])
+                self.assertEqual(metrics(f,'smartconnect',app)['observed_guardrail_violation_windows'],2)

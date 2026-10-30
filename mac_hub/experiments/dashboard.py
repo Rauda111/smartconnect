@@ -50,11 +50,11 @@ def experiments():
         summary=aggregate[(aggregate.scenario==scenario)&(aggregate.application==app)].copy()
         metric=st.selectbox('Summary metric',list(summary.metric.unique()))
         bars=summary[summary.metric==metric].copy()
-        bars['lower']=bars['mean']-bars.sample_sd.fillna(0)
-        bars['upper']=bars['mean']+bars.sample_sd.fillna(0)
+        bars['lower']=bars['mean']-bars.sample_sd
+        bars['upper']=bars['mean']+bars.sample_sd
         base=alt.Chart(bars).encode(x='method:N')
         st.altair_chart(base.mark_bar().encode(y=alt.Y('mean:Q',title=metric),color='method:N')+
-                       base.mark_rule().encode(y='lower:Q',y2='upper:Q'),width='stretch')
+                       base.transform_filter('isValid(datum.sample_sd)').mark_rule().encode(y='lower:Q',y2='upper:Q'),width='stretch')
         st.caption('Mean ± sample SD across synthetic seed-level runs. Measured captures are separate; n=1 has no SD. No pooling of synthetic and measured evidence.')
         st.dataframe(summary,hide_index=True)
         with st.expander('Experimental report / poster wording'):

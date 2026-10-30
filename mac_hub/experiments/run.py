@@ -101,7 +101,9 @@ def build(output, seeds, measured=(), include_smoke=True):
         frame.to_csv(output/f'{name}.csv',index=False,float_format='%.10g')
     from mac_hub.experiments.visuals import plots, report
     plots(tables, output)
-    report(tables, output)
+    # Render the exact serialized evidence, avoiding rounding discrepancies
+    # between full-precision in-memory statistics and published CSV values.
+    report({name:pd.read_csv(output/f'{name}.csv') for name in tables}, output)
     files = sorted([*ROOT.glob('mac_hub/**/*.py'),ROOT/'smartconnect.py'])
     revision = subprocess.run(['git','rev-parse','HEAD'],cwd=ROOT,capture_output=True,text=True,check=True).stdout.strip()
     manifest = dict(schema_version=1, revision=revision, python=sys.version, seeds=seeds,
