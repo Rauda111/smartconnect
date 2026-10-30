@@ -4,12 +4,28 @@ import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
 import pandas as pd
 import streamlit as st
+from mac_hub.traffic.dashboard_evidence import PRESETS, resolve, load
 
 st.set_page_config(page_title='SmartConnect Phase 3',layout='wide')
 st.title('SmartConnect Phase 3 · controlled new-request traffic')
 st.warning('Stage A independently verifies the backend. Later requests need their own evidence to confirm egress. This read-only viewer starts no traffic or capture; existing sessions are not migrated.')
-path=Path(st.text_input('Request CSV','mac_hub/logs/phase3-approved-requests/requests.csv'))
-verification=Path(st.text_input('Verified request CSV (optional)','mac_hub/logs/phase3-verified/verified_requests.csv'))
+def choose_evidence():
+    values=PRESETS[st.session_state['traffic_evidence_preset']]
+    for key,value in zip(('traffic_request_path','traffic_verified_path','traffic_proof_path'),values):
+        st.session_state[key]=value
+
+
+if 'traffic_request_path' not in st.session_state:
+    for key,value in zip(('traffic_request_path','traffic_verified_path','traffic_proof_path'),next(iter(PRESETS.values()))):
+        st.session_state[key]=value
+st.selectbox('Evidence experiment',list(PRESETS),key='traffic_evidence_preset',on_change=choose_evidence)
+path=resolve(st.text_input('Request CSV',key='traffic_request_path'))
+verified_value=st.text_input('Verified request CSV (optional)',key='traffic_verified_path')
+proof_value=st.text_input('Verification report JSON (optional)',key='traffic_proof_path')
+verification=resolve(verified_value) if verified_value else None
+proof_path=resolve(proof_value) if proof_value else None
+st.caption('Presets select separate experiments. Editing a path does not transfer confirmation between datasets.')
+
 
 
 @st.fragment(run_every=3)
@@ -18,17 +34,21 @@ def view():
         st.info('Run the Stage A CLI first. Dry-run is the default; request execution is opt-in.')
         return
     try:
-        frame=pd.read_csv(path).dropna(subset=['request_id','status','end_epoch'])
+        frame,provenance=load(path,verification,proof_path)
         if frame.empty:
             st.info('Waiting for a complete request record.')
             return
-        if verification.is_file():
-            verified=pd.read_csv(verification)
-            common=verified[verified.request_id.isin(frame.request_id)]
-            frame=frame.merge(common[['request_id','capture_verified_egress','capture_egress_status']],on='request_id',how='left',validate='one_to_one')
+        st.caption(f'Request evidence: {path}')
+        st.write('Recorded traffic source:', ', '.join(sorted(frame.source.unique())))
+        if provenance['status']=='saved_packet_evidence_confirmed':
+            st.success(provenance['message'])
+            if provenance.get('capture_ended_epoch'):
+                stamp=pd.to_datetime(provenance['capture_ended_epoch'],unit='s',utc=True)
+                st.caption(f'Historical packet capture ended: {stamp.isoformat()} (UTC). This is saved evidence, not current live path validation.')
         else:
-            frame['capture_verified_egress']=None
-            frame['capture_egress_status']='unverified'
+            st.warning(provenance['message'])
+        with st.expander('Evidence paths and provenance'):
+            st.json(provenance)
         choices=st.multiselect('Show requested interfaces',sorted(frame.requested_interface.unique()),default=sorted(frame.requested_interface.unique()))
         shown=frame[frame.requested_interface.isin(choices)]
         columns=st.columns(4)

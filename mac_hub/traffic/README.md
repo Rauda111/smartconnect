@@ -164,12 +164,28 @@ The audit reads the already collected PCAPs under
 Raw PCAPs stay in that ignored local directory and are not committed. A fresh
 clone needs those locally retained artifacts to repeat packet-level auditing.
 Derived reports, exact packet metadata, original request/capture manifests and
-hashes are committed. In the dashboard set Request CSV to
-`mac_hub/traffic/evidence/controlled_final/requests.csv` or
-`mac_hub/traffic/evidence/live_workload/requests.csv`. Leave the optional verified
-CSV path absent for later workloads, so their egress remains explicitly unknown.
-For Stage A, select `evidence/stage_a_verification/source_requests.csv` and the
-corresponding `verified_requests.csv` using full repository-relative paths.
+hashes are committed. The dashboard now defaults to **Stage A — packet-confirmed clean capture**.
+Use the **Evidence experiment** selector to switch to the controlled or live
+workload. Selecting a preset updates all evidence paths together. Paths resolve
+from the repository root, independently of the shell working directory.
+
+| Dataset | Request CSV | Verified request CSV | Verification report JSON |
+|---|---|---|---|
+| Confirmed clean Stage A | `mac_hub/traffic/evidence/stage_a_verification/source_requests.csv` | `mac_hub/traffic/evidence/stage_a_verification/verified_requests.csv` | `mac_hub/traffic/evidence/stage_a_verification/stage_a.json` |
+| Controlled, 32 requests, unverified egress | `mac_hub/traffic/evidence/controlled_final/requests.csv` | Leave blank | Leave blank |
+| Live, 8 requests, unverified egress | `mac_hub/traffic/evidence/live_workload/requests.csv` | Leave blank | Leave blank |
+
+The earlier `mac_hub/logs/phase3-approved-requests/requests.csv` remains selectable
+as **Earlier Stage A — unverified capture workflow**. It is not the later clean
+capture's request dataset. The custom/live-log preset supports other paths.
+
+Saved packet confirmation requires the original request-file SHA-256, exact
+request IDs and rows, and per-request paths to agree with both the verified CSV
+and the passed verification JSON. Labels already present in a custom CSV are
+ignored without matching provenance. Missing/mismatched evidence is displayed
+as unverified. The source file paths, historical capture completion time and
+capture-manifest hash are visible; loading the saved report is not a new capture
+or a claim that the currently active network path has just been validated.
 
 Dry-run both profiles and the controlled deterioration/recovery schedule:
 

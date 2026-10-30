@@ -298,3 +298,46 @@ class TrafficTests(unittest.TestCase):
             self.assertFalse(list(app.exception))
             self.assertTrue(any(m.label=='Recommended new-request path changes' and m.value=='2' for m in app.metric))
             self.assertTrue(any(m.label=='Independently confirmed path changes' and m.value=='Unverified' for m in app.metric))
+
+    def test_dashboard_evidence_presets_confirm_only_clean_stage_a(self):
+        from streamlit.testing.v1 import AppTest
+        from mac_hub.traffic.dashboard_evidence import PRESETS
+        app=AppTest.from_file(str(Path('mac_hub/traffic/dashboard.py').resolve())).run(timeout=30)
+        self.assertFalse(list(app.exception))
+        self.assertEqual(next(m for m in app.metric if m.label=='Packet-confirmed requests').value,'4')
+        self.assertTrue(any('Saved clean Stage A' in item.value for item in app.success))
+        for name,count in [(list(PRESETS)[1],'32'),(list(PRESETS)[2],'8')]:
+            next(s for s in app.selectbox if s.label=='Evidence experiment').select(name).run(timeout=30)
+            self.assertFalse(list(app.exception))
+            self.assertEqual(next(m for m in app.metric if m.label=='Actual request attempts').value,count)
+            self.assertEqual(next(m for m in app.metric if m.label=='Packet-confirmed requests').value,'0')
+            self.assertEqual(next(m for m in app.metric if m.label=='Independently confirmed path changes').value,'Unverified')
+            self.assertEqual(app.text_input[1].value,'')
+            self.assertEqual(app.text_input[2].value,'')
+        next(s for s in app.selectbox if s.label=='Evidence experiment').select(list(PRESETS)[0]).run(timeout=30)
+        self.assertEqual(next(m for m in app.metric if m.label=='Packet-confirmed requests').value,'4')
+
+    def test_dashboard_evidence_rejects_mismatches_and_forged_labels(self):
+        from mac_hub.traffic.dashboard_evidence import load, resolve, PRESETS
+        import pandas as pd
+        request_path,verified_path,proof_path=map(resolve,next(iter(PRESETS.values())))
+        frame,provenance=load(request_path,verified_path,proof_path)
+        self.assertEqual(provenance['status'],'saved_packet_evidence_confirmed')
+        self.assertEqual(frame.capture_egress_status.eq('pcap_confirmed').sum(),4)
+        controlled=resolve(list(PRESETS.values())[1][0])
+        frame,provenance=load(controlled,verified_path,proof_path)
+        self.assertTrue(frame.capture_egress_status.eq('unverified').all())
+        self.assertIn('hash differs',provenance['message'])
+        with tempfile.TemporaryDirectory() as tmp:
+            fake=Path(tmp)/'verified.csv'
+            copied=pd.read_csv(verified_path)
+            copied.loc[0,'request_duration_ms']+=1
+            copied.to_csv(fake,index=False)
+            frame,provenance=load(request_path,fake,proof_path)
+            self.assertTrue(frame.capture_egress_status.eq('unverified').all())
+            frame,provenance=load(verified_path)
+            self.assertTrue(frame.capture_egress_status.eq('unverified').all())
+            proof=json.loads(proof_path.read_text());proof.pop('capture_manifest_sha256')
+            bad=Path(tmp)/'proof.json';bad.write_text(json.dumps(proof))
+            frame,provenance=load(request_path,verified_path,bad)
+            self.assertTrue(frame.capture_egress_status.eq('unverified').all())
