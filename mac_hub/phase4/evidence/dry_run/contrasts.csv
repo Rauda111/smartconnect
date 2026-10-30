@@ -1,0 +1,5 @@
+same_requested_path_pairs,different_requested_path_pairs,application,metric,paired_successes,trials,smart_minus_wifi_mean,cluster_bootstrap_low,cluster_bootstrap_high
+0,0,file_download,request_duration_ms,0,0,,,
+0,0,file_download,goodput_mbps,0,0,,,
+0,0,video_call,request_duration_ms,0,0,,,
+0,0,video_call,goodput_mbps,0,0,,,

@@ -1,0 +1,5 @@
+application,policy,slots,actual_attempts,successes,failures,no_eligible_slots,mean_success_response_ms,mean_success_goodput_mbps,recommended_path_changes,availability_transitions,max_failed_slot_streak,max_bracketed_failure_gap_ms,packet_confirmed_requests
+file_download,smartconnect,4,0,0,0,4,,,0,0,0,,0
+file_download,wifi_first,4,0,0,0,4,,,0,0,0,,0
+video_call,smartconnect,4,0,0,0,4,,,0,0,0,,0
+video_call,wifi_first,4,0,0,0,4,,,0,0,0,,0
