@@ -1,0 +1,3 @@
+method,cycles,recommendation_changes,no_recommendation_cycles,latency_observed_cycles,latency_mean,loss_observed_cycles,loss_mean,rtt_variation_observed_cycles,rtt_variation_mean,observed_breach_or_no_path_cycles,scope
+baseline,60,0,0,60,61.666666666666664,60,0.0,60,2.0,25,paired probe selection proxy; unknown jitter/throughput guardrails excluded
+recommended,60,2,0,60,29.583333333333332,60,0.0,60,2.0,2,paired probe selection proxy; unknown jitter/throughput guardrails excluded

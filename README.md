@@ -270,3 +270,14 @@ The scripts in [analysis/](analysis/) preserve the finalized experiment workflow
 ## AI-use declaration
 
 AI assistance was used to help implement and verify the initial simulation/baseline work and to prepare this README. The results reported here come from the repository's stored experiment tables. The team remains responsible for reviewing the implementation, evidence, and competition submission.
+
+## macOS real-network monitoring — Phase 1
+
+The separate [Mac Hub implementation](mac_hub/README.md) monitors home Wi-Fi and
+iPhone USB internet with interface-bound ICMP probes, partial-metric application
+scoring, recommendation stability, CSV evidence, a local live dashboard and a
+paired Wi-Fi-first comparison. It is decision-only: no routes or network settings
+are changed. RSSI, application jitter and throughput remain unavailable. Existing
+simulation and Cisco implementations are preserved. See the linked setup,
+experimental method, limitations and draft QoS/QoE guidelines before interpreting
+results.

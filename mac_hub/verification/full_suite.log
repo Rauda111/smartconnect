@@ -1,0 +1,233 @@
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:181: IOError: sysctlbyname failed for 'hw.l1dcachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:181: IOError: sysctlbyname failed for 'hw.l2cachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:181: IOError: sysctlbyname failed for 'hw.l3cachesize'. Detail: [errno 1] Operation not permitted
+test_baseline_without_handovers (test_app.HandoverDisplayTests.test_baseline_without_handovers) ... 2026-10-30 19:26:31.389 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-10-30 19:26:32.048 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-10-30 19:26:32.065 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-10-30 19:26:32.074 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-10-30 19:26:32.083 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-10-30 19:26:32.091 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-10-30 19:26:32.099 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-10-30 19:26:32.107 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+ok
+test_compare_both_handover_tables (test_app.HandoverDisplayTests.test_compare_both_handover_tables) ... 2026-10-30 19:26:32.114 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-10-30 19:26:32.389 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-10-30 19:26:32.401 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-10-30 19:26:32.410 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-10-30 19:26:32.419 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-10-30 19:26:32.429 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-10-30 19:26:32.437 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-10-30 19:26:32.446 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-10-30 19:26:32.459 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-10-30 19:26:32.462 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-10-30 19:26:32.466 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-10-30 19:26:32.469 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-10-30 19:26:32.495 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-10-30 19:26:32.740 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-10-30 19:26:32.752 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-10-30 19:26:32.761 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-10-30 19:26:32.770 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-10-30 19:26:32.779 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-10-30 19:26:32.789 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-10-30 19:26:32.798 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-10-30 19:26:32.811 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-10-30 19:26:32.813 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-10-30 19:26:32.816 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-10-30 19:26:32.819 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+ok
+test_competition_demo_and_stored_results (test_app.HandoverDisplayTests.test_competition_demo_and_stored_results) ... 2026-10-30 19:26:32.832 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-10-30 19:26:33.074 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-10-30 19:26:33.086 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-10-30 19:26:33.095 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-10-30 19:26:33.104 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-10-30 19:26:33.113 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-10-30 19:26:33.123 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-10-30 19:26:33.132 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-10-30 19:26:33.145 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-10-30 19:26:33.148 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-10-30 19:26:33.151 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+ok
+test_bound_command_and_failures (test_mac_hub.MacHubTests.test_bound_command_and_failures) ... ok
+test_csv_roundtrip_and_dashboard (test_mac_hub.MacHubTests.test_csv_roundtrip_and_dashboard) ... 2026-10-30 19:26:33.202 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+test_hold_dwell_outage_and_causality (test_mac_hub.MacHubTests.test_hold_dwell_outage_and_causality) ... ok
+test_parser_adjacent_only_and_missing (test_mac_hub.MacHubTests.test_parser_adjacent_only_and_missing) ... ok
+test_scenarios_profiles_and_coverage (test_mac_hub.MacHubTests.test_scenarios_profiles_and_coverage) ... ok
+test_baseline_and_handovers (test_simulation.SimulationTests.test_baseline_and_handovers) ... ok
+test_bounds_and_reproducibility (test_simulation.SimulationTests.test_bounds_and_reproducibility) ... ok
+test_configuration (test_simulation.SimulationTests.test_configuration) ... ok
+test_scenario_behavior_across_seeds (test_simulation.SimulationTests.test_scenario_behavior_across_seeds) ... ok
+test_unknown_scenario (test_simulation.SimulationTests.test_unknown_scenario) ... ok
+test_cli_identical_traces (test_smartconnect.SmartConnectTests.test_cli_identical_traces) ... ok
+test_design_contract (test_smartconnect.SmartConnectTests.test_design_contract) ... ok
+test_hold_and_guardrail (test_smartconnect.SmartConnectTests.test_hold_and_guardrail) ... ok
+test_reproducibility_causality_and_rules (test_smartconnect.SmartConnectTests.test_reproducibility_causality_and_rules) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 8.267s
+
+OK
+congested_wifi | method=baseline | application=video_call | seed=42 | 100 simulated time steps
+Selected: WiFi=100, 5G=0; handovers=0 at time steps []
+CSV: /var/folders/k9/6hdy9t7d2rd_z2wmw9trdmpw0000gn/T/tmp4bbez7m_/outputs/congested_wifi_seed42_baseline.csv
+Verification plots: 0 PNG files in /var/folders/k9/6hdy9t7d2rd_z2wmw9trdmpw0000gn/T/tmp4bbez7m_/plots
+congested_wifi | method=smartconnect | application=video_call | seed=42 | 100 simulated time steps
+Selected: WiFi=53, 5G=47; handovers=1 at time steps [53]
+CSV: /var/folders/k9/6hdy9t7d2rd_z2wmw9trdmpw0000gn/T/tmp4bbez7m_/outputs/congested_wifi_seed42_smartconnect_video_call.csv
+Verification plots: 0 PNG files in /var/folders/k9/6hdy9t7d2rd_z2wmw9trdmpw0000gn/T/tmp4bbez7m_/plots

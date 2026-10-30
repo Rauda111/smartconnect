@@ -1,0 +1,31 @@
+{
+  "arguments": {
+    "wifi": "en0",
+    "cellular": "en6",
+    "target": "1.1.1.1",
+    "count": "5",
+    "pause": "2",
+    "cycles": "1",
+    "application": "video_call",
+    "output": "/tmp/smartconnect-phase1-live-check.csv"
+  },
+  "policy": {
+    "margin": 0.05,
+    "hold": 3,
+    "dwell_seconds": 30,
+    "trend_window": 5,
+    "trend_weight": 0.5
+  },
+  "created_utc": "2026-10-30T15:25:30.835775+00:00",
+  "source_hashes": {
+    "mac_hub/scenarios.py": "53c6c111c976722c57820813a2ceb72528d37f7742af7fb374c41cd45a67ff84",
+    "mac_hub/run.py": "65dd4d4f06b139a2ab86442baf5e9ba37515a7c67b7dc9eb307c543344b9e6cb",
+    "mac_hub/monitor.py": "580a6e31c6c75f1c8c4b54c4174562538111c0d728784f6d0ba975bd892b4b6e",
+    "mac_hub/__init__.py": "3ee218e2de09c6723f23cc820bdee6d657b91a603c202ef14dc1b5913afdecad",
+    "mac_hub/dashboard.py": "ab3c67dadd0a6741b1abf1eb3239822ac62ff4a8104c47ce2960fe416a64dca7",
+    "mac_hub/engine.py": "7d49fe96c59820fa0eae6b4429db698e1ed3f824d44eee4f71b949d1cd424337",
+    "mac_hub/compare.py": "0ba5acd8494876efcea4506692632957a338e9e608768e700fb16003419dd7cf",
+    "smartconnect.py": "8781b945ad48de38f78562b06bad6e9dc4f00045c39a372a682e9bb75c73ee5d"
+  },
+  "revision": "5f3d1a09058af2b5800c0a6e82f90d66a13b2381"
+}
