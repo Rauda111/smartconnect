@@ -1,0 +1,54 @@
+{
+  "classification": "unsuitable_location",
+  "checks": {
+    "wifi_rtt_deterioration": false,
+    "wifi_goodput_deterioration": false,
+    "cellular_B_rtt_stable": false,
+    "cellular_return_rtt_stable": true,
+    "cellular_B_goodput_stable": true,
+    "cellular_return_goodput_stable": true,
+    "wifi_return_rtt": true,
+    "wifi_return_goodput": true
+  },
+  "icmp_sent": 240,
+  "icmp_received": 240,
+  "actual_http_requests": 24,
+  "completed_body_bytes": 1572864,
+  "physical_egress": "unverified",
+  "wifi_B_rtt_change_ms": -0.6105999999999998,
+  "wifi_B_goodput_change_pct": -18.26954938706319,
+  "cellular_B_rtt_change_ms": -24.428400000000003,
+  "cellular_rtt_tolerance_ms": 20.184135,
+  "wifi_return_goodput_ratio": 0.8189710127360297,
+  "timeline": [
+    {
+      "stage": "A_before",
+      "icmp_created_epoch": 1793382951.012235,
+      "first_icmp_completed_epoch": 1793382961.167106,
+      "last_icmp_completed_epoch": 1793382994.588452,
+      "http_started_epoch": 1793383000.67541,
+      "http_ended_epoch": 1793383012.612736
+    },
+    {
+      "stage": "B",
+      "icmp_created_epoch": 1793383446.843857,
+      "first_icmp_completed_epoch": 1793383457.041788,
+      "last_icmp_completed_epoch": 1793383490.386277,
+      "http_started_epoch": 1793383496.840193,
+      "http_ended_epoch": 1793383507.944573
+    },
+    {
+      "stage": "A_return",
+      "icmp_created_epoch": 1793383679.817095,
+      "first_icmp_completed_epoch": 1793383690.347457,
+      "last_icmp_completed_epoch": 1793383723.940892,
+      "http_started_epoch": 1793383730.1223302,
+      "http_ended_epoch": 1793383740.970908
+    }
+  ],
+  "limitations": [
+    "No packet capture or original response bodies; hashes cannot establish physical egress or independently reproduce body content.",
+    "No operator notes found in preserved inventory; exact movement, settling and phone placement are unverified.",
+    "Sequential ICMP/HTTP windows and long inter-stage gaps confound attribution; no policy-driven HTTP selection was tested."
+  ]
+}

@@ -1,0 +1,125 @@
+timestamp,elapsed_seconds,source,recommended,previous,recommendation_change,baseline,explanation,advantage,hold_count,coverage,application,wifi_interface,wifi_status,wifi_latency,wifi_loss,wifi_rtt_variation,wifi_sent,wifi_received,wifi_adjacent_pairs,wifi_duration_seconds,wifi_error,wifi_raw_output,wifi_rssi,wifi_jitter,wifi_throughput,wifi_score,wifi_adjusted_score,wifi_trend,wifi_trend_slope,wifi_breaches,wifi_unknown_guardrails,cellular_interface,cellular_status,cellular_latency,cellular_loss,cellular_rtt_variation,cellular_sent,cellular_received,cellular_adjacent_pairs,cellular_duration_seconds,cellular_error,cellular_raw_output,cellular_rssi,cellular_jitter,cellular_throughput,cellular_score,cellular_adjusted_score,cellular_trend,cellular_trend_slope,cellular_breaches,cellular_unknown_guardrails,target
+2026-10-30T17:56:01.167106+00:00,10.154617915977724,measured_icmp,wifi,none,False,wifi,Availability reset: recommend usable path immediately,,0,0.6,video_call,en0,reachable,15.5111,0.0,7.028888888888889,10,10,9,9.060474666999653,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=59 time=22.553 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=59 time=19.308 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=59 time=10.398 ms
+64 bytes from 1.1.1.1: icmp_seq=3 ttl=59 time=10.319 ms
+64 bytes from 1.1.1.1: icmp_seq=4 ttl=59 time=13.793 ms
+64 bytes from 1.1.1.1: icmp_seq=5 ttl=59 time=34.481 ms
+64 bytes from 1.1.1.1: icmp_seq=6 ttl=59 time=10.238 ms
+64 bytes from 1.1.1.1: icmp_seq=7 ttl=59 time=10.084 ms
+64 bytes from 1.1.1.1: icmp_seq=8 ttl=59 time=11.386 ms
+64 bytes from 1.1.1.1: icmp_seq=9 ttl=59 time=12.551 ms
+
+--- 1.1.1.1 ping statistics ---
+10 packets transmitted, 10 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 10.084/15.511/34.481/7.503 ms
+",,,,0.9513050335570469,0.9513050335570469,Stable,0.0,,jitter,en6,reachable,72.1329,0.0,49.084666666666664,10,10,9,9.061736332951114,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=55 time=58.526 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=55 time=97.152 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=55 time=52.758 ms
+64 bytes from 1.1.1.1: icmp_seq=3 ttl=55 time=93.661 ms
+64 bytes from 1.1.1.1: icmp_seq=4 ttl=55 time=47.631 ms
+64 bytes from 1.1.1.1: icmp_seq=5 ttl=55 time=89.056 ms
+64 bytes from 1.1.1.1: icmp_seq=6 ttl=55 time=44.231 ms
+64 bytes from 1.1.1.1: icmp_seq=7 ttl=55 time=88.994 ms
+64 bytes from 1.1.1.1: icmp_seq=8 ttl=55 time=126.370 ms
+64 bytes from 1.1.1.1: icmp_seq=9 ttl=55 time=22.950 ms
+
+--- 1.1.1.1 ping statistics ---
+10 packets transmitted, 10 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 22.950/72.133/126.370/29.933 ms
+",,,,0.7612989932885905,0.7612989932885905,Stable,0.0,latency,jitter,1.1.1.1
+2026-10-30T17:56:12.304952+00:00,21.29228716599755,measured_icmp,wifi,wifi,False,wifi,Hold: insufficient advantage or candidate breaches observed guardrails,-0.2001290268456376,0,0.6,video_call,en0,reachable,13.8124,0.0,2.950555555555556,10,10,9,9.12539487495087,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=59 time=10.190 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=59 time=13.393 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=59 time=19.113 ms
+64 bytes from 1.1.1.1: icmp_seq=3 ttl=59 time=15.381 ms
+64 bytes from 1.1.1.1: icmp_seq=4 ttl=59 time=15.815 ms
+64 bytes from 1.1.1.1: icmp_seq=5 ttl=59 time=11.017 ms
+64 bytes from 1.1.1.1: icmp_seq=6 ttl=59 time=11.918 ms
+64 bytes from 1.1.1.1: icmp_seq=7 ttl=59 time=13.242 ms
+64 bytes from 1.1.1.1: icmp_seq=8 ttl=59 time=11.618 ms
+64 bytes from 1.1.1.1: icmp_seq=9 ttl=59 time=16.437 ms
+
+--- 1.1.1.1 ping statistics ---
+10 packets transmitted, 10 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 10.190/13.812/19.113/2.670 ms
+",,,,0.9570053691275168,0.9598555369127517,Improving,0.005700335570469894,,jitter,en6,reachable,72.4453,0.0,54.23722222222222,10,10,9,9.126729083945975,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=55 time=59.721 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=55 time=94.147 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=55 time=52.909 ms
+64 bytes from 1.1.1.1: icmp_seq=3 ttl=55 time=87.804 ms
+64 bytes from 1.1.1.1: icmp_seq=4 ttl=55 time=47.368 ms
+64 bytes from 1.1.1.1: icmp_seq=5 ttl=55 time=85.136 ms
+64 bytes from 1.1.1.1: icmp_seq=6 ttl=55 time=121.488 ms
+64 bytes from 1.1.1.1: icmp_seq=7 ttl=55 time=29.160 ms
+64 bytes from 1.1.1.1: icmp_seq=8 ttl=55 time=115.524 ms
+64 bytes from 1.1.1.1: icmp_seq=9 ttl=55 time=31.196 ms
+
+--- 1.1.1.1 ping statistics ---
+10 packets transmitted, 10 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 29.160/72.445/121.488/31.427 ms
+",,,,0.7602506711409396,0.7597265100671141,Stable,-0.0010483221476509375,latency,jitter,1.1.1.1
+2026-10-30T17:56:23.409070+00:00,32.39660008298233,measured_icmp,wifi,wifi,False,wifi,Hold: insufficient advantage or candidate breaches observed guardrails,-0.03386593959731543,0,0.6,video_call,en0,reachable,15.0476,0.0,7.369333333333333,10,10,9,9.094115584040992,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=59 time=10.472 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=59 time=18.438 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=59 time=15.374 ms
+64 bytes from 1.1.1.1: icmp_seq=3 ttl=59 time=34.098 ms
+64 bytes from 1.1.1.1: icmp_seq=4 ttl=59 time=11.561 ms
+64 bytes from 1.1.1.1: icmp_seq=5 ttl=59 time=12.614 ms
+64 bytes from 1.1.1.1: icmp_seq=6 ttl=59 time=10.264 ms
+64 bytes from 1.1.1.1: icmp_seq=7 ttl=59 time=15.687 ms
+64 bytes from 1.1.1.1: icmp_seq=8 ttl=59 time=10.816 ms
+64 bytes from 1.1.1.1: icmp_seq=9 ttl=59 time=11.152 ms
+
+--- 1.1.1.1 ping statistics ---
+10 packets transmitted, 10 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 10.264/15.048/34.098/6.855 ms
+",,,,0.9528604026845637,0.9532492449664429,Stable,0.0007776845637584295,,jitter,en6,reachable,34.4456,0.0,17.830222222222222,10,10,9,9.09395429189317,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=55 time=62.777 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=55 time=101.381 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=55 time=19.736 ms
+64 bytes from 1.1.1.1: icmp_seq=3 ttl=55 time=21.248 ms
+64 bytes from 1.1.1.1: icmp_seq=4 ttl=55 time=21.418 ms
+64 bytes from 1.1.1.1: icmp_seq=5 ttl=55 time=21.250 ms
+64 bytes from 1.1.1.1: icmp_seq=6 ttl=55 time=38.615 ms
+64 bytes from 1.1.1.1: icmp_seq=7 ttl=55 time=20.402 ms
+64 bytes from 1.1.1.1: icmp_seq=8 ttl=55 time=18.412 ms
+64 bytes from 1.1.1.1: icmp_seq=9 ttl=55 time=19.217 ms
+
+--- 1.1.1.1 ping statistics ---
+10 packets transmitted, 10 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 18.412/34.446/101.381/25.925 ms
+",,,,0.8877664429530201,0.9193833053691275,Improving,0.06323372483221479,,jitter,1.1.1.1
+2026-10-30T17:56:34.588452+00:00,43.575142250047065,measured_icmp,wifi,wifi,False,wifi,Hold: insufficient advantage or candidate breaches observed guardrails,-0.03745828859060396,0,0.6,video_call,en0,reachable,43.6301,0.0,32.41322222222222,10,10,9,9.081431749975309,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=59 time=9.938 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=59 time=16.870 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=59 time=16.555 ms
+64 bytes from 1.1.1.1: icmp_seq=3 ttl=59 time=101.715 ms
+64 bytes from 1.1.1.1: icmp_seq=4 ttl=59 time=97.391 ms
+64 bytes from 1.1.1.1: icmp_seq=5 ttl=59 time=150.404 ms
+64 bytes from 1.1.1.1: icmp_seq=6 ttl=59 time=10.901 ms
+64 bytes from 1.1.1.1: icmp_seq=7 ttl=59 time=10.057 ms
+64 bytes from 1.1.1.1: icmp_seq=8 ttl=59 time=10.785 ms
+64 bytes from 1.1.1.1: icmp_seq=9 ttl=59 time=11.685 ms
+
+--- 1.1.1.1 ping statistics ---
+10 packets transmitted, 10 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 9.938/43.630/150.404/49.545 ms
+",,,,0.8569459731543624,0.842584865771812,Degrading,-0.028722214765100652,,jitter,en6,reachable,62.428,0.0,49.67133333333333,10,10,9,9.169163375045173,,"PING 1.1.1.1 (1.1.1.1): 56 data bytes
+64 bytes from 1.1.1.1: icmp_seq=0 ttl=55 time=28.048 ms
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=55 time=110.613 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=55 time=49.998 ms
+64 bytes from 1.1.1.1: icmp_seq=3 ttl=55 time=36.500 ms
+64 bytes from 1.1.1.1: icmp_seq=4 ttl=55 time=43.812 ms
+64 bytes from 1.1.1.1: icmp_seq=5 ttl=55 time=98.109 ms
+64 bytes from 1.1.1.1: icmp_seq=6 ttl=55 time=36.840 ms
+64 bytes from 1.1.1.1: icmp_seq=7 ttl=55 time=92.428 ms
+64 bytes from 1.1.1.1: icmp_seq=8 ttl=55 time=36.154 ms
+64 bytes from 1.1.1.1: icmp_seq=9 ttl=55 time=91.778 ms
+
+--- 1.1.1.1 ping statistics ---
+10 packets transmitted, 10 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 28.048/62.428/110.613/30.094 ms
+",,,,0.7938657718120805,0.8051265771812081,Improving,0.02252161073825505,latency,jitter,1.1.1.1

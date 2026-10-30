@@ -1,1 +1,2 @@
 mac_hub/traffic/evidence/**/*.csv -text whitespace=cr-at-eol
+mac_hub/phase4/evidence/location_pilot_20261030T175502Z/raw/**/*.csv -text whitespace=cr-at-eol

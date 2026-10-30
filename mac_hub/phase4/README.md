@@ -206,3 +206,37 @@ Calibration failures do not prove the whole interface is down. If ICMP remains
 reachable but the endpoint's HTTP service fails, the current controller can still
 recommend that path under its fallback policy. These failures remain in outcome
 logs; this framework does not supply service-specific failover guarantees.
+
+## Audited downstairs pilot and next experiment (30 October 2026)
+
+The completed location pilot is retained as an **unsuitable-location result** at
+`mac_hub/phase4/evidence/location_pilot_20261030T175502Z`. Its raw files are exact
+copies; the ignored originals in `mac_hub/logs` remain unchanged. The independent
+stdlib auditor reproduces every summary value, validates manifests against Git
+source objects and detects rehashed false summaries as well as raw corruption:
+
+```sh
+python -m mac_hub.phase4.pilot_audit mac_hub/phase4/evidence/location_pilot_20261030T175502Z
+python -m unittest test_pilot_audit -v
+```
+
+See that directory's `REPORT.md` and `audit.json`: Wi-Fi goodput fell only 18.27%,
+Wi-Fi RTT did not increase, and cellular RTT failed the predeclared stability
+screen. All 240 echo attempts and 24 HTTP requests succeeded. No physical egress
+or QoE gain was established. The original collection protocol is
+`PILOT_LOCATION_CHECK.md`; its historical "prepared/not executed" header describes
+its drafting state, not the later completed pilot. The earlier unexecuted
+location full-workload proposal remains in `WIFI_DETERIORATION_RECOVERY_PLAN.md`.
+
+The replacement proposal, `CONTROLLED_AP_EXPERIMENT_PLAN.md`, combines a dedicated
+AP with a Linux downlink impairment bridge on a test-only branch. It lists
+hardware, exact conditional setup, rollback, feasibility gates and an achievable
+recorded/live EDGE demonstration. It is **planning only**: no AP association,
+Linux settings, impairment, workload or capture has been executed/approved.
+
+Verification for this update: 61 automated tests passed, including raw-corruption
+and rehashed-summary rejection tests. Phase 2, Phase 3, all three original Phase 4
+artifact audits, and the new pilot audit passed offline. New logs are under
+`verification/location_pilot/`; earlier logs/results are unchanged. The pilot
+source-provenance audit requires its collection commit `7bd12b0` to be available
+in local Git history; a shallow clone may need that history fetched separately.

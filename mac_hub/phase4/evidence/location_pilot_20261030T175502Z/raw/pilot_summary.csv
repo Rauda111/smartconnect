@@ -1,0 +1,7 @@
+stage,network,icmp_windows,reachable_windows,valid_rtt_windows,median_window_rtt_ms,median_window_rtt_variation_ms,sent,received,pooled_loss_pct,http_attempts,valid_64k_successes,http_failed_or_wrong_length,median_success_response_ms,median_bounded_goodput_mbps,egress_status
+A_before,wifi,4,4,4,15.27935,7.199111111111111,40,40,0.0,4,4,0,225.08808347629383,2.329827665930904,unverified
+A_before,cellular,4,4,4,67.28045,49.37799999999999,40,40,0.0,4,4,0,325.77647955622524,1.6187793705734705,unverified
+B,wifi,4,4,4,14.66875,4.170333333333334,40,40,0.0,4,4,0,275.4846459720284,1.9041786498701962,unverified
+B,cellular,4,4,4,42.852050000000006,17.937444444444445,40,40,0.0,4,4,0,320.9425624809228,1.637357392185263,unverified
+A_return,wifi,4,4,4,21.0535,11.385111111111112,40,40,0.0,4,4,0,275.43968753889203,1.9080613230678527,unverified
+A_return,cellular,4,4,4,82.2817,41.9915,40,40,0.0,4,4,0,363.53395803598687,1.4421986434162277,unverified

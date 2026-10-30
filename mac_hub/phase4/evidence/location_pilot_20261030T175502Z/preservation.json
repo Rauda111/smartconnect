@@ -1,0 +1,21 @@
+{
+  "source_directory": "mac_hub/logs/location-pilot-20261030T175502Z",
+  "classification": "unsuitable_location",
+  "files": {
+    "A_before-https/manifest.json": "9bf922dd3b65ff46af1f3b5118864499c2c2c3e6ff913ab07eec4a8d4c5dd610",
+    "A_before-https/requests.csv": "29fe3a217ef55dd67cdad50d8bc428b8bdb1e7eba86bdfa4f63bf33af33335ea",
+    "A_before-icmp.csv": "e0a4895c86cc0d52b4562e92d6a846c7cf37f7cbd140a21debd9b3c2ebffd68e",
+    "A_before-icmp.manifest.json": "cd81cd2fe108bf37bc13c3d335a0a0a260151f06e1f761c12ff8d2b11af37cec",
+    "A_return-https/manifest.json": "3786b12ac518403f74a122bf7f2c828cbec87928c1a22b84b765d65abfab621f",
+    "A_return-https/requests.csv": "760b5d3eb4141639259894781fc513270b262727a6d9052d7ca97c3e4fd9dbee",
+    "A_return-icmp.csv": "914ca975e0c86ded964eb60e02b0c518559e7da2276e638ed1d771163bdbd5d2",
+    "A_return-icmp.manifest.json": "488f852ffb9e620510eaa47de4d897fb28c1f4ad08a756a26b8c83331cd5e095",
+    "B-https/manifest.json": "ab3c5eb49048e5a635b731e7c93d8c6eb67c2b436102af08fa0637b97fc3dcc7",
+    "B-https/requests.csv": "e4b1bb4cbc4aa1f0e3a38419d81a2e615d7aa43470a744d3eebdaebf1621cc2c",
+    "B-icmp.csv": "4e05150f8e15eb30cd5f5b1f0dce54b753009e993854b226e62e99aede8dfe89",
+    "B-icmp.manifest.json": "cc7ae4ebea4a97919f266aea7e312252efddd6b8d18bf6441f1e8c12fbac1ab3",
+    "endpoint-ipv4.txt": "5b17fb3751bce2eda8ae90519a69534e1dcf3b4b03fba75c6643f9443f401873",
+    "pilot_summary.csv": "147ed54a539b802daa2081b690febd8d346e88047e6b272c9d05bdf14d1a4c1b"
+  },
+  "hash_scope": "Established during preservation; not signed collection-time attestations"
+}

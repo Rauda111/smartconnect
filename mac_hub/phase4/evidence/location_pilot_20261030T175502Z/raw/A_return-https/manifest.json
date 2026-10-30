@@ -1,0 +1,43 @@
+{
+  "uid": 501,
+  "stage": "A",
+  "mode": "actual_https",
+  "target": {
+    "address": "162.159.140.220",
+    "server_name": "speed.cloudflare.com",
+    "path": "/__down?bytes=65536",
+    "port": 443,
+    "timeout": 5.0,
+    "max_bytes": 65536
+  },
+  "interfaces": [
+    "en0",
+    "en6",
+    "en6",
+    "en0",
+    "en6",
+    "en0",
+    "en0",
+    "en6"
+  ],
+  "platform": "macOS-10.16-x86_64-i386-64bit-Mach-O",
+  "python": "3.13.5",
+  "started_epoch": 1793383730.1223302,
+  "policy": "manual sequence only; no SmartConnect integration",
+  "source_sha256": {
+    "mac_hub/traffic/dashboard_evidence.py": "cd2bc4d16e606a4b3bef218b1d3582fa3ed019cc5450060d9c09983c3356e540",
+    "mac_hub/traffic/audit.py": "95d0f67b1b8eecaa764b8c5812aa4b2e7985f80a6f842c9902718529a6d4bac2",
+    "mac_hub/traffic/run_stage_a.py": "37c20ee366f952e8026a0ed3b53f6e392a665166d4ef07cd93a7518fc3dc4bd5",
+    "mac_hub/traffic/client.py": "395f1928193512a0f11edcd66fed4ee4dc717a227b127b0785f58b8af293a41c",
+    "mac_hub/traffic/__init__.py": "9a0489537252260008170b282ba480d74ad9e26480eff7b7247856dacd6c5603",
+    "mac_hub/traffic/dashboard.py": "5f2b5528315258c499305d36c62dc445eb6401e464545ff8f355218763f3630e",
+    "mac_hub/traffic/experiment.py": "98124ccb0e2e36a605a21be44c33da6c9adc66e38899e404ac75398f47731fcd",
+    "mac_hub/traffic/capture.py": "44d0c309a23efdcd94f0038a47b3199cb055eaa700ce5cebf64b6ee0f5fd96a2",
+    "mac_hub/traffic/verify.py": "191b302d531ece7c9a1bb3b30daa451e881611f24c688c019642e5ca05c41875",
+    "mac_hub/traffic/compare.py": "166130a36432f368037f5fa9eb418d4495db89401579457efbf01fd7c3c6548a",
+    "mac_hub/traffic/report.py": "7db0a0f4d40d6a9084fbf6f8a67cf6f03d031318cd27e7fb3f9c24284063f895"
+  },
+  "revision": "7bd12b0f7872b592e0f2e3ef95078ed87fb2f12e",
+  "ended_epoch": 1793383740.970908,
+  "cancelled": false
+}
