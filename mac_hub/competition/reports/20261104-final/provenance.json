@@ -1,0 +1,48 @@
+{
+  "original_sha256": {
+    "dorm-continuous-20261103": {
+      "dorm-continuous-20261103.csv": "905151945a28586d3833592531a3ab9ea1dda1aa9087757e1600ac8b22825953",
+      "dorm-continuous-20261103.manifest.json": "30b17785290190aa8ee6b2bd41687b6707ad16e475276c03e1a7e8d961afc3e6"
+    },
+    "smartconnect-smoke-20261103T202919Z": {
+      "events.jsonl": "55e4ab1ca8cacf8dc790650d0e7080656cd563ba342429871050b486934d831b",
+      "manifest.json": "28848044b72e27d44a18a8778588cc75f695b3bb179b3021f6e7284eadda951f",
+      "requests.jsonl": "873b087c46384d403a63e4e0f07f00fe57ff5fcc4a7dce31666ffd06ec204bf7"
+    },
+    "smartconnect-natural-20261103T203950Z": {
+      "events.jsonl": "6b8c5d45bad5c6ca3a1882d5c09c1f615419ec7503f55233d1ed074b9fee61d3",
+      "manifest.json": "acbeb2641cfa836b797714c85941d2ee161282cd9bfe4f598cee841c802778ca",
+      "requests.jsonl": "b91e9992ef042913ddaad68ec20989d4234818af09300d7cb32d57ce0faa5a4e"
+    },
+    "smartconnect-movement-20261103T205000Z": {
+      "events.jsonl": "52b936268d5080bc32efd3fd02f2187c81903769376dc3afad2d0d6b6abb96bc",
+      "manifest.json": "f3e26be5863a05e6c10e9f1b759c5b5ff78781c397441b02ec362ced5bd79f94",
+      "movement.jsonl": "f204d571be9d93997058964f4727bef0558fd7b086a2739ddf88266fc726e5dd",
+      "requests.jsonl": "79e45ade2e1d58e90ab1cece0ffd174865f7f69009a6d56429b460927c70c510"
+    },
+    "smartconnect-download-20261103T211238Z": {
+      "events.jsonl": "b03821703a3c840e0c2324370b3fb5af648f68d84a8dc7dfe377672a673b15bc",
+      "manifest.json": "a33d867c55ed14ace83b4d6ab866e9bedcbb3b87cfecae3757804920d8df465c",
+      "movement.jsonl": "bf066717ab03bf108fcae6e2f11a24c43c4bc5427d5cc2584149da29ad7f50f0",
+      "requests.jsonl": "cf059b9dd53f0c09cdac5ce74ebef4c04d93427076becd7f7ac8b0a17bb8783c"
+    }
+  },
+  "privacy": "Allowlisted fields only; no local IPs, MACs, ports, request identifiers, raw errors or ping text.",
+  "integrity": "Original hashes recorded at export; not authenticated collection signatures.",
+  "numeric_units": {
+    "latency": "ms, parsed successful-reply mean per window",
+    "loss": "percent",
+    "goodput": "Mbps, completed body bits/full fresh request duration"
+  },
+  "output_sha256": {
+    "dorm-continuous-20261103.png": "3f0d9c719c1ebbc7562d937367d78b334b58fdcca5cd5eb2751318ce2d634edf",
+    "download_goodput_and_outcomes.png": "21001f1498f866397f09a95d635d5f751e588dedb9c15c6449e81a0022036940",
+    "requests.csv": "4b1cbb29e0ac9b2a88b111e9c13a96e9193c72c098ffd943174cf47e90da1ce4",
+    "smartconnect-download-20261103T211238Z.png": "82096941476cfcc699e17b73206587ace16076cdafdfbf3be2e33d8adc0e25d0",
+    "smartconnect-movement-20261103T205000Z.png": "08ab0397f34d9b16000bc29ace05572322615a95d905ade316fa4f867fa6d8f9",
+    "smartconnect-natural-20261103T203950Z.png": "05ad0f83345a65a2ee9ac3603330223280e86ccbe0fe43aa1f033d1b303d3114",
+    "smartconnect-smoke-20261103T202919Z.png": "18de86d85d37db2fc53129b292197a2b871f651db8b6c8811f5968912df4e55b",
+    "summary.json": "3cfd87523a5b1f439615fe67a0d9ec87cb8b6317a198c65fdd6897e1ead9d3e3",
+    "windows.csv": "2ee2bde073b6302c549b4f898a19f6d1dbb84345812353b1d98c417e6ce9087e"
+  }
+}

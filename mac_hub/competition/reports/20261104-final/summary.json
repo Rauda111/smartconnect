@@ -1,0 +1,84 @@
+[
+  {
+    "run": "dorm-continuous-20261103",
+    "windows": 18,
+    "recommendation_changes": 2,
+    "selected_attempts": 0,
+    "selected_successes": 0,
+    "selected_failures": 0,
+    "selected_interfaces": [],
+    "physical_egress": "unverified"
+  },
+  {
+    "run": "smartconnect-smoke-20261103T202919Z",
+    "windows": 6,
+    "recommendation_changes": 0,
+    "selected_attempts": 6,
+    "selected_successes": 6,
+    "selected_failures": 0,
+    "selected_interfaces": [
+      "en0",
+      "en0",
+      "en0",
+      "en0",
+      "en0",
+      "en0"
+    ],
+    "physical_egress": "unverified"
+  },
+  {
+    "run": "smartconnect-natural-20261103T203950Z",
+    "windows": 6,
+    "recommendation_changes": 0,
+    "selected_attempts": 6,
+    "selected_successes": 6,
+    "selected_failures": 0,
+    "selected_interfaces": [
+      "en0",
+      "en0",
+      "en0",
+      "en0",
+      "en0",
+      "en0"
+    ],
+    "physical_egress": "unverified"
+  },
+  {
+    "run": "smartconnect-movement-20261103T205000Z",
+    "windows": 8,
+    "recommendation_changes": 0,
+    "selected_attempts": 8,
+    "selected_successes": 8,
+    "selected_failures": 0,
+    "selected_interfaces": [
+      "en0",
+      "en0",
+      "en0",
+      "en0",
+      "en0",
+      "en0",
+      "en0",
+      "en0"
+    ],
+    "physical_egress": "unverified"
+  },
+  {
+    "run": "smartconnect-download-20261103T211238Z",
+    "windows": 8,
+    "recommendation_changes": 1,
+    "selected_attempts": 8,
+    "selected_successes": 7,
+    "selected_failures": 1,
+    "selected_interfaces": [
+      "en0",
+      "en0",
+      "en0",
+      "en0",
+      "en0",
+      "en0",
+      "en6",
+      "en6"
+    ],
+    "physical_egress": "unverified"
+  }
+]
