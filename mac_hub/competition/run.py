@@ -102,11 +102,21 @@ def replay_rows(path=EVIDENCE, application='video_call'):
                        evidence_sha256=expected['csv_sha256'], location_stage=None)
 
 
-def live(output, application='video_call', cycles=6, count=10, pause=5., size=65536):
+def wait_for(cancel, seconds):
+    return cancel.wait(seconds)
+
+
+def live(output, application='video_call', cycles=6, count=10, pause=5., size=65536,
+         movement_after=None, movement_pause=0.):
     if not 1 <= cycles <= 30 or not 2 <= count <= 30 or not math.isfinite(pause) or not 1 <= pause <= 30:
         raise ValueError('Use 1..30 cycles, 2..30 echoes, pause 1..30 seconds')
     if not 16384 <= size <= 262144 or cycles*3*size > 24*1024*1024:
         raise ValueError('Body 16..256 KiB; requested payload <=24 MiB')
+    if (movement_after is None and movement_pause != 0) or (movement_after is not None and
+            (isinstance(movement_after, bool) or not isinstance(movement_after, int) or
+             not 1 <= movement_after < cycles or not math.isfinite(movement_pause) or
+             not 1 <= movement_pause <= 600)):
+        raise ValueError('Movement pause requires window 1..cycles-1 and duration 1..600 seconds')
     output = Path(output)
     output.mkdir(parents=True, exist_ok=False)
     cancel = threading.Event()
@@ -115,6 +125,7 @@ def live(output, application='video_call', cycles=6, count=10, pause=5., size=65
     paths = ['mac_hub/competition/run.py', 'mac_hub/phase4/policy.py', 'mac_hub/traffic/client.py',
              'mac_hub/monitor.py', 'mac_hub/engine.py', 'smartconnect.py']
     manifest = dict(mode='live', application=application, cycles=cycles, count=count, pause=pause,
+                    movement_after=movement_after, movement_pause_seconds=movement_pause,
                     body_bytes=size, maximum_requests=cycles*(3 if application == 'file_download' else 1),
                     requested_payload_ceiling_bytes=cycles*size*(3 if application == 'file_download' else 1),
                     interfaces=INTERFACES, start_utc=datetime.now(timezone.utc).isoformat(),
@@ -125,7 +136,7 @@ def live(output, application='video_call', cycles=6, count=10, pause=5., size=65
         stream.write(json.dumps(item, allow_nan=False)+'\n')
         stream.flush()
     try:
-        with (output/'events.jsonl').open('x') as events, (output/'requests.jsonl').open('x') as requests:
+        with (output/'events.jsonl').open('x') as events, (output/'requests.jsonl').open('x') as requests, (output/'movement.jsonl').open('x') as movements:
             addresses = resolve(cancel)
             if not addresses or cancel.is_set():
                 raise ValueError('Endpoint preparation cancelled or unavailable')
@@ -173,7 +184,21 @@ def live(output, application='video_call', cycles=6, count=10, pause=5., size=65
                 write(events, record)
                 manifest['completed_windows'] += 1
                 print(f"Window {index}: {n}; HTTPS {result['status']}; physical egress unverified", flush=True)
-                if index < cycles and cancel.wait(pause):
+                if index == movement_after and not cancel.is_set():
+                    before = time.monotonic()
+                    write(movements, dict(event='movement_pause_start', after_window=index,
+                          timestamp=datetime.now(timezone.utc).isoformat(),
+                          elapsed_seconds=before-origin, requested_seconds=movement_pause))
+                    print(f'MOVEMENT PAUSE after Window {index}: {movement_pause:g} seconds; no observations or requests.', flush=True)
+                    stopped = wait_for(cancel, movement_pause)
+                    after = time.monotonic()
+                    write(movements, dict(event='movement_pause_end', after_window=index,
+                          timestamp=datetime.now(timezone.utc).isoformat(), elapsed_seconds=after-origin,
+                          actual_duration_seconds=after-before, cancelled=cancel.is_set()))
+                    if stopped or cancel.is_set():
+                        break
+                    print(f'Movement pause finished; next observation is Window {index+1}.', flush=True)
+                elif index < cycles and wait_for(cancel, pause):
                     break
     except BaseException as exc:
         manifest['run_error_type'] = type(exc).__name__
@@ -195,11 +220,14 @@ def main():
     p.add_argument('--cycles', type=int, default=6)
     p.add_argument('--count', type=int, default=10)
     p.add_argument('--pause', type=float, default=5.)
+    p.add_argument('--movement-after', type=int, help='Completed window after which to pause; before final window')
+    p.add_argument('--movement-pause', type=float, default=0., help='Movement pause seconds, 1..600; replaces normal pause there')
     a = p.parse_args()
     if a.execute:
         if a.output is None:
             p.error('--execute requires fresh --output directory')
-        live(a.output, a.application, a.cycles, a.count, a.pause)
+        live(a.output, a.application, a.cycles, a.count, a.pause,
+             movement_after=a.movement_after, movement_pause=a.movement_pause)
     else:
         for row in replay_rows(a.replay, a.application):
             print(json.dumps(row, allow_nan=False))

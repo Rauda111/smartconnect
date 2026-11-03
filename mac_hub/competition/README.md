@@ -169,3 +169,48 @@ These tests use mock requests/probes and historical local files, never initiate
 real traffic. They write only temporary test artifacts. Preserve future actual
 live logs outside committed/public demo artifacts; private tuple fields are needed
 for approved offline packet correlation but must not appear on the projector.
+
+## Configurable movement pause (new approval required)
+
+The runner supports one optional `--movement-after N --movement-pause SECONDS`
+pause after a completed window, including its request outcome. It replaces the
+normal five-second pause at that boundary: 90 seconds means 90, not 95. All other
+inter-window pauses remain unchanged. Bounds: N must be before the last window;
+movement duration 1..600 seconds. Defaults preserve the existing workflow.
+
+During this pause the runner sends no probes or HTTPS requests, creates no
+observations, and never calls the policy. The same controller persists, including
+pending streak, trends and selected path. Monotonic elapsed time continues, so
+30-second dwell can expire normally while no qualifying-window count advances.
+The next real measurement is Window N+1. Pause start/end UTC and elapsed times,
+actual duration and cancellation are in `movement.jsonl`, separately from network
+events. The manifest records pause settings and hashes this additional file.
+These are scheduled pause boundaries, not independently observed movement times
+or proof that the participant reached a specific location. The dashboard may
+correctly warn that the last observation is stale during a 90-second pause.
+
+Proposed eight-window protocol (NOT executed): windows 1–2 at the starting indoor
+position; wait for the MOVEMENT PAUSE announcement, move safely during 90 seconds,
+then remain at the second position for windows 3–8. Record actual arrival time
+separately. If 90 seconds is insufficient, Ctrl-C rather than rush; partial logs
+are retained. Cancellation interrupts the wait and prevents the next observation.
+No switch is guaranteed and thresholds are unchanged.
+
+First perform the regular-Terminal preflight from the earlier instructions.
+After explicit approval of this NEW traffic budget only:
+
+```sh
+cd /private/tmp/smartconnect-edge-demo
+movement_output="/private/tmp/smartconnect-movement-$(date -u +%Y%m%dT%H%M%SZ)"
+printf 'Evidence directory: %s\n' "$movement_output"
+/Users/raudaalshaeili/Desktop/smartconnect/venv/bin/python -B \
+  -m mac_hub.competition.run --execute --application video_call \
+  --cycles 8 --count 10 --pause 5 \
+  --movement-after 2 --movement-pause 90 --output "$movement_output"
+```
+
+Budget: 160 ICMP attempts, at most eight 64 KiB HTTPS requests (512 KiB requested
+response payload), one application-level DNS lookup. This exceeds the original
+six-window budget and needs new approval. No sudo, packet capture or settings
+changes. Share manifest.json, events.jsonl, requests.jsonl and movement.jsonl
+privately afterward. Keep existing evidence intact.

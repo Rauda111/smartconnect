@@ -20,3 +20,14 @@ against the original capture and manifest by SHA-256. Replay remains determinist
 and contains no fabricated HTTPS outcomes or assumed movement boundaries.
 
 Live smoke test and packet capture remain unexecuted and require separate approval.
+
+## Movement-pause update
+
+Full offline suite: **79 tests passed, 0 failures, 0 errors**, 36.940 seconds.
+Record: `verification/movement_pause_suite.log`. Targeted competition/movement
+suite: 18 passed. Three virtual-clock tests add checks for the exact 90-second
+pause after completed Window 2, eight real-window slots only, preserved hold/trend/
+selection state, elapsed-time dwell advancement, no extra monitoring/request calls,
+cancellation during movement and invalid arguments rejected before output creation.
+No actual waits, probes, DNS or HTTPS are used by the new tests. Existing policy,
+thresholds, historical capture and live smoke evidence are unchanged.
