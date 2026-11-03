@@ -214,3 +214,52 @@ response payload), one application-level DNS lookup. This exceeds the original
 six-window budget and needs new approval. No sudo, packet capture or settings
 changes. Share manifest.json, events.jsonl, requests.jsonl and movement.jsonl
 privately afterward. Keep existing evidence intact.
+
+## Decision inspector and File Download audit
+
+The dashboard now allows inspection of every completed live-log window and shows
+raw/adjusted scores, candidate advantage, normal margin, qualifying count, elapsed
+dwell, observed eligibility, breaches and the selected outcome interface/readback.
+On normal switch rows it displays the completed 3/3 hold while explicitly noting
+the stored streak resets afterward. Availability resets are not mislabeled 3/3.
+The latest recorded selection is distinct from the older inspected selection.
+Separate history columns/counters distinguish recommendations, requested selected-
+outcome changes (including failures), and successful bound-request changes.
+Calibration requests have their own role/binding table; alternation is not a switch.
+
+See DOWNLOAD_AUDIT.md for full data flow, formulas, limitations, and the latest
+movement experiment's Windows 3–7 judge script/Q&A. The 0.05 margin, three-window
+hold and 30-second dwell are unchanged. The experiment shows a transient candidate
+advantage interrupted by recovery, not proof that any switch would be unnecessary.
+
+### Proposed File Download live test — awaiting new approval
+
+Regular-Terminal interface preflight remains required. One eight-window run,
+ten echoes/path/window, five-second pauses, 90 seconds after Window 2. Each window
+has two equal 64 KiB calibration HTTPS requests then at most one selected 64 KiB
+outcome, all to the same pinned Cloudflare HTTPS endpoint with verified TLS.
+Limits: 160 ICMP attempts, at most 24 HTTPS requests, 1,572,864 bytes (1.5 MiB)
+requested response bodies, one application-level DNS lookup. Wire overhead and
+retransmissions are additional. No packet capture, sudo or settings changes.
+No network activity is authorized merely by these prepared commands.
+
+```sh
+networksetup -listallhardwareports
+ifconfig en0
+ifconfig en6
+cd /private/tmp/smartconnect-edge-demo
+download_output="/private/tmp/smartconnect-download-$(date -u +%Y%m%dT%H%M%SZ)"
+printf 'Evidence directory: %s\n' "$download_output"
+/Users/raudaalshaeili/Desktop/smartconnect/venv/bin/python -B \
+  -m mac_hub.competition.run --execute --application file_download \
+  --cycles 8 --count 10 --pause 5 \
+  --movement-after 2 --movement-pause 90 --output "$download_output"
+```
+
+Proceed only after new approval and successful preflight, where permitted by
+university rules. Stay indoors for W1–2, move safely only during the announced
+pause, remain at the second location W3–8, and separately note actual movement/
+arrival times. Ctrl-C if more time is needed or anything unexpected occurs.
+No switch is guaranteed. Save manifest.json, events.jsonl, requests.jsonl and
+movement.jsonl privately. This is a single-policy new-request demo, not a paired
+Wi-Fi-first application-performance trial or existing-session handover test.

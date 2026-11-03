@@ -31,3 +31,16 @@ selection state, elapsed-time dwell advancement, no extra monitoring/request cal
 cancellation during movement and invalid arguments rejected before output creation.
 No actual waits, probes, DNS or HTTPS are used by the new tests. Existing policy,
 thresholds, historical capture and live smoke evidence are unchanged.
+
+## Decision inspector and File Download audit update
+
+Final full offline suite: **86 tests passed, 0 failures, 0 errors**, 32.364 seconds.
+Record: `verification/download_display_suite.log`. Seven additional tests verify
+same-size pre-decision transfers on both interfaces, alternating order, binding
+records, independent Mbps/utility/score calculations, differing Video/Download
+choices on identical ICMP fixtures, failed/invalid calibration fallback without
+retry, public-field privacy, requested vs successful-bound change semantics,
+normal switch hold-reset display, and historical/live Streamlit decision inspection.
+Targeted final download/display suite: 7 passed. No live probes, DNS, HTTPS or
+capture were initiated. Fixture traffic is mocked, never field performance evidence.
+Runner, client, collector, policy and all thresholds remain unchanged from c71e746.

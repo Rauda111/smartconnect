@@ -1,0 +1,476 @@
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:181: IOError: sysctlbyname failed for 'hw.l1dcachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:181: IOError: sysctlbyname failed for 'hw.l2cachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:181: IOError: sysctlbyname failed for 'hw.l3cachesize'. Detail: [errno 1] Operation not permitted
+test_baseline_without_handovers (test_app.HandoverDisplayTests.test_baseline_without_handovers) ... 2026-11-04 01:02:37.277 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-11-04 01:02:37.908 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-11-04 01:02:37.923 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-11-04 01:02:37.932 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-11-04 01:02:37.940 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-11-04 01:02:37.949 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-11-04 01:02:37.957 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-11-04 01:02:37.965 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+ok
+test_compare_both_handover_tables (test_app.HandoverDisplayTests.test_compare_both_handover_tables) ... 2026-11-04 01:02:37.974 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-11-04 01:02:38.239 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-11-04 01:02:38.250 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-11-04 01:02:38.259 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-11-04 01:02:38.267 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-11-04 01:02:38.275 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-11-04 01:02:38.283 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-11-04 01:02:38.291 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-11-04 01:02:38.303 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-11-04 01:02:38.306 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-11-04 01:02:38.310 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-11-04 01:02:38.313 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-11-04 01:02:38.331 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-11-04 01:02:38.563 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-11-04 01:02:38.573 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-11-04 01:02:38.582 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-11-04 01:02:38.591 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-11-04 01:02:38.599 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-11-04 01:02:38.608 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-11-04 01:02:38.617 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-11-04 01:02:38.629 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-11-04 01:02:38.632 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-11-04 01:02:38.635 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-11-04 01:02:38.638 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+ok
+test_competition_demo_and_stored_results (test_app.HandoverDisplayTests.test_competition_demo_and_stored_results) ... 2026-11-04 01:02:38.653 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-11-04 01:02:38.883 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-11-04 01:02:38.893 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-11-04 01:02:38.901 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-11-04 01:02:38.910 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-11-04 01:02:38.918 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-11-04 01:02:38.926 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-11-04 01:02:38.934 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-11-04 01:02:38.946 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-11-04 01:02:38.949 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-11-04 01:02:38.952 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+ok
+test_bounds_and_cancellation_manifest (test_competition_demo.CompetitionTests.test_bounds_and_cancellation_manifest) ... ok
+test_certificate_failure_after_binding (test_competition_demo.CompetitionTests.test_certificate_failure_after_binding) ... ok
+test_dashboard_historical (test_competition_demo.CompetitionTests.test_dashboard_historical) ... 2026-11-04 01:02:38.971 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-11-04 01:02:39.130 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-11-04 01:02:39.245 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+ok
+test_download_actual_mocked_calibration_and_state (test_competition_demo.CompetitionTests.test_download_actual_mocked_calibration_and_state) ... Window 1: wifi; HTTPS success; physical egress unverified
+ok
+test_historical_replay_no_network (test_competition_demo.CompetitionTests.test_historical_replay_no_network) ... ok
+test_hold_dwell_recovery_and_flapping (test_competition_demo.CompetitionTests.test_hold_dwell_recovery_and_flapping) ... ok
+test_live_dashboard_failure_and_privacy (test_competition_demo.CompetitionTests.test_live_dashboard_failure_and_privacy) ... Window 1: wifi; HTTPS request_failed; physical egress unverified
+2026-11-04 01:02:39.340 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-11-04 01:02:39.493 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-11-04 01:02:39.621 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-11-04 01:02:39.623 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+ok
+test_live_mocked_binding_failure_no_retry (test_competition_demo.CompetitionTests.test_live_mocked_binding_failure_no_retry) ... Window 1: wifi; HTTPS binding_failed; physical egress unverified
+ok
+test_new_flow_evidence_never_claims_physical_handover (test_competition_demo.CompetitionTests.test_new_flow_evidence_never_claims_physical_handover) ... ok
+test_no_eligible_path_sends_no_request (test_competition_demo.CompetitionTests.test_no_eligible_path_sends_no_request) ... Window 1: none; HTTPS no_request; physical egress unverified
+ok
+test_partial_append_reader (test_competition_demo.CompetitionTests.test_partial_append_reader) ... ok
+test_public_display_allowlist (test_competition_demo.CompetitionTests.test_public_display_allowlist) ... ok
+test_runner_cancellation_preserves_outcome (test_competition_demo.CompetitionTests.test_runner_cancellation_preserves_outcome) ... Window 1: wifi; HTTPS cancelled; physical egress unverified
+ok
+test_tls_blocked_and_cancelled_no_fallback (test_competition_demo.CompetitionTests.test_tls_blocked_and_cancelled_no_fallback) ... ok
+test_unavailable_and_missing_metrics (test_competition_demo.CompetitionTests.test_unavailable_and_missing_metrics) ... ok
+test_decision_inspector_hold_reset_and_privacy (test_download_decision_display.DownloadDisplayTests.test_decision_inspector_hold_reset_and_privacy) ... ok
+test_equal_predecision_transfers_bindings_units_and_scoring (test_download_decision_display.DownloadDisplayTests.test_equal_predecision_transfers_bindings_units_and_scoring) ... Window 1: wifi; HTTPS success; physical egress unverified
+Window 2: wifi; HTTPS success; physical egress unverified
+Window 3: wifi; HTTPS success; physical egress unverified
+Window 4: cellular; HTTPS success; physical egress unverified
+ok
+test_failed_and_invalid_length_calibration_disable_goodput (test_download_decision_display.DownloadDisplayTests.test_failed_and_invalid_length_calibration_disable_goodput) ... Window 1: wifi; HTTPS success; physical egress unverified
+Window 1: wifi; HTTPS success; physical egress unverified
+Window 1: wifi; HTTPS success; physical egress unverified
+Window 1: wifi; HTTPS invalid_body_length; physical egress unverified
+ok
+test_live_download_binding_table_and_decision_inspection (test_download_decision_display.DownloadDisplayTests.test_live_download_binding_table_and_decision_inspection) ... Window 1: wifi; HTTPS success; physical egress unverified
+Window 2: wifi; HTTPS success; physical egress unverified
+Window 3: wifi; HTTPS success; physical egress unverified
+Window 4: cellular; HTTPS success; physical egress unverified
+2026-11-04 01:02:39.804 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-11-04 01:02:39.957 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-11-04 01:02:40.085 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-11-04 01:02:40.088 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-11-04 01:02:40.196 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-11-04 01:02:40.198 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+ok
+test_requested_change_is_distinct_from_successful_bound_change (test_download_decision_display.DownloadDisplayTests.test_requested_change_is_distinct_from_successful_bound_change) ... ok
+test_streamlit_decision_displays (test_download_decision_display.DownloadDisplayTests.test_streamlit_decision_displays) ... 2026-11-04 01:02:40.276 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-11-04 01:02:40.430 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-11-04 01:02:40.540 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+ok
+test_video_and_download_rank_differently_on_same_icmp (test_download_decision_display.DownloadDisplayTests.test_video_and_download_rank_differently_on_same_icmp) ... Window 1: wifi; HTTPS success; physical egress unverified
+Window 2: wifi; HTTPS success; physical egress unverified
+Window 3: wifi; HTTPS success; physical egress unverified
+Window 4: wifi; HTTPS success; physical egress unverified
+Window 1: wifi; HTTPS success; physical egress unverified
+Window 2: wifi; HTTPS success; physical egress unverified
+Window 3: wifi; HTTPS success; physical egress unverified
+Window 4: cellular; HTTPS success; physical egress unverified
+ok
+test_bound_command_and_failures (test_mac_hub.MacHubTests.test_bound_command_and_failures) ... ok
+test_csv_roundtrip_and_dashboard (test_mac_hub.MacHubTests.test_csv_roundtrip_and_dashboard) ... 2026-11-04 01:02:40.654 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+test_hold_dwell_outage_and_causality (test_mac_hub.MacHubTests.test_hold_dwell_outage_and_causality) ... ok
+test_parser_adjacent_only_and_missing (test_mac_hub.MacHubTests.test_parser_adjacent_only_and_missing) ... ok
+test_scenarios_profiles_and_coverage (test_mac_hub.MacHubTests.test_scenarios_profiles_and_coverage) ... ok
+test_aggregation_pairing (test_mac_hub_experiments.ExperimentTests.test_aggregation_pairing) ... ok
+test_alternating_candidate_does_not_satisfy_hold (test_mac_hub_experiments.ExperimentTests.test_alternating_candidate_does_not_satisfy_hold) ... ok
+test_artifacts_reproducibility_audit_and_dashboard (test_mac_hub_experiments.ExperimentTests.test_artifacts_reproducibility_audit_and_dashboard) ... 2026-11-04 01:02:45.957 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+test_event_interval_boundary_and_cellular_hold (test_mac_hub_experiments.ExperimentTests.test_event_interval_boundary_and_cellular_hold) ... ok
+test_fairness_causality_and_behavior (test_mac_hub_experiments.ExperimentTests.test_fairness_causality_and_behavior) ... ok
+test_independent_audit_rejects_rehashed_wrong_statistics (test_mac_hub_experiments.ExperimentTests.test_independent_audit_rejects_rehashed_wrong_statistics) ... ok
+test_independent_metrics (test_mac_hub_experiments.ExperimentTests.test_independent_metrics) ... ok
+test_missing_and_invalid_inputs (test_mac_hub_experiments.ExperimentTests.test_missing_and_invalid_inputs) ... ok
+test_missingness_and_profile_scores (test_mac_hub_experiments.ExperimentTests.test_missingness_and_profile_scores) ... ok
+test_profile_guardrails_are_distinct (test_mac_hub_experiments.ExperimentTests.test_profile_guardrails_are_distinct) ... ok
+test_response_timing_and_censoring (test_mac_hub_experiments.ExperimentTests.test_response_timing_and_censoring) ... ok
+test_seeded_scenarios (test_mac_hub_experiments.ExperimentTests.test_seeded_scenarios) ... ok
+test_bound_tls_success_without_egress_claim (test_mac_hub_traffic.TrafficTests.test_bound_tls_success_without_egress_claim) ... ok
+test_capture_requires_explicit_opt_in (test_mac_hub_traffic.TrafficTests.test_capture_requires_explicit_opt_in) ... ok
+test_capture_start_failure_never_launches_requests (test_mac_hub_traffic.TrafficTests.test_capture_start_failure_never_launches_requests) ... ok
+test_capture_uses_concurrent_graceful_termination (test_mac_hub_traffic.TrafficTests.test_capture_uses_concurrent_graceful_termination) ... READY: both physical interfaces capturing. Run Stage A requests in another terminal now.
+ok
+test_dashboard_evidence_presets_confirm_only_clean_stage_a (test_mac_hub_traffic.TrafficTests.test_dashboard_evidence_presets_confirm_only_clean_stage_a) ... 2026-11-04 01:02:58.219 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+test_dashboard_evidence_rejects_mismatches_and_forged_labels (test_mac_hub_traffic.TrafficTests.test_dashboard_evidence_rejects_mismatches_and_forged_labels) ... ok
+test_dry_run_has_no_socket_or_resolver (test_mac_hub_traffic.TrafficTests.test_dry_run_has_no_socket_or_resolver) ... ok
+test_failed_binding_no_fallback (test_mac_hub_traffic.TrafficTests.test_failed_binding_no_fallback) ... ok
+test_gate_rejects_stale_changed_binding_or_client (test_mac_hub_traffic.TrafficTests.test_gate_rejects_stale_changed_binding_or_client) ... ok
+test_gated_control_workload_dry_run_and_stability (test_mac_hub_traffic.TrafficTests.test_gated_control_workload_dry_run_and_stability) ... round=0 policy=wifi_first requested=wifi status=dry_run egress=unverified
+round=0 policy=smartconnect requested=wifi status=dry_run egress=unverified
+round=1 policy=smartconnect requested=wifi status=dry_run egress=unverified
+round=1 policy=wifi_first requested=wifi status=dry_run egress=unverified
+round=2 policy=wifi_first requested=wifi status=dry_run egress=unverified
+round=2 policy=smartconnect requested=wifi status=dry_run egress=unverified
+round=3 policy=smartconnect requested=wifi status=dry_run egress=unverified
+round=3 policy=wifi_first requested=wifi status=dry_run egress=unverified
+round=4 policy=wifi_first requested=wifi status=dry_run egress=unverified
+round=4 policy=smartconnect requested=wifi status=dry_run egress=unverified
+round=5 policy=smartconnect requested=wifi status=dry_run egress=unverified
+round=5 policy=wifi_first requested=wifi status=dry_run egress=unverified
+round=6 policy=wifi_first requested=wifi status=dry_run egress=unverified
+round=6 policy=smartconnect requested=cellular status=dry_run egress=unverified
+round=7 policy=smartconnect requested=cellular status=dry_run egress=unverified
+round=7 policy=wifi_first requested=wifi status=dry_run egress=unverified
+round=8 policy=wifi_first requested=wifi status=dry_run egress=unverified
+round=8 policy=smartconnect requested=cellular status=dry_run egress=unverified
+round=9 policy=smartconnect requested=cellular status=dry_run egress=unverified
+round=9 policy=wifi_first requested=wifi status=dry_run egress=unverified
+round=10 policy=wifi_first requested=wifi status=dry_run egress=unverified
+round=10 policy=smartconnect requested=cellular status=dry_run egress=unverified
+round=11 policy=smartconnect requested=cellular status=dry_run egress=unverified
+round=11 policy=wifi_first requested=wifi status=dry_run egress=unverified
+round=12 policy=wifi_first requested=wifi status=dry_run egress=unverified
+round=12 policy=smartconnect requested=wifi status=dry_run egress=unverified
+round=13 policy=smartconnect requested=wifi status=dry_run egress=unverified
+round=13 policy=wifi_first requested=wifi status=dry_run egress=unverified
+round=14 policy=wifi_first requested=wifi status=dry_run egress=unverified
+round=14 policy=smartconnect requested=wifi status=dry_run egress=unverified
+round=15 policy=smartconnect requested=wifi status=dry_run egress=unverified
+round=15 policy=wifi_first requested=wifi status=dry_run egress=unverified
+ok
+test_no_eligible_path_does_not_claim_an_http_attempt (test_mac_hub_traffic.TrafficTests.test_no_eligible_path_does_not_claim_an_http_attempt) ... round=0 policy=wifi_first requested=none status=no_eligible_path egress=unverified
+round=0 policy=smartconnect requested=none status=no_eligible_path egress=unverified
+ok
+test_outcome_report_and_read_only_dashboard (test_mac_hub_traffic.TrafficTests.test_outcome_report_and_read_only_dashboard) ... 2026-11-04 01:02:58.789 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+test_pcap_physical_correlation (test_mac_hub_traffic.TrafficTests.test_pcap_physical_correlation) ... ok
+test_stage_a_gate_and_capture_drops (test_mac_hub_traffic.TrafficTests.test_stage_a_gate_and_capture_drops) ... ok
+test_stage_b_dashboard_keeps_unverified_transitions_unknown (test_mac_hub_traffic.TrafficTests.test_stage_b_dashboard_keeps_unverified_transitions_unknown) ... round=0 policy=wifi_first requested=wifi status=dry_run egress=unverified
+round=0 policy=smartconnect requested=wifi status=dry_run egress=unverified
+round=1 policy=smartconnect requested=wifi status=dry_run egress=unverified
+round=1 policy=wifi_first requested=wifi status=dry_run egress=unverified
+round=2 policy=wifi_first requested=wifi status=dry_run egress=unverified
+round=2 policy=smartconnect requested=wifi status=dry_run egress=unverified
+round=3 policy=smartconnect requested=wifi status=dry_run egress=unverified
+round=3 policy=wifi_first requested=wifi status=dry_run egress=unverified
+round=4 policy=wifi_first requested=wifi status=dry_run egress=unverified
+round=4 policy=smartconnect requested=wifi status=dry_run egress=unverified
+round=5 policy=smartconnect requested=wifi status=dry_run egress=unverified
+round=5 policy=wifi_first requested=wifi status=dry_run egress=unverified
+round=6 policy=wifi_first requested=wifi status=dry_run egress=unverified
+round=6 policy=smartconnect requested=cellular status=dry_run egress=unverified
+round=7 policy=smartconnect requested=cellular status=dry_run egress=unverified
+round=7 policy=wifi_first requested=wifi status=dry_run egress=unverified
+round=8 policy=wifi_first requested=wifi status=dry_run egress=unverified
+round=8 policy=smartconnect requested=cellular status=dry_run egress=unverified
+round=9 policy=smartconnect requested=cellular status=dry_run egress=unverified
+round=9 policy=wifi_first requested=wifi status=dry_run egress=unverified
+round=10 policy=wifi_first requested=wifi status=dry_run egress=unverified
+round=10 policy=smartconnect requested=cellular status=dry_run egress=unverified
+round=11 policy=smartconnect requested=cellular status=dry_run egress=unverified
+round=11 policy=wifi_first requested=wifi status=dry_run egress=unverified
+round=12 policy=wifi_first requested=wifi status=dry_run egress=unverified
+round=12 policy=smartconnect requested=wifi status=dry_run egress=unverified
+round=13 policy=smartconnect requested=wifi status=dry_run egress=unverified
+round=13 policy=wifi_first requested=wifi status=dry_run egress=unverified
+round=14 policy=wifi_first requested=wifi status=dry_run egress=unverified
+round=14 policy=smartconnect requested=wifi status=dry_run egress=unverified
+round=15 policy=smartconnect requested=wifi status=dry_run egress=unverified
+round=15 policy=wifi_first requested=wifi status=dry_run egress=unverified
+2026-11-04 01:02:59.074 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+test_unavailable_input_and_failure_gap_metrics (test_mac_hub_traffic.TrafficTests.test_unavailable_input_and_failure_gap_metrics) ... ok
+test_unavailable_timeout_recovery_and_cancel (test_mac_hub_traffic.TrafficTests.test_unavailable_timeout_recovery_and_cancel) ... ok
+test_cancel_during_movement_preserves_two_windows (test_movement_pause.MovementPauseTests.test_cancel_during_movement_preserves_two_windows) ... Window 1: wifi; HTTPS success; physical egress unverified
+Window 2: wifi; HTTPS success; physical egress unverified
+MOVEMENT PAUSE after Window 2: 90 seconds; no observations or requests.
+ok
+test_invalid_movement_settings_do_not_create_output (test_movement_pause.MovementPauseTests.test_invalid_movement_settings_do_not_create_output) ... ok
+test_pause_preserves_state_without_observations (test_movement_pause.MovementPauseTests.test_pause_preserves_state_without_observations) ... Window 1: wifi; HTTPS success; physical egress unverified
+Window 2: wifi; HTTPS success; physical egress unverified
+MOVEMENT PAUSE after Window 2: 90 seconds; no observations or requests.
+Movement pause finished; next observation is Window 3.
+Window 3: wifi; HTTPS success; physical egress unverified
+Window 4: cellular; HTTPS success; physical egress unverified
+Window 5: cellular; HTTPS success; physical egress unverified
+Window 6: cellular; HTTPS success; physical egress unverified
+Window 7: cellular; HTTPS success; physical egress unverified
+Window 8: cellular; HTTPS success; physical egress unverified
+ok
+test_actual_mock_failure_recovery_and_timing (test_phase4.Phase4Tests.test_actual_mock_failure_recovery_and_timing) ... ok
+test_bounds (test_phase4.Phase4Tests.test_bounds) ... ok
+test_cancellation_preserves_partial_evidence (test_phase4.Phase4Tests.test_cancellation_preserves_partial_evidence) ... ok
+test_committed_observation_and_report_audit (test_phase4.Phase4Tests.test_committed_observation_and_report_audit) ... ok
+test_dashboard_offline (test_phase4.Phase4Tests.test_dashboard_offline) ... 2026-11-04 01:03:00.823 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+test_dns_preparation_cancelled_and_timeout (test_phase4.Phase4Tests.test_dns_preparation_cancelled_and_timeout) ... ok
+test_dry_run_no_network_and_balanced_pairs (test_phase4.Phase4Tests.test_dry_run_no_network_and_balanced_pairs) ... ok
+test_goodput_and_missing (test_phase4.Phase4Tests.test_goodput_and_missing) ... ok
+test_profiles_different_with_measured_goodput (test_phase4.Phase4Tests.test_profiles_different_with_measured_goodput) ... ok
+test_published_result_tampering_detected (test_phase4.Phase4Tests.test_published_result_tampering_detected) ... ok
+test_recovery_hold_dwell_and_timing_validation (test_phase4.Phase4Tests.test_recovery_hold_dwell_and_timing_validation) ... ok
+test_summary_failure_gap_changes_and_signed_contrasts (test_phase4.Phase4Tests.test_summary_failure_gap_changes_and_signed_contrasts) ... ok
+test_preserved_negative_result (test_pilot_audit.PilotAuditTests.test_preserved_negative_result) ... ok
+test_raw_corruption_detected (test_pilot_audit.PilotAuditTests.test_raw_corruption_detected) ... ok
+test_rehashed_false_summary_rejected (test_pilot_audit.PilotAuditTests.test_rehashed_false_summary_rejected) ... ok
+test_baseline_and_handovers (test_simulation.SimulationTests.test_baseline_and_handovers) ... ok
+test_bounds_and_reproducibility (test_simulation.SimulationTests.test_bounds_and_reproducibility) ... ok
+test_configuration (test_simulation.SimulationTests.test_configuration) ... ok
+test_scenario_behavior_across_seeds (test_simulation.SimulationTests.test_scenario_behavior_across_seeds) ... ok
+test_unknown_scenario (test_simulation.SimulationTests.test_unknown_scenario) ... ok
+test_cli_identical_traces (test_smartconnect.SmartConnectTests.test_cli_identical_traces) ... ok
+test_design_contract (test_smartconnect.SmartConnectTests.test_design_contract) ... ok
+test_hold_and_guardrail (test_smartconnect.SmartConnectTests.test_hold_and_guardrail) ... ok
+test_reproducibility_causality_and_rules (test_smartconnect.SmartConnectTests.test_reproducibility_causality_and_rules) ... ok
+
+----------------------------------------------------------------------
+Ran 86 tests in 32.364s
+
+OK
+congested_wifi | method=baseline | application=video_call | seed=42 | 100 simulated time steps
+Selected: WiFi=100, 5G=0; handovers=0 at time steps []
+CSV: /var/folders/k9/6hdy9t7d2rd_z2wmw9trdmpw0000gn/T/tmpg8ol8nvr/outputs/congested_wifi_seed42_baseline.csv
+Verification plots: 0 PNG files in /var/folders/k9/6hdy9t7d2rd_z2wmw9trdmpw0000gn/T/tmpg8ol8nvr/plots
+congested_wifi | method=smartconnect | application=video_call | seed=42 | 100 simulated time steps
+Selected: WiFi=53, 5G=47; handovers=1 at time steps [53]
+CSV: /var/folders/k9/6hdy9t7d2rd_z2wmw9trdmpw0000gn/T/tmpg8ol8nvr/outputs/congested_wifi_seed42_smartconnect_video_call.csv
+Verification plots: 0 PNG files in /var/folders/k9/6hdy9t7d2rd_z2wmw9trdmpw0000gn/T/tmpg8ol8nvr/plots

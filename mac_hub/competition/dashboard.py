@@ -23,16 +23,49 @@ def read_events(path):
     return rows
 
 
+def decision_view(row):
+    """Read recorded state only; never recompute or change the collector policy."""
+    d = row['decision']; state = d['stability']
+    before = d.get('previous')
+    candidate = next((n for n in INTERFACES if n != before), None) if before in INTERFACES else None
+    held = state['hold_required'] if d['explanation'].startswith('Recommend change:') else state['hold_count']
+    return dict(candidate=candidate or 'initial attachment', advantage=d.get('advantage'),
+                margin=state['margin'], qualifying=f"{held}/{state['hold_required']}",
+                elapsed_dwell=(row['elapsed_seconds']-state['last_selection_elapsed']) if state['last_selection_elapsed'] is not None else None,
+                eligibility={n: 'Passes observed guardrails only' if v['score'] is not None and not v['breaches']
+                             else 'Observed breach' if v['score'] is not None else 'Unavailable / incomplete'
+                             for n,v in d['details'].items()})
+
+
+def public_requests(requests):
+    """All calibration/outcome bindings, without private tuples or error strings."""
+    return [dict(window=r['window'], role=r.get('role', 'selected_outcome'),
+                 requested_interface=r.get('requested_interface') if r.get('requested_interface') in INTERFACES.values() else 'none/unknown',
+                 binding_readback=bool(r.get('binding_index')), status=r['status'],
+                 request_ms=r.get('request_duration_ms'), completed_body_bytes=r.get('bytes_received'),
+                 bounded_goodput_Mbps=r.get('goodput_mbps'), physical_egress='unverified') for r in requests]
+
+
 def safe_view(rows):
     """Explicit field allowlist: never return raw output, tuples, paths or errors."""
-    return [dict(window=r['window'], timestamp=r['timestamp'],
-                 selected=r['decision']['recommended'], baseline=r['baseline'],
-                 recommendation_change=r['decision']['direct_recommendation_change'],
-                 HTTPS=(r.get('outcome') or {}).get('status', 'not sent: historical replay'),
-                 binding_readback=bool((r.get('outcome') or {}).get('binding_index')),
-                 request_ms=(r.get('outcome') or {}).get('request_duration_ms'),
-                 bound_request_interface_change=r.get('flow_evidence', {}).get('successful_bound_request_interface_change', False))
-            for r in rows]
+    result = []; previous_interface = None
+    for r in rows:
+        outcome = r.get('outcome') or {}; interface = outcome.get('requested_interface')
+        changed = interface in INTERFACES.values() and previous_interface is not None and interface != previous_interface
+        if interface in INTERFACES.values():
+            previous_interface = interface
+        v = decision_view(r)
+        result.append(dict(window=r['window'], timestamp=r['timestamp'], selected=r['decision']['recommended'],
+                           baseline=r['baseline'], candidate=v['candidate'], advantage=v['advantage'],
+                           required_margin=v['margin'], qualifying=v['qualifying'],
+                           recommendation_change=r['decision']['direct_recommendation_change'],
+                           requested_interface=interface if interface in INTERFACES.values() else 'none',
+                           requested_interface_change=changed,
+                           HTTPS=outcome.get('status', 'not sent: historical replay'),
+                           binding_readback=bool(outcome.get('binding_index')),
+                           request_ms=outcome.get('request_duration_ms'), physical_egress='unverified',
+                           bound_request_interface_change=r.get('flow_evidence', {}).get('successful_bound_request_interface_change', False)))
+    return result
 
 
 def main():
@@ -41,7 +74,9 @@ def main():
     st.caption('Application-aware selection for our own NEW HTTPS connections')
     st.warning('No existing-session migration. New flows are physically unverified unless separately packet-confirmed. 5G radio access is unverified.')
     mode = st.sidebar.radio('Evidence source', ['Historical real-input replay', 'Live collector log'])
-    profile = st.sidebar.selectbox('Application profile', ['video_call', 'file_download'])
+    profile = st.sidebar.selectbox('Application profile', ['video_call', 'file_download']) if mode == 'Historical real-input replay' else None
+    if mode == 'Live collector log':
+        st.sidebar.caption('Live profile comes from the collector log; this viewer cannot change its policy.')
     st.sidebar.caption('Video profile uses ICMP RTT/loss. Download adds pre-decision bounded-goodput calibration when available. Neither is achieved application QoE.')
     path = st.sidebar.text_input('Live event log', '/tmp/smartconnect-approved-demo/events.jsonl') if mode == 'Live collector log' else None
     autoplay = st.sidebar.toggle('Play historical timeline', value=False) if path is None else False
@@ -82,10 +117,25 @@ def main():
                 row = rows[index]
                 rows = rows[:index+1]
                 st.caption('Location stages unassigned: movement timestamps were not recorded. Download replay lacks goodput and uses the documented fallback.')
+            if path:
+                st.metric('Latest recorded selected interface', INTERFACES.get(row['decision']['recommended'], 'none eligible'))
+            if path and rows:
+                inspected = st.selectbox('Inspect completed decision window', [r['window'] for r in rows], index=len(rows)-1)
+                row = next(r for r in rows if r['window'] == inspected)
             d = row['decision']
+            view = decision_view(row)
             st.subheader('Selected interface: '+INTERFACES.get(d['recommended'], 'none eligible'))
+            st.caption(f"Inspecting window {row['window']} · recorded UTC {row['timestamp']}")
             st.write(d['explanation'])
-            st.caption(f"Scoring basis: {d['scoring_basis']} · hold {d['stability']['hold_count']}/3 · dwell 30 seconds · margin 0.05")
+            st.caption(f"Recorded profile: {row['application']} · scoring basis: {d['scoring_basis']} · legacy RTT/loss weight coverage: {d['coverage']:.0%}")
+            st.write('Candidate:', view['candidate'])
+            cols = st.columns(3)
+            cols[0].metric('Candidate adjusted-score advantage', 'N/A' if view['advantage'] is None else f"{view['advantage']:.6f}")
+            cols[1].metric('Required switching margin', f"{view['margin']:.2f}")
+            cols[2].metric('Consecutive qualifying observations', view['qualifying'])
+            dwell = view['elapsed_dwell']
+            st.caption(f"Dwell since latest attachment/change: {'unknown' if dwell is None else f'{dwell:.1f}'} / {d['stability']['dwell_seconds']} seconds. Switch rows show the completed hold; stored streak resets after switching. Availability resets bypass normal hold/dwell.")
+            st.caption('Observed-guardrail rescue can qualify a positive advantage below the normal margin; it still requires hold/dwell. Calibration goodput is used only when both paths have valid transfers.')
             for col, n in zip(st.columns(2), INTERFACES):
                 with col:
                     m = row['inputs'][n]
@@ -96,7 +146,12 @@ def main():
                         st.error('Interface probe unavailable/error. Inspect the local private log; no automatic unbound fallback.')
                     st.metric('Parsed mean RTT (ms)', 'Unknown' if m['latency'] is None else f"{m['latency']:.3f}")
                     st.metric('Observed ICMP loss (%)', 'Unknown' if m['loss'] is None else f"{m['loss']:.3f}")
-                    st.write('Adjusted partial score:', details['adjusted_score'])
+                    st.metric('Adjacent RTT variation (ms; not RTP jitter)', 'Unknown' if m['rtt_variation'] is None else f"{m['rtt_variation']:.3f}")
+                    st.caption(f"Echo replies / attempts: {m['received']} / {m['sent']}")
+                    st.metric('Raw partial score', 'Unknown' if details['score'] is None else f"{details['score']:.6f}")
+                    st.metric('Trend-adjusted partial score', 'Unknown' if details['adjusted_score'] is None else f"{details['adjusted_score']:.6f}")
+                    st.write('Eligibility:', view['eligibility'][n])
+                    st.caption('Eligibility checks observed dimensions only; unknown guardrails are not certified.')
                     st.write('Trend:', details['trend'])
                     calibration = row.get('calibration', {}).get(n, {})
                     if calibration.get('goodput_mbps') is not None:
@@ -109,16 +164,26 @@ def main():
                         st.warning('Late/omitted reply: parsed RTT excludes some received replies; ping-summary average differs.')
             outcome = row.get('outcome')
             if outcome:
-                st.metric('Latest HTTPS outcome', outcome['status'])
+                st.metric('Inspected HTTPS outcome', outcome['status'])
+                st.write('Requested outcome interface:', outcome.get('requested_interface') if outcome.get('requested_interface') in INTERFACES.values() else 'none')
                 st.write('Binding readback:', 'confirmed socket option' if outcome.get('binding_index') else 'not confirmed')
                 if outcome['status'] != 'success':
                     st.error('Selected request did not succeed. No alternate-interface retry was made.')
             else:
                 st.caption('HTTPS outcome: none. Historical ICMP replay never fabricates a request.')
+            st.subheader('Run history — completed windows')
             table = safe_view(rows)
             st.metric('Recommendation changes', sum(x['recommendation_change'] for x in table))
+            st.metric('Requested outcome-interface changes', sum(x['requested_interface_change'] for x in table))
+            st.metric('Successful bound-request interface changes', sum(x['bound_request_interface_change'] for x in table))
             st.metric('Successful logged HTTPS requests', sum(x['HTTPS'] == 'success' for x in table))
             st.dataframe(pd.DataFrame(table), hide_index=True, use_container_width=True)
+            if path:
+                request_path = Path(path).with_name('requests.jsonl')
+                if request_path.is_file():
+                    st.subheader('New HTTPS request bindings — calibration and selected outcomes')
+                    st.dataframe(pd.DataFrame(public_requests(read_events(request_path))), hide_index=True, use_container_width=True)
+                    st.caption('Calibration deliberately samples both paths; its interface alternation is not a policy switch. Readback confirms the socket option, not packet-confirmed egress. Only selected-outcome attempts count toward requested-interface changes.')
             chart = [dict(elapsed_seconds=r['elapsed_seconds'], wifi_RTT_ms=r['inputs']['wifi']['latency'],
                           cellular_RTT_ms=r['inputs']['cellular']['latency']) for r in rows]
             if chart:
