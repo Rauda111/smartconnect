@@ -61,6 +61,38 @@ class DashboardTests(unittest.TestCase):
             app.radio[0].set_value('Live monitoring').run()
             self.assertTrue(any('Evidence unavailable' in e.value for e in app.error))
 
+    def test_presentation_date_timeline_and_chart_axes(self):
+        from mac_hub.competition.dashboard import recorded_date, selection_timeline, chart_spec
+        rows, _ = recorded()
+        self.assertEqual(recorded_date(rows[0]['timestamp_utc']), 'November 4, 2026 · UAE (UTC+4)')
+        self.assertTrue(rows[0]['timestamp_utc'].startswith('2026-11-03T'))
+        timeline = selection_timeline(rows, 7)
+        self.assertEqual(timeline.count('<span>Wi-Fi</span>'), 6)
+        self.assertEqual(timeline.count('<span>Cellular</span>'), 2)
+        self.assertEqual(timeline.count('class="transition"'), 1)
+        self.assertIn('cellular current', timeline)
+        spec = chart_spec(rows, 'latency', 'ICMP RTT (ms)').to_dict()
+        self.assertEqual(spec['encoding']['x']['axis']['values'], list(range(1, 9)))
+        self.assertEqual(spec['encoding']['x']['axis']['format'], 'd')
+        points = next(iter(spec['datasets'].values()))
+        self.assertEqual([r['value'] for r in points if r['network']=='Wi-Fi' and r['window'] in (7,8)], [None,None])
+
+    def test_compact_summary_and_collapsed_details(self):
+        with patch('socket.getaddrinfo', side_effect=AssertionError('No DNS')), patch('mac_hub.competition.run.request', side_effect=AssertionError('No HTTPS')), patch('mac_hub.competition.run.measure', side_effect=AssertionError('No probes')):
+            app = AppTest.from_file(APP).run(timeout=30)
+            self.assertFalse(app.exception)
+            self.assertTrue(any('November 4, 2026 · UAE (UTC+4)' in x.value for x in app.caption))
+            self.assertTrue(all(not e.proto.expanded for e in app.expander))
+            for window in (6,7,8):
+                app.slider[0].set_value(window).run()
+                self.assertFalse(app.exception)
+                if window == 7:
+                    self.assertTrue(any('0/10 ICMP replies' in x.value and 'availability exception' in x.value and 'not a proactive goodput-driven switch' in x.value for x in app.info))
+                    self.assertEqual(next(x.value for x in app.metric if x.label=='Outcome'), 'success')
+                if window >= 7:
+                    self.assertTrue(any('RTT unavailable: Wi-Fi W7' in x.value for x in app.caption))
+                    self.assertTrue(any('Unavailable' in x.value and 'network-card' in x.value for x in app.markdown))
+
     def test_live_empty_malformed_fresh_stale_and_finished(self):
         with tempfile.TemporaryDirectory() as d:
             path=Path(d)/'events.jsonl'
