@@ -144,10 +144,10 @@ class CompetitionTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp, patch('mac_hub.competition.run.resolve',return_value=['1.1.1.1']), patch('mac_hub.competition.run.measure',side_effect=lambda i,*_:paths()['wifi' if i=='en0' else 'cellular']), patch('mac_hub.competition.run.request',return_value=dict(status='request_failed',source='actual_https',requested_interface='en0',binding_index=7,local_ip='192.168.7.1',error='SECRET')):
             out=Path(tmp)/'run';live(out,cycles=1)
             app=AppTest.from_file('mac_hub/competition/dashboard.py').run(timeout=30)
-            app.sidebar.radio[0].set_value('Live collector log').run(timeout=30)
+            app.sidebar.radio[0].set_value('Live monitoring').run(timeout=30)
             app.sidebar.text_input[0].set_value(str(out/'events.jsonl')).run(timeout=30)
             self.assertEqual(list(app.exception),[])
-            self.assertTrue(any('Selected request did not succeed' in x.value for x in app.error))
+            self.assertTrue(any('Selected request failed' in x.value for x in app.error))
             display=' '.join(x.value for kind in [app.markdown,app.error,app.info,app.caption] for x in kind)
             self.assertNotIn('SECRET',display)
             self.assertNotIn('192.168.7.1',display)
@@ -157,7 +157,8 @@ class CompetitionTests(unittest.TestCase):
         with patch('mac_hub.competition.run.request',side_effect=AssertionError('network')):
             app=AppTest.from_file('mac_hub/competition/dashboard.py').run(timeout=30)
         self.assertEqual(list(app.exception),[])
-        self.assertTrue(any('HISTORICAL' in x.value for x in app.info))
+        app.sidebar.radio[0].set_value('Historical policy replay').run(timeout=30)
+        self.assertTrue(any('HISTORICAL' in x.value for x in app.caption))
         app.slider[0].set_value(18).run(timeout=30)
         self.assertEqual(list(app.exception),[])
         self.assertTrue(any(x.label=='Recommendation changes' and x.value=='2' for x in app.metric))

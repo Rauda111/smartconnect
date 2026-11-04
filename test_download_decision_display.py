@@ -105,32 +105,32 @@ class DownloadDisplayTests(unittest.TestCase):
             out=Path(tmp)/'run';self.collect(out)
             with patch('mac_hub.competition.run.resolve',side_effect=AssertionError('DNS')), patch('mac_hub.competition.run.request',side_effect=AssertionError('network')):
                 app=AppTest.from_file('mac_hub/competition/dashboard.py').run(timeout=30)
-                app.sidebar.radio[0].set_value('Live collector log').run(timeout=30)
+                app.sidebar.radio[0].set_value('Live monitoring').run(timeout=30)
                 app.sidebar.text_input[0].set_value(str(out/'events.jsonl')).run(timeout=30)
                 self.assertEqual(list(app.exception),[])
                 metrics={x.label:x.value for x in app.metric}
-                self.assertEqual(metrics['Latest recorded selected interface'],'en6')
-                self.assertEqual(metrics['Consecutive qualifying observations'],'3/3')
-                self.assertEqual(metrics['Requested outcome-interface changes'],'1')
+                self.assertTrue(any('Cellular' in x.value and 'SELECTED INTERFACE' in x.value for x in app.markdown))
+                self.assertEqual(metrics['Qualifying hold'],'3 / 3')
+                self.assertEqual(metrics['Recommendation changes'],'1')
                 requests=app.dataframe[-1].value
                 self.assertEqual(len(requests),12)
-                self.assertEqual(set(requests.requested_interface),{'en0','en6'})
+                self.assertEqual(set(requests.interface),{'Wi-Fi','Cellular'})
                 self.assertTrue(requests.binding_readback.all())
                 self.assertNotIn('192.168',requests.to_string())
-                app.selectbox[0].set_value(2).run(timeout=30)
+                app.slider[0].set_value(2).run(timeout=30)
                 self.assertEqual(list(app.exception),[])
-                self.assertEqual(next(x.value for x in app.metric if x.label=='Consecutive qualifying observations'),'1/3')
+                self.assertEqual(next(x.value for x in app.metric if x.label=='Qualifying hold'),'1 / 3')
 
     def test_streamlit_decision_displays(self):
         from streamlit.testing.v1 import AppTest
         app=AppTest.from_file('mac_hub/competition/dashboard.py').run(timeout=30)
+        app.sidebar.radio[0].set_value('Historical policy replay').run(timeout=30)
         app.slider[0].set_value(3).run(timeout=30)
         self.assertEqual(list(app.exception),[])
         metrics={x.label:x.value for x in app.metric}
-        self.assertEqual(metrics['Consecutive qualifying observations'],'2/3')
-        self.assertEqual(metrics['Required switching margin'],'0.05')
-        self.assertIn('Raw partial score',metrics)
-        self.assertIn('Trend-adjusted partial score',metrics)
-        self.assertIn('Candidate adjusted-score advantage',metrics)
+        self.assertEqual(metrics['Qualifying hold'],'2 / 3')
+        self.assertEqual(metrics['Switching margin'],'0.050')
+        self.assertTrue(any('Wi-Fi adjusted score' in x.value.columns for x in app.dataframe))
+        self.assertIn('Candidate advantage',metrics)
 
 if __name__=='__main__':unittest.main()
