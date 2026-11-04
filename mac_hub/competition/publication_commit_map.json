@@ -1,0 +1,22 @@
+[
+  {
+    "original_commit": "7fbc00ea9a013157aeeca9c95636ab7846fc891f",
+    "sanitized_commit": "2f99a4d5bc8b57965f9afe08874baaa46e846b9a"
+  },
+  {
+    "original_commit": "71b0ad7c8e083a1961c51dac86e67775681c0b74",
+    "sanitized_commit": "f19f5e30686b44f164a2d7588cacdf476545b4cc"
+  },
+  {
+    "original_commit": "c71e74624dbc25e90bcf39977523abdc0fe3af6d",
+    "sanitized_commit": "9a4f66a950fd87c176472bc5d1ffc4d9938abcde"
+  },
+  {
+    "original_commit": "8f8adfa1dd277b35c5b3d8482e797d8d2f667913",
+    "sanitized_commit": "23d535ae0ccd1853dbfd9b6a9eeff07d69f298f7"
+  },
+  {
+    "original_commit": "666b3c3be97292d0de302d2a9057b433808e76e0",
+    "sanitized_commit": "61cf5523e681f82370ddfabe532f92bcf59adbf9"
+  }
+]

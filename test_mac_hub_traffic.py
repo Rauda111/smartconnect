@@ -299,6 +299,8 @@ class TrafficTests(unittest.TestCase):
             self.assertTrue(any(m.label=='Recommended new-request path changes' and m.value=='2' for m in app.metric))
             self.assertTrue(any(m.label=='Independently confirmed path changes' and m.value=='Unverified' for m in app.metric))
 
+    @unittest.skipUnless(Path('mac_hub/traffic/evidence/stage_a_verification/source_requests.csv').is_file(),
+                         'Private historical socket evidence is withheld from public history')
     def test_dashboard_evidence_presets_confirm_only_clean_stage_a(self):
         from streamlit.testing.v1 import AppTest
         from mac_hub.traffic.dashboard_evidence import PRESETS
@@ -317,6 +319,8 @@ class TrafficTests(unittest.TestCase):
         next(s for s in app.selectbox if s.label=='Evidence experiment').select(list(PRESETS)[0]).run(timeout=30)
         self.assertEqual(next(m for m in app.metric if m.label=='Packet-confirmed requests').value,'4')
 
+    @unittest.skipUnless(Path('mac_hub/traffic/evidence/stage_a_verification/source_requests.csv').is_file(),
+                         'Private historical socket evidence is withheld from public history')
     def test_dashboard_evidence_rejects_mismatches_and_forged_labels(self):
         from mac_hub.traffic.dashboard_evidence import load, resolve, PRESETS
         import pandas as pd

@@ -10,6 +10,8 @@ from mac_hub.phase4.pilot_audit import audit
 
 EVIDENCE=Path('mac_hub/phase4/evidence/location_pilot_20261030T175502Z')
 
+@unittest.skipUnless((EVIDENCE/'raw/A_before-https/requests.csv').is_file(),
+                     'Private pilot request originals are withheld from public history')
 class PilotAuditTests(unittest.TestCase):
     def test_preserved_negative_result(self):
         result=audit(EVIDENCE)

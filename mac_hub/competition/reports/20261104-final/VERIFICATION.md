@@ -18,3 +18,11 @@ Two example charts were visually inspected for units, missing values and caption
 
 Public GitHub push is pending a history decision: an unpublished ancestor contains
 raw private socket logs. No force-push, rewrite or upload was performed.
+
+## Subsequent approved publication
+
+The user approved sanitized history. Identified private raw artifacts were excluded
+from every reachable competition commit; original history remains privately bundled.
+Current public-only test outcome: 83 passed, 6 private-original checks skipped,
+zero failures/errors (89 total). See ../../PUBLICATION_REVIEW.md and the commit map.
+The initial 89/89 result above describes the original private-evidence checkout.

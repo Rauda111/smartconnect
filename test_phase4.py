@@ -98,7 +98,10 @@ class Phase4Tests(unittest.TestCase):
         from streamlit.testing.v1 import AppTest
         app=AppTest.from_file('mac_hub/phase4/dashboard.py').run(timeout=15)
         self.assertFalse(list(app.exception))
-        self.assertEqual(app.metric[2].value,'0')
+        if Path('mac_hub/phase4/evidence/stable_observation/requests.csv').is_file():
+            self.assertEqual(app.metric[2].value,'0')
+        else:
+            self.assertTrue(app.error)  # Public checkout must fail closed without private originals.
 
     def test_recovery_hold_dwell_and_timing_validation(self):
         measurements={n:Measurement(i,status='reachable',latency=20,loss=0) for n,i in [('wifi','en0'),('cellular','en6')]}
@@ -139,6 +142,8 @@ class Phase4Tests(unittest.TestCase):
             self.assertEqual(contrasts.iloc[1].smart_minus_wifi_mean,1)
             self.assertTrue(contrasts.cluster_bootstrap_low.notna().all())
 
+    @unittest.skipUnless(Path('mac_hub/phase4/evidence/stable_observation/requests.csv').is_file(),
+                         'Private measured request originals are withheld from public history')
     def test_committed_observation_and_report_audit(self):
         from mac_hub.phase4.report import audit_products
         path=Path('mac_hub/phase4/evidence/stable_observation')

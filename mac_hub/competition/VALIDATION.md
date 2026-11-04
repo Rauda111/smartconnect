@@ -44,3 +44,13 @@ normal switch hold-reset display, and historical/live Streamlit decision inspect
 Targeted final download/display suite: 7 passed. No live probes, DNS, HTTPS or
 capture were initiated. Fixture traffic is mocked, never field performance evidence.
 Runner, client, collector, policy and all thresholds remain unchanged from c71e746.
+
+## Sanitized public-history checkout
+
+89 tests considered: **83 passed, 6 explicitly skipped, 0 failures/errors**,
+35.186 seconds. The six skipped checks require private historical socket originals
+excluded from public history (pilot preservation/anti-tampering: 3; saved Stage A
+proof/display: 2; stable measured-request audit: 1). All competition functionality,
+synthetic networking contracts, replay and sanitized-report tests still run.
+The original private checkout's complete 89-test pass is retained separately.
+Record: verification/publication_suite.log. No thresholds or traffic code changed.

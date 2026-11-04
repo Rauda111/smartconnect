@@ -12,3 +12,14 @@ __pycache__/
 id_rsa
 id_ed25519
 mac_hub/logs/
+
+# Private experimental socket/route originals: keep in the owner-only archive.
+mac_hub/phase4/evidence/location_pilot_20261030T175502Z/raw/*-https/requests.csv
+mac_hub/phase4/evidence/stable_observation/requests.csv
+mac_hub/traffic/evidence/controlled_final/requests.csv
+mac_hub/traffic/evidence/live_workload/requests.csv
+mac_hub/traffic/evidence/uncaptured_smoke/requests.csv
+mac_hub/traffic/evidence/stage_a_verification/
+results/main_routes_before_step84.txt
+results/rules_before_step84.txt
+results/path_test_01.txt

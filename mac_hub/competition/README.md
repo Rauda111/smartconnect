@@ -263,3 +263,12 @@ arrival times. Ctrl-C if more time is needed or anything unexpected occurs.
 No switch is guaranteed. Save manifest.json, events.jsonl, requests.jsonl and
 movement.jsonl privately. This is a single-policy new-request demo, not a paired
 Wi-Fi-first application-performance trial or existing-session handover test.
+
+## Public-history privacy
+
+This publication branch excludes original private socket/packet/route artifacts
+throughout its reachable history. The competition replay and sanitized five-run
+reports remain usable. Older Phase3/4 raw-evidence viewers/audits require the private
+original archive; public-only tests clearly skip the corresponding evidence checks.
+Original full-history Git bundles preserve prior commit IDs and private evidence.
+See PUBLICATION_REVIEW.md. Existing other GitHub branches were not rewritten.
