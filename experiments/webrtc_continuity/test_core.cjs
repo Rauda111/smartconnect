@@ -138,3 +138,22 @@ test('receiver-track replacement is disclosed rather than passed as preserved',a
  assert.equal((await f.call.sample()).same_observed_receiver_tracks,true);
  f.call.pc.receivers=[{track:{kind:'video'}}];assert.equal((await f.call.sample()).same_observed_receiver_tracks,false);
 });
+
+
+test('assisted initiator detects sustained decoded-video stall and requests bounded ICE restart',async()=>{
+ const f=fixture();await f.start();await f.answer();f.call.pc.stats=stats(5,10);await f.call.sample();
+ f.now=2500;await f.call.sample();assert.equal(f.call.restarts,0);
+ f.now=3200;await f.call.sample();assert.equal(f.call.restarts,1);
+ assert(f.call.events.some(e=>e.kind==='video_stall_observed'));
+ assert(f.call.events.some(e=>e.kind==='recovery_requested' && e.cause==='video_stalled'));
+ assert.equal(f.created,1);
+});
+test('baseline never automatically restarts on stalled video',async()=>{
+ const f=fixture('baseline');await f.start();await f.answer();f.call.pc.stats=stats(5,10);await f.call.sample();
+ f.now=3500;await f.call.sample();assert.equal(f.call.restarts,0);
+});
+test('assisted initiator attempts recovery after sustained ICE disconnection',async()=>{
+ const f=fixture();await f.start();await f.answer();f.call.pc.iceConnectionState='disconnected';f.call.pc.oniceconnectionstatechange();
+ f.now=3000;await f.call.sample();assert.equal(f.call.restarts,1);
+ assert(f.call.events.some(e=>e.kind==='recovery_requested' && e.cause==='ice_disconnected'));
+});

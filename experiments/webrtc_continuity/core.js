@@ -97,6 +97,7 @@
       this.closed=false;this.origin=0;this.restarts=0;this.lastRestart=-Infinity;
       this.pending=null;this.lastSignal=null;this.recommended=null;this.policyWindow=0;
       this.remoteTracks=[];this.remotePreserved=true;
+      this.lastVideoFrames=null;this.lastVideoProgress=null;this.stallReported=false;this.disconnectedSince=null;
     }
     event(kind,fields={}) { const e={elapsed_ms:this.clock()-this.origin,kind,...fields};this.events.push(e);this.onEvent(e); }
     async start(stream,configuration,{approved=false}={}) {
@@ -117,6 +118,8 @@
       this.pc.onconnectionstatechange=()=>this.event('connection_state',{state:enumValue(this.pc.connectionState,STATES)});
       this.pc.oniceconnectionstatechange=()=>{
         this.event('ice_state',{state:enumValue(this.pc.iceConnectionState,STATES)});
+        if(this.pc.iceConnectionState==='disconnected' && this.disconnectedSince===null)this.disconnectedSince=this.clock();
+        if(['connected','completed'].includes(this.pc.iceConnectionState))this.disconnectedSince=null;
         if(this.pc.iceConnectionState==='failed') void this.requestRestart('ice_failed');
       };
       this.event('session_started',{mode:this.mode,role:this.role});
@@ -168,7 +171,7 @@
       catch (_) {this.event('signaling_failure',{stage:'retry'});return false;}
     }
     async requestRestart(cause) {
-      if(!['policy_change','ice_failed','manual'].includes(cause)) return false;
+      if(!['policy_change','ice_failed','ice_disconnected','video_stalled','manual'].includes(cause)) return false;
       if(this.mode!=='smartconnect' || this.role!=='A' || !this.pc || this.closed) return false;
       if(this.restarts>=3) {this.pending=null;this.event('recovery_limit_reached');return false;}
       if(this.busy || this.pc.signalingState!=='stable' || this.clock()-this.lastRestart<10000) {
@@ -203,7 +206,22 @@
         if(this.pending) await this.requestRestart(this.pending);
         const report=await this.pc.getStats();
         if(this.closed)return null;
-        const sample=this.metrics.ingest(report,this.clock()-this.origin);
+        const now=this.clock();
+        const sample=this.metrics.ingest(report,now-this.origin);
+        // A stalled frame counter is only actionable after real remote video has progressed.
+        // This is a recovery trigger, NOT proof of an interface switch or handover latency.
+        if(finite(sample.frames_decoded) && sample.frames_decoded>0) {
+          if(this.lastVideoFrames===null || sample.frames_decoded>this.lastVideoFrames || sample.frames_decoded<this.lastVideoFrames) {
+            this.lastVideoProgress=now;this.stallReported=false;
+          } else if(this.mode==='smartconnect' && this.role==='A' && !this.stallReported && this.lastVideoProgress!==null && now-this.lastVideoProgress>=3000 && this.pc.signalingState==='stable') {
+            this.stallReported=true;this.event('video_stall_observed',{threshold_ms:3000});
+            await this.requestRestart('video_stalled');
+          }
+          this.lastVideoFrames=sample.frames_decoded;
+        } else {this.lastVideoFrames=null;this.lastVideoProgress=null;this.stallReported=false;}
+        if(this.disconnectedSince!==null && now-this.disconnectedSince>=2500 && this.mode==='smartconnect' && this.role==='A') {
+          this.disconnectedSince=null;await this.requestRestart('ice_disconnected');
+        }
         const senders=this.pc.getSenders();
         const receivers=this.pc.getReceivers().map(r=>r.track).filter(Boolean);
         // Track objects, not IDs, establish identity; nothing private is exported.

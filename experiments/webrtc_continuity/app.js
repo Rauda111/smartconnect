@@ -97,7 +97,7 @@
       stream=await navigator.mediaDevices.getUserMedia({video:{width:{ideal:640},height:{ideal:360},frameRate:{ideal:15,max:15}},audio:true});
       $('local').srcObject=stream;stopped=false;started=performance.now();
       call=new SmartConnectContinuity.Call({role:active.role,mode:active.mode,pcFactory:config=>new RTCPeerConnection(config),send,
-        onEvent:e=>{showEvent();if(['signaling_failure','recovery_limit_reached'].includes(e.kind))status('Recovery/signaling needs attention. No new call was created; inspect sanitized events.');},
+        onEvent:e=>{showEvent();if(e.kind==='recovery_requested')status(active.signaling==='manual' ? 'Recovery offer requested. MANUAL signaling: exchange the NEW offer/answer between laptops; automatic end-to-end recovery is unavailable.' : 'ICE recovery requested. Verify signaling delivery and actual media counters.');if(['signaling_failure','recovery_limit_reached'].includes(e.kind))status('Recovery/signaling needs attention. No new call was created; inspect sanitized events.');},
         onTrack:event=>{if(!remoteStream.getTracks().includes(event.track))remoteStream.addTrack(event.track);$('remote').play().catch(()=>status('Remote playback needs a user gesture: press Play remote audio/video.'));}});
       $('stop').disabled=false;$('receive').disabled=false;$('export').disabled=false;
       $('restart').disabled=active.mode!=='smartconnect' || active.role!=='A';
