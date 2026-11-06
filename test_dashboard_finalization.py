@@ -49,28 +49,23 @@ class DashboardTests(unittest.TestCase):
             self.assertFalse(app.exception)
             self.assertFalse(app.error)
             for window in (6,7,8):
-                app.slider[0].set_value(window).run()
+                app.button(key='timeline_'+str(window)).click().run()
                 self.assertFalse(app.exception)
                 if window==6: self.assertTrue(any('timeout' in e.value for e in app.error))
-                else: self.assertTrue(any('Network unavailable' in e.value for e in app.error))
+                else: self.assertTrue(any('Unavailable' in e.value for e in app.markdown))
             app.radio[0].set_value('Historical policy replay').run()
             self.assertFalse(app.exception)
             self.assertFalse(app.error)
-            app.selectbox[0].set_value('file_download').run()
+            app.selectbox(key='profile').set_value('file_download').run()
             self.assertFalse(app.exception)
             app.radio[0].set_value('Live monitoring').run()
-            self.assertTrue(any('Evidence unavailable' in e.value for e in app.error))
+            self.assertTrue(any('No active experiment' in e.value for e in app.info))
 
     def test_presentation_date_timeline_and_chart_axes(self):
-        from mac_hub.competition.dashboard import recorded_date, selection_timeline, chart_spec
+        from mac_hub.competition.dashboard import recorded_date, chart_spec
         rows, _ = recorded()
         self.assertEqual(recorded_date(rows[0]['timestamp_utc']), 'November 4, 2026 · UAE (UTC+4)')
         self.assertTrue(rows[0]['timestamp_utc'].startswith('2026-11-03T'))
-        timeline = selection_timeline(rows, 7)
-        self.assertEqual(timeline.count('<span>Wi-Fi</span>'), 6)
-        self.assertEqual(timeline.count('<span>Cellular</span>'), 2)
-        self.assertEqual(timeline.count('class="transition"'), 1)
-        self.assertIn('cellular current', timeline)
         spec = chart_spec(rows, 'latency', 'ICMP RTT (ms)').to_dict()
         self.assertEqual(spec['encoding']['x']['axis']['values'], list(range(1, 9)))
         self.assertEqual(spec['encoding']['x']['axis']['format'], 'd')
@@ -82,15 +77,19 @@ class DashboardTests(unittest.TestCase):
             app = AppTest.from_file(APP).run(timeout=30)
             self.assertFalse(app.exception)
             self.assertTrue(any('November 4, 2026 · UAE (UTC+4)' in x.value for x in app.caption))
-            self.assertTrue(all(not e.proto.expanded for e in app.expander))
+            self.assertFalse(app.toggle(key='technical').value)
+            self.assertEqual(len(app.dataframe),0)
+            self.assertEqual(len([b for b in app.button if b.key and b.key.startswith('timeline_')]),8)
             for window in (6,7,8):
-                app.slider[0].set_value(window).run()
+                app.button(key='timeline_'+str(window)).click().run()
                 self.assertFalse(app.exception)
                 if window == 7:
-                    self.assertTrue(any('0/10 ICMP replies' in x.value and 'availability exception' in x.value and 'not a proactive goodput-driven switch' in x.value for x in app.info))
-                    self.assertEqual(next(x.value for x in app.metric if x.label=='Outcome'), 'success')
+                    self.assertTrue(any('0/10 ICMP replies' in x.value and 'availability exception' in x.value and 'not a proactive goodput-driven switch' in x.value for x in app.markdown))
+                    self.assertEqual(next(x.value for x in app.metric if x.label=='Latest inspected HTTPS result'), 'Completed')
                 if window >= 7:
+                    app.toggle(key='technical').set_value(True).run()
                     self.assertTrue(any('RTT unavailable: Wi-Fi W7' in x.value for x in app.caption))
+                    app.button(key='back_overview').click().run()
                     self.assertTrue(any('Unavailable' in x.value and 'network-card' in x.value for x in app.markdown))
 
     def test_live_empty_malformed_fresh_stale_and_finished(self):
@@ -98,13 +97,14 @@ class DashboardTests(unittest.TestCase):
             path=Path(d)/'events.jsonl'
             app=AppTest.from_file(APP).run(timeout=30)
             app.radio[0].set_value('Live monitoring').run()
-            app.text_input[0].set_value(str(path)).run()
+            app.selectbox(key='log_choice').set_value('Enter an existing log path privately').run()
+            app.text_input(key='private_log').set_value(str(path)).run()
             path.write_text('')
             app.run()
             self.assertTrue(any('Waiting' in x.value for x in app.info))
             path.write_text('bad\n')
             app.run()
-            self.assertTrue(any('Evidence unavailable' in x.value for x in app.error))
+            self.assertTrue(any('Corrupt evidence' in x.value for x in app.error))
             raw=list(replay_rows())[0]
             from datetime import datetime, timezone
             raw.update(mode='live',event='completed_window',timestamp=datetime.now(timezone.utc).isoformat())
@@ -116,7 +116,7 @@ class DashboardTests(unittest.TestCase):
             path.write_text(json.dumps(raw)+'\n')
             (path.parent/'manifest.json').write_text(json.dumps(dict(output_hashes={},run_error_type='PRIVATE')))
             app.run()
-            self.assertTrue(any('Stale' in x.value for x in app.error))
+            self.assertTrue(any('Stale data' in x.value for x in app.error))
             self.assertTrue(any('finished' in x.value for x in app.warning))
             self.assertTrue(any('stopped' in x.value for x in app.error))
             self.assertNotIn('PRIVATE',str(app))

@@ -145,7 +145,8 @@ class CompetitionTests(unittest.TestCase):
             out=Path(tmp)/'run';live(out,cycles=1)
             app=AppTest.from_file('mac_hub/competition/dashboard.py').run(timeout=30)
             app.sidebar.radio[0].set_value('Live monitoring').run(timeout=30)
-            app.sidebar.text_input[0].set_value(str(out/'events.jsonl')).run(timeout=30)
+            app.selectbox(key='log_choice').set_value('Enter an existing log path privately').run(timeout=30)
+            app.text_input(key='private_log').set_value(str(out/'events.jsonl')).run(timeout=30)
             self.assertEqual(list(app.exception),[])
             self.assertTrue(any('Selected request failed' in x.value for x in app.error))
             display=' '.join(x.value for kind in [app.markdown,app.error,app.info,app.caption] for x in kind)
@@ -161,6 +162,7 @@ class CompetitionTests(unittest.TestCase):
         self.assertTrue(any('HISTORICAL' in x.value for x in app.caption))
         app.slider[0].set_value(18).run(timeout=30)
         self.assertEqual(list(app.exception),[])
+        app.toggle(key='technical').set_value(True).run(timeout=30)
         self.assertTrue(any(x.label=='Recommendation changes' and x.value=='2' for x in app.metric))
 
 if __name__=='__main__': unittest.main()

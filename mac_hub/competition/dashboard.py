@@ -9,18 +9,7 @@ import streamlit as st
 from mac_hub.competition.run import replay_rows, INTERFACES, digest
 
 
-def read_events(path):
-    """Tolerate only an incomplete last append; do not hide internal corruption."""
-    text = Path(path).read_text()
-    lines = text.splitlines()
-    rows = []
-    for index, line in enumerate(lines):
-        try:
-            rows.append(json.loads(line))
-        except json.JSONDecodeError:
-            if index != len(lines)-1 or text.endswith('\n'):
-                raise ValueError('Event log is corrupt')
-    return rows
+from mac_hub.competition.dashboard_ui import read_events
 
 
 def decision_view(row):
@@ -84,17 +73,6 @@ def recorded_date(timestamp):
     return f'{local:%B} {local.day}, {local.year} · UAE (UTC+4)'
 
 
-def selection_timeline(rows, current):
-    cells = []
-    for i, row in enumerate(rows):
-        transition = i > 0 and row['selected'] != rows[i-1]['selected']
-        classes = ('cellular' if row['selected']=='cellular' else 'wifi')
-        classes += ' current' if row['window']==current else ''
-        marker = '<span class="transition">↳</span>' if transition else ''
-        cells.append(f'<div class="window {classes}">{marker}<b>W{row["window"]}</b><span>{LABELS[row["selected"]]}</span></div>')
-    return '<div class="window-timeline" aria-label="Recorded eight-window network selection">'+''.join(cells)+'</div>'
-
-
 def chart_spec(rows, metric, unit):
     points = [dict(window=r['window'], network=LABELS[n], value=r.get(n+'_'+metric)) for r in rows for n in NETWORKS]
     return alt.Chart(pd.DataFrame(points)).mark_line(point=True).encode(
@@ -112,181 +90,230 @@ def chart(rows, metric, title, unit):
         st.caption(('RTT unavailable: ' if metric=='latency' else 'Measurement unavailable: ')+', '.join(missing)+'. Missing values are not zero.')
 
 
-def present(rows, requests, mode, index):
-    r = rows[index]; history = rows[:index+1]
-    selected = LABELS[r['selected']]
-    if mode == MODES[0]:
-        st.markdown(selection_timeline(rows, r['window']), unsafe_allow_html=True)
-        st.caption('W6 → W7: availability exception · Wi-Fi returned 0/10 ICMP replies')
-    st.markdown(f'<div class="selection"><span>SELECTED INTERFACE · WINDOW {r["window"]} / {len(rows)}</span><h2>{selected}</h2></div>', unsafe_allow_html=True)
-    if mode==MODES[0] and r['window']==7:
-        st.info('Wi-Fi returned 0/10 ICMP replies. The controller used the availability exception to recommend cellular immediately. This was not a proactive goodput-driven switch.')
-    else:
-        st.info(r['reason'])
-    outcome = r['selected_request_status']
-    if outcome == 'not_collected':
-        st.info('No historical HTTPS outcomes were collected in this replay.')
-    else:
-        if outcome != 'success':
-            st.error('Selected request failed: ' + outcome + '. No alternate-interface retry was made.')
-        a, b, c = st.columns(3)
-        a.metric('Outcome', outcome)
-        b.metric('Request completion / elapsed time', fmt(r.get('selected_request_ms'), ' ms'))
-        binding = r.get('selected_binding_readback') in (True, 'True')
-        c.metric('Socket option readback', 'Confirmed' if binding else 'Unconfirmed')
+from html import escape
+from mac_hub.competition import dashboard_ui as ui
+
+
+def explanation(row, mode):
+    selected = LABELS[row['selected']]
+    if mode == MODES[0] and row['window'] == 7:
+        return 'Wi-Fi returned 0/10 ICMP replies. An availability exception selected cellular immediately. A new HTTPS request completed in 224.695 ms. This was not a proactive goodput-driven switch.'
+    if row['selected'] is None:
+        return 'Neither connection has enough usable observations to recommend a new request.'
+    other = 'cellular' if row['selected']=='wifi' else 'wifi'
+    if row[other+'_status'] != 'reachable':
+        return selected+' was retained because the other connection was unavailable in this observation.'
+    if mode == MODES[0] and row['window'] == 6:
+        return 'Wi-Fi was retained while cellular had only one qualifying observation out of three. The selected Wi-Fi HTTPS request then timed out.'
+    if row['qualifying_count']:
+        return selected+' was retained while the alternative builds its normal three-observation hold. One better-looking sample is not enough.'
+    if row['window'] == 1:
+        return selected+' was usable and became the initial selection for a new request.'
+    if row['reason'].startswith('Recommendation changed'):
+        return selected+' was selected after the alternative stayed better through the normal hold and dwell checks.'
+    return selected+' was retained: the other connection did not show a sustained qualifying advantage.'
+
+
+def overview(rows, requests, mode, index):
+    r = rows[index]
+    left, right = st.columns([1, 2])
+    with left:
+        st.markdown(f'<div class="selection"><small>SELECTED FOR A NEW REQUEST</small><h2>{LABELS[r["selected"]]}</h2><span>Window {r["window"]} of {len(rows)}</span></div>', unsafe_allow_html=True)
+    with right:
+        st.markdown('<div class="why"><b>Why this decision?</b><p>'+escape(explanation(r, mode))+'</p></div>', unsafe_allow_html=True)
     for col, n in zip(st.columns(2), NETWORKS):
         with col:
-            available = r[n+'_status']=='reachable'
-            network_status = 'Reachable' if available else 'Unavailable'
-            if not available:
-                st.error(LABELS[n]+': Network unavailable in this observation')
-            if available and (r[n+'_latency'] is None or r[n+'_loss'] is None):
-                st.warning('Incomplete observation: unknown metrics cannot certify this path.')
+            health, style = ui.path_health(r, n)
             replies = f"{r[n+'_received']:g}/{r[n+'_sent']:g}" if r[n+'_received'] is not None and r[n+'_sent'] is not None else 'Unavailable'
-            st.markdown(f'''<div class="network-card"><div class="network-heading"><b>{LABELS[n]}{' · SELECTED' if r['selected']==n else ''}</b><span>{network_status}</span></div>
-            <div class="network-metrics"><div><small>ICMP mean RTT</small><strong>{fmt(r[n+'_latency'], ' ms')}</strong></div><div><small>ICMP loss</small><strong>{fmt(r[n+'_loss'], ' %')}</strong></div></div>
-            <div class="network-foot">Echo replies: {replies} · Calibration: {fmt(r.get(n+'_calibration_goodput_Mbps'), ' Mbps')}</div></div>''', unsafe_allow_html=True)
-    if mode == MODES[0]:
-        st.caption('FULL RUN · HTTPS completed 20/24 · Failed 4/24 · Selected outcomes 7/8 successful · Cellular completions 2 × 64 KiB · Includes 16 calibration requests and 8 selected outcomes.')
+            selected = ' · SELECTED' if r['selected']==n else ''
+            st.markdown(f'''<section class="network-card {style}" aria-label="{LABELS[n]} measurements">
+            <div class="network-heading"><b>{LABELS[n]}{selected}</b><span>{health}</span></div>
+            <div class="network-metrics"><div title="{escape(ui.TERMS['RTT'][0])}"><small>Response time · RTT</small><strong>{fmt(r[n+'_latency'], ' ms')}</strong></div><div title="{escape(ui.TERMS['Packet loss'][0])}"><small>Missed replies · ICMP loss</small><strong>{fmt(r[n+'_loss'], ' %')}</strong></div></div>
+            <div class="network-foot">Echo replies: {replies} · Small-download calibration: {fmt(r.get(n+'_calibration_goodput_Mbps'), ' Mbps')}</div></section>''', unsafe_allow_html=True)
+    outcome = r['selected_request_status']
+    if outcome == 'not_collected':
+        st.info('No HTTPS outcomes were collected in this historical replay. Only policy decisions are replayed.')
+    else:
+        a, b, c = st.columns(3)
+        a.metric('Latest inspected HTTPS result', 'Completed' if outcome=='success' else 'Failed · '+outcome, help='The actual selected-outcome request at the inspected window; separate from calibration.')
+        b.metric('Completion time' if outcome=='success' else 'Time until failure', fmt(r.get('selected_request_ms'), ' ms'), help='Whole new HTTPS request time, including connection and TLS setup.')
+        c.metric('Socket setting readback', 'Confirmed' if r.get('selected_binding_readback') in (True,'True') else 'Unconfirmed', help=' '.join(ui.TERMS['Socket binding']))
+        if outcome != 'success':
+            st.error('Selected request failed: '+outcome+'. No alternate-interface retry was made.')
+    if mode==MODES[0]:
+        st.caption('FULL RUN · 20/24 HTTPS requests completed (includes calibration) · Selected outcomes: 7/8 · Cellular: 2 × 64 KiB · Wi-Fi-first made identical selections here.')
     elif requests:
-        public = request_table(requests)
-        st.caption(f"LOGGED HTTPS · {sum(x['status']=='success' for x in public)} completed / {len(public)} attempts")
-    st.caption('Cellular-backed iPhone USB; radio generation unverified. Socket readback confirms the option, not packet-confirmed egress. Unknown goodput remains unavailable.')
-    a, b = st.columns(2)
-    with a:
-        chart(history, 'latency', 'Responsiveness', 'ICMP RTT (ms)')
-    with b:
-        chart(history, 'loss', 'Reachability', 'ICMP loss (%)')
-    st.caption('Measured window samples only; lines do not describe observations between windows. Failed request time is elapsed time to failure.')
-    with st.expander('Bounded HTTPS goodput chart', expanded=False):
-        chart(history, 'calibration_goodput_Mbps', 'Pre-decision calibration', 'Bounded-object goodput (Mbps)')
+        public = requests if 'interface' in requests[0] else request_table(requests)
+        st.caption(f"LOGGED REQUESTS · {sum(x['status']=='success' for x in public)}/{len(public)} completed, including calibration when present.")
+    st.caption('Recorded samples are not live collection. Selection applies to a new request; socket readback is not packet-confirmed physical egress.' if mode!=MODES[2] else 'Read-only log viewer. Socket readback is not packet-confirmed physical egress; this page never starts collection.')
+
+
+def technical(rows, requests, index):
+    r = rows[index]; history = rows[:index+1]
+    st.subheader('Technical Details')
+    st.caption('Replay is paused while this area is open. Inspect a different window with the navigation controls; nothing advances automatically.')
+    st.button('Back to Overview', on_click=ui.back, args=(st.session_state,), key='back_overview')
+    with st.expander('Plain-English terms', expanded=st.session_state.get('show_terms', False)):
+        term = st.selectbox('Explain a term', list(ui.TERMS), key='term')
+        short, detail = ui.TERMS[term]
+        st.write(short)
+        st.caption(detail)
+    with st.expander('Measurement charts', expanded=False):
+        a,b = st.columns(2)
+        with a:
+            chart(history, 'latency', 'Response time · ICMP RTT', 'ICMP RTT (ms)')
+        with b:
+            chart(history, 'loss', 'Missed replies · ICMP loss', 'ICMP loss (%)')
+        chart(history, 'calibration_goodput_Mbps', 'Pre-decision small-download calibration', 'Bounded-object goodput (Mbps)')
+        st.caption('Measured samples only. Missing values remain unavailable; lines do not describe observations between windows.')
     with st.expander('Decision timeline and scoring', expanded=False):
         st.metric('Recommendation changes', sum(a['selected']!=b['selected'] and a['selected'] in NETWORKS and b['selected'] in NETWORKS for a,b in zip(rows,rows[1:])))
-        st.write('Profile: ' + ('File Download' if r['profile']=='file_download' else 'Video'))
-        st.write('Scoring basis: ' + ('bounded HTTPS goodput utility + loss' if r['scoring_basis']=='bounded_goodput_utility_and_loss' else 'ICMP RTT + loss'))
+        st.write('Profile: '+('File Download' if r['profile']=='file_download' else 'Video'))
+        st.write('Scoring basis: '+('bounded HTTPS goodput utility + loss' if r['scoring_basis']=='bounded_goodput_utility_and_loss' else 'ICMP RTT + loss'))
         a,b,c,d = st.columns(4)
-        a.metric('Switching margin', fmt(r.get('margin')))
-        b.metric('Qualifying hold', f"{r['qualifying_count']:g} / {r['hold_required']:g}")
-        c.metric('Required dwell', f"{r['dwell_seconds']:g} s")
+        a.metric('Switching margin', fmt(r.get('margin')), help='Required score advantage in the normal switching rule; not a speed difference in Mbps.')
+        b.metric('Qualifying hold', f"{r['qualifying_count']:g} / {r['hold_required']:g}", help=' '.join(ui.TERMS['Hysteresis']))
+        c.metric('Required dwell', f"{r['dwell_seconds']:g} s", help=' '.join(ui.TERMS['Dwell']))
         d.metric('Candidate advantage', fmt(r.get('candidate_advantage')))
-        st.caption('Normal hysteresis requires three consecutive qualifying windows and 30 seconds dwell. An unavailable selected path triggers an immediate availability exception. Observed-guardrail rescue may qualify below the margin but still requires hold/dwell. A scoring-basis change resets trend and hold.')
-        if 'elapsed_dwell' in r:
-            st.write('Elapsed dwell at this observation: '+fmt(r['elapsed_dwell'], ' s'))
+        st.caption('Normal hold: three consecutive qualifying observations; dwell: 30 seconds. An unavailable selected path triggers an immediate availability exception. Observed-guardrail rescue may qualify below the margin but still requires hold/dwell. A scoring-basis change resets trend and hold.')
+        st.write('Elapsed dwell at this observation: '+fmt(r.get('elapsed_dwell'), ' s'))
         st.dataframe(pd.DataFrame([dict(window=x['window'], selected=LABELS[x['selected']], reason=x['reason'], HTTPS=x['selected_request_status'], request_ms=x.get('selected_request_ms')) for x in rows]), hide_index=True, use_container_width=True)
         st.dataframe(pd.DataFrame([dict(window=x['window'], **{LABELS[n]+' adjusted score':x.get(n+'_adjusted_score') for n in NETWORKS}) for x in history]), hide_index=True, use_container_width=True)
-        st.write('Video scores observed ICMP RTT/loss; it does not measure video-call QoE. File Download uses pre-decision calibration only when both paths have valid bounded transfers; otherwise it falls back to RTT/loss. The download utility combines 80% capped goodput against a fixed 10 Mbps reference and 20% RTT quality before the existing loss/trend policy.')
+        st.write('Video scores observed ICMP RTT/loss, not video-call QoE. File Download uses calibration only when both paths have valid bounded transfers; otherwise it uses RTT/loss. Download utility combines 80% capped goodput against a fixed 10 Mbps reference and 20% RTT quality before the existing loss/trend policy.')
     with st.expander('HTTPS request ledger · calibration versus selected outcome', expanded=False):
         if requests:
-            public = request_table(requests)
+            public = requests if 'interface' in requests[0] else request_table(requests)
             st.dataframe(pd.DataFrame(public), hide_index=True, use_container_width=True)
             successes = sum(x['status']=='success' for x in public)
             st.write(f'{successes} successful / {len(public)} attempts; {len(public)-successes} failed or incomplete.')
         else:
-            st.info('Request ledger unavailable. No outcomes are invented.')
-        st.write('Calibration deliberately samples both paths before a download decision. Its alternating interfaces are not policy switches. Selected-outcome requests follow the recommendation. Goodput is delivered body bits divided by full fresh HTTPS time, including TCP/TLS/server/request overhead; it is not link capacity.')
+            st.info('No request ledger available. No outcomes are invented.')
+        st.write('Calibration samples both paths before selection; its alternating interfaces are not policy switches. Selected-outcome requests follow the recommendation. Bounded goodput includes all fresh HTTPS overhead and is not link capacity.')
     with st.expander('Evidence provenance and limits', expanded=False):
-        st.write('Sanitized evidence: mac_hub/competition/reports/20261104-final/. Public CSV and provenance hashes are checked before recorded playback. Exact stored values are retained; display metrics round to three decimals. Hover charts or inspect the ledger for greater precision.')
-        st.write('The eight-window run makes the same decisions as Wi-Fi-first. It demonstrates integrated fallback capability, not comparative superiority; no separate baseline HTTPS outcomes were executed.')
-        st.write('No seamless handover, packet-confirmed physical switching, verified 5G access, actual video QoE, measured handover time, or universal improvement is claimed. Historical movement-stage boundaries were not recorded. The historical W15 parsed RTT excludes a late reply present in the ping summary.')
+        st.write('Public package: mac_hub/competition/reports/20261104-final/. Recorded CSV and provenance hashes are checked. UTC timestamps and exact stored values are preserved; display metrics round to three decimals.')
+        st.write('This fallback run gives the same selections as Wi-Fi-first; it demonstrates integrated fallback, not comparative superiority. No separate baseline HTTPS outcomes were executed.')
+        st.write('No seamless session migration, verified 5G radio, actual video QoE, measured handover time or packet-confirmed physical egress is claimed. Historical movement boundaries were not recorded. Historical W15 parsed RTT excludes a late reply present in the ping summary.')
+
+
+def tour(row):
+    stages = ['Monitor', 'Decide', 'Act', 'Verify']
+    stage = st.radio('Guided tour · Monitor → Decide → Act → Verify', stages, horizontal=True, on_change=ui.pause, args=(st.session_state,), key='tour_stage')
+    messages = {
+        'Monitor': 'Read both connection cards. RTT is response time; packet loss is missed ICMP replies. Unavailable means no usable value was recorded.',
+        'Decide': 'Read “Why this decision?”. Normal hold avoids flip-flopping. At W7, 0/10 Wi-Fi replies trigger the immediate availability exception.',
+        'Act': 'Inspect the new HTTPS request. At recorded W7, the cellular-selected request completed 64 KiB in 224.695 ms. Existing sessions were not migrated.',
+        'Verify': 'Check the result and socket-setting readback. Readback confirms the setting, not physical egress. The full run completed 20/24 requests, including calibration.',
+    }
+    st.info(messages[stage])
+
+
+def navigation(count, mode):
+    state = st.session_state
+    state['window'] = max(1, min(count, state.get('window', 1)))
+    cols = st.columns([1,1,1.1,1,1.8])
+    cols[0].button('Previous', disabled=state['window']==1, on_click=ui.choose, args=(state,state['window']-1), key='previous', use_container_width=True)
+    cols[1].button('Next', disabled=state['window']==count, on_click=ui.choose, args=(state,state['window']+1), key='next', use_container_width=True)
+    cols[2].button('Pause' if state.get('playing') else 'Play', disabled=mode==MODES[2] or state.get('technical',False) or state['window']==count, on_click=ui.play_pause, args=(state,count), key='play_pause', help='Replay saved windows only. Disabled in Live monitoring and while Technical Details is open. Restart after the last window.', use_container_width=True)
+    cols[3].button('Restart', disabled=state['window']==1 and not state.get('playing'), on_click=ui.choose, args=(state,1), key='restart', use_container_width=True)
+    cols[4].selectbox('Replay speed', list(ui.SPEEDS), key='speed', on_change=ui.pause, args=(state,), disabled=mode==MODES[2], label_visibility='collapsed', help='Changing speed pauses replay. Press Play to continue at the new speed.')
+    status = 'Playing' if state.get('playing') else 'Finished · last window' if state['window']==count else 'Paused'
+    if mode==MODES[2]:
+        status = 'Inspecting saved log window'
+    st.caption(f"{status} · Window {state['window']} of {count}"+(' · Technical inspection locks replay' if state.get('technical') else ''))
+
+
+def timeline(rows):
+    cols = st.columns(len(rows))
+    for i,(col,row) in enumerate(zip(cols,rows)):
+        changed = i>0 and row['selected']!=rows[i-1]['selected']
+        label = f"W{row['window']}{' ↳' if changed else ''} · {LABELS[row['selected']]}"
+        col.button(label, key='timeline_'+str(row['window']), type='primary' if st.session_state['window']==i+1 else 'secondary', help=('Transition: Wi-Fi had 0/10 ICMP replies; availability exception. ' if changed else '')+'Inspect this recorded window. Mouse or keyboard activation pauses replay.', on_click=ui.choose, args=(st.session_state,i+1), use_container_width=True)
+
+
+def live_controls():
+    known = ui.known_logs()
+    options = ['Choose a log'] + [f'Approved local log {i+1}' for i in range(len(known))] + ['Enter an existing log path privately']
+    selected = st.sidebar.selectbox('Read-only collector log', options, key='log_choice', on_change=ui.reset, args=(st.session_state,))
+    path = None
+    if selected == options[-1]:
+        path = st.sidebar.text_input('Existing log path (hidden)', type='password', help='Read-only local path. Never projected in the public view; raw errors and identifiers are hidden.', key='private_log', on_change=ui.reset, args=(st.session_state,)) or None
+    elif selected!='Choose a log':
+        path = known[options.index(selected)-1]
+    with st.sidebar.expander('Expected log location', expanded=False):
+        st.code('/tmp/smartconnect-approved-demo/events.jsonl')
+        st.caption('Only this conventional approved location is checked automatically. A run may also contain requests.jsonl and manifest.json. Collection is separate and requires approval.')
+    st.sidebar.button('Refresh log', key='refresh_log', help='Re-read the existing file. Does not start a collector.')
+    return path
 
 
 def main():
     st.set_page_config(page_title='SmartConnect · EDGE 2026', page_icon='↔', layout='wide', initial_sidebar_state='expanded')
-    st.markdown('''<style>
-    .stApp {background:#071322;color:#e6f1fa}
-    [data-testid="stSidebar"] {background:#0c1d30}
-    .block-container {max-width:1280px;padding-top:3rem;padding-bottom:1rem}
-    h1 {font-size:2rem;padding:0;margin:0}
-    h1,h2,h3 {letter-spacing:-.025em;color:#eefaff}
-    [data-testid="stMetricValue"] {color:#63e6ef;font-variant-numeric:tabular-nums;font-size:1.45rem}
-    [data-testid="stVerticalBlockBorderWrapper"] {border-radius:16px}
-    .eyebrow {color:#63e6ef;letter-spacing:.2em;font-size:.75rem;font-weight:700}
-    .selection {background:linear-gradient(110deg,#103447,#10223b);border:1px solid #26788b;border-radius:16px;padding:8px 16px;margin:4px 0}
-    .selection span {color:#80e7ed;font-size:.75rem;letter-spacing:.12em}
-    .selection h2 {margin:0;padding:0;font-size:1.7rem}
-    .selection p {margin:0;color:#b4cbd9}
-    [data-testid="stVerticalBlock"] {gap:.65rem}
-    .window-timeline {display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:5px}
-    .window {position:relative;display:flex;justify-content:center;gap:6px;flex-wrap:wrap;padding:7px 3px;border-radius:6px;background:#103447;color:#80e7ed;font-size:.75rem}
-    .window.cellular {background:#292648;color:#c5baff}
-    .window.current {outline:2px solid #e6f1fa;outline-offset:-2px}
-    .transition {position:absolute;left:-7px;top:-10px;color:#fff;font-size:1.3rem;font-weight:bold}
-    .network-card {background:#0c1d30;border:1px solid #244458;border-radius:12px;padding:12px 15px}
-    .network-heading {display:flex;justify-content:space-between;gap:8px;font-size:1rem}
-    .network-heading span {font-size:.8rem;color:#b8cddc}
-    .network-metrics {display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:7px 0}
-    .network-metrics small {display:block;color:#b8cddc;font-size:.75rem}
-    .network-metrics strong {display:block;color:#63e6ef;font-size:1.35rem}
-    .network-foot {color:#b8cddc;font-size:.75rem}
-    @media(max-width:700px) {.window-timeline {gap:3px}.window span {font-size:.6rem}.network-metrics strong {font-size:1.1rem}}
-    </style>''', unsafe_allow_html=True)
-    st.markdown('<div class="eyebrow">ADVANCED TECHNOLOGY PIONEERS 2026 · EDGE</div>', unsafe_allow_html=True)
-    st.title('SmartConnect')
-    st.write('Application-aware selection for new HTTPS connections · Real measurements, explainable fallback.')
-    mode = st.sidebar.radio('Demonstration mode', MODES)
-    st.sidebar.caption('Offline viewer · no probes, HTTPS requests, captures, or network-setting changes are started here.')
-    profile = st.sidebar.selectbox('Application profile', ['video_call','file_download']) if mode == MODES[1] else None
-    path = st.sidebar.text_input('Existing runner events.jsonl', '/tmp/smartconnect-approved-demo/events.jsonl') if mode==MODES[2] else None
-    play = st.sidebar.toggle('Replay animation', value=False) if mode!=MODES[2] else False
-    if st.sidebar.button('Restart replay'):
-        st.session_state['frame'] = 0
-
-    @st.fragment(run_every=2 if play or path else None)
+    st.markdown('<style>'+Path(__file__).with_suffix('.css').read_text()+'</style>', unsafe_allow_html=True)
+    state = st.session_state
+    for key,value in dict(window=1, playing=False, technical=False, show_terms=False, speed='Normal · 2 seconds', source_id=None).items():
+        if key not in state:
+            state[key] = value
+    st.markdown('<div class="eyebrow">ADVANCED TECHNOLOGY PIONEERS 2026 · EDGE</div><h1>SmartConnect</h1><p class="subtitle">See both connections. Understand the choice. Verify the next request.</p>', unsafe_allow_html=True)
+    if state.pop('switch_to_recorded', False):
+        state['mode'] = MODES[0]
+        ui.reset(state)
+    mode = st.sidebar.radio('Demonstration mode', MODES, key='mode', on_change=ui.reset, args=(state,))
+    st.sidebar.caption('Recorded: real saved results. Historical: real ICMP inputs, replayed policy. Live: read-only files from a separately approved collector.')
+    profile = st.sidebar.selectbox('Application profile', ['video_call','file_download'], key='profile', on_change=ui.reset, args=(state,)) if mode==MODES[1] else None
+    path = live_controls() if mode==MODES[2] else None
+    st.sidebar.toggle('Guided demo tour', key='guided', on_change=ui.pause, args=(state,), help='A short Monitor → Decide → Act → Verify explanation. Opening or changing the tour pauses playback.')
+    st.sidebar.caption('No probes, HTTPS requests, captures or network changes are started by this viewer.')
+    # A fixed local UI clock avoids rebuilding fragment ownership on Play/Pause.
+    # tick() changes windows only while playing; technical inspection stays locked.
+    @st.fragment(run_every=.5)
     def render():
         try:
-            requests = []
             if mode==MODES[0]:
                 rows, requests = recorded()
-                st.caption('RECORDED REAL EXPERIMENT, NOT LIVE · '+recorded_date(rows[0]['timestamp_utc'])+' · File Download')
+                st.caption('RECORDED REAL EXPERIMENT · NOT LIVE · '+recorded_date(rows[0]['timestamp_utc'])+' · File Download')
             elif mode==MODES[1]:
                 st.caption('HISTORICAL REAL OBSERVATIONS · REPLAYED POLICY DECISIONS · NOT LIVE')
-                st.caption('18 real-ICMP windows. No historical HTTPS outcomes. No recorded movement-stage boundaries. Default Video replay changes recommendations at W4 and W18.')
-                raw = list(replay_rows(application=profile))
-                rows = [project(x) for x in raw]
+                st.caption('18 real-ICMP windows. No historical HTTPS outcomes or movement-stage boundaries. Video replay changes at W4 and W18.')
+                rows = [project(r) for r in replay_rows(application=profile)]
                 for i,r in enumerate(rows):
                     r['reason'] = reason(r, rows[i-1] if i else None)
+                requests = []
             else:
-                st.caption('LIVE LOG VIEWER · existing collector files only')
-                events = read_events(path)
-                if not events:
-                    st.info('Waiting for completed measurements. Opening this viewer starts no collection.')
-                    return
-                if any(e.get('mode')!='live' for e in events):
-                    raise ValueError('Wrong mode')
-                completed_events = [e for e in events if e.get('event')=='completed_window']
-                latest = completed_events[-1] if completed_events else events[-1]
-                age = (datetime.now(timezone.utc)-datetime.fromisoformat(latest['timestamp'])).total_seconds()
-                if age > latest.get('freshness_limit_seconds',45) or age < -5:
-                    st.error('Stale observations or clock change. Selection must not be treated as current.')
-                completed = Path(path).with_name('manifest.json')
-                if completed.exists():
-                    manifest = json.loads(completed.read_text())
-                    for name, expected in manifest['output_hashes'].items():
-                        if Path(name).name!=name or digest(completed.parent/name)!=expected:
-                            raise ValueError('Integrity mismatch')
-                    st.warning('Collector finished or cancelled. This is a saved log, not active collection.')
-                    if manifest.get('run_error_type'):
-                        st.error('Collector stopped with an error; partial evidence retained.')
-                rows = [project(e) for e in events if e.get('event')=='completed_window']
-                for i,r in enumerate(rows):
-                    r['reason'] = reason(r, rows[i-1] if i else None)
-                request_path = Path(path).with_name('requests.jsonl')
-                if request_path.is_file():
-                    requests = read_events(request_path)
+                st.caption('LIVE LOG VIEWER · READ ONLY · collection remains separate')
+                data = ui.load_live(path)
+                for kind, message in data['notices']:
+                    getattr(st,kind)(message)
+                rows, requests = data['rows'], data['requests']
             if not rows:
-                st.info('No completed measurement windows available yet.')
+                if mode!=MODES[2]:
+                    st.warning('No completed windows are available. Choose another evidence mode.')
+                if st.button('Open recorded demo', key='open_recorded'):
+                    state['switch_to_recorded'] = True
+                    st.rerun()
                 return
-            if play:
-                index = st.session_state.get('frame',0) % len(rows)
-                st.session_state['frame'] = index+1
-                st.caption(f'Replaying window {index+1} of {len(rows)} · animation loops')
-            elif len(rows)==1:
-                index = 0
+            source = (mode, profile, str(path) if path else None)
+            if state.get('source_id') != source:
+                state['source_id'] = source
+                state['window'] = len(rows) if mode==MODES[2] else 1
+            ui.tick(state, len(rows))
+            navigation(len(rows), mode)
+            if mode==MODES[0]:
+                timeline(rows)
             else:
-                index = st.slider('Inspect measurement window', 1, len(rows), len(rows) if path else 1, key='window_'+str(MODES.index(mode)))-1
-            present(rows, requests, mode, index)
+                st.slider('Inspect measurement window', 1, len(rows), key='window', on_change=ui.pause, args=(state,), disabled=len(rows)==1) if len(rows)>1 else st.caption('One completed window available')
+            a,b = st.columns([1,1])
+            a.toggle('Technical Details', key='technical', on_change=ui.pause, args=(state,), help='Opening details pauses replay. Playback stays locked until you return to Overview.')
+            b.button('Explain terms', key='explain_terms', on_click=ui.inspect_details, args=(state,True), help='Open a plain-English glossary and pause replay.')
+            index = state['window']-1
+            if state.get('technical'):
+                technical(rows, requests, index)
+            else:
+                if state.get('guided'):
+                    tour(rows[index])
+                overview(rows, requests, mode, index)
         except Exception:
-            st.error('Evidence unavailable, incomplete, or invalid. Check the local evidence privately; no raw network details are displayed.')
+            ui.pause(state)
+            st.error('Evidence unavailable or corrupt — recorded files may be missing or invalid. Check them privately; no raw details are displayed.')
     render()
 
 

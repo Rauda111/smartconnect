@@ -106,10 +106,12 @@ class DownloadDisplayTests(unittest.TestCase):
             with patch('mac_hub.competition.run.resolve',side_effect=AssertionError('DNS')), patch('mac_hub.competition.run.request',side_effect=AssertionError('network')):
                 app=AppTest.from_file('mac_hub/competition/dashboard.py').run(timeout=30)
                 app.sidebar.radio[0].set_value('Live monitoring').run(timeout=30)
-                app.sidebar.text_input[0].set_value(str(out/'events.jsonl')).run(timeout=30)
+                app.selectbox(key='log_choice').set_value('Enter an existing log path privately').run(timeout=30)
+                app.text_input(key='private_log').set_value(str(out/'events.jsonl')).run(timeout=30)
                 self.assertEqual(list(app.exception),[])
+                app.toggle(key='technical').set_value(True).run(timeout=30)
                 metrics={x.label:x.value for x in app.metric}
-                self.assertTrue(any('Cellular' in x.value and 'SELECTED INTERFACE' in x.value for x in app.markdown))
+                self.assertEqual(app.session_state['window'],4)
                 self.assertEqual(metrics['Qualifying hold'],'3 / 3')
                 self.assertEqual(metrics['Recommendation changes'],'1')
                 requests=app.dataframe[-1].value
@@ -127,6 +129,7 @@ class DownloadDisplayTests(unittest.TestCase):
         app.sidebar.radio[0].set_value('Historical policy replay').run(timeout=30)
         app.slider[0].set_value(3).run(timeout=30)
         self.assertEqual(list(app.exception),[])
+        app.toggle(key='technical').set_value(True).run(timeout=30)
         metrics={x.label:x.value for x in app.metric}
         self.assertEqual(metrics['Qualifying hold'],'2 / 3')
         self.assertEqual(metrics['Switching margin'],'0.050')
