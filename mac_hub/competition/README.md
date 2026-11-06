@@ -272,3 +272,37 @@ reports remain usable. Older Phase3/4 raw-evidence viewers/audits require the pr
 original archive; public-only tests clearly skip the corresponding evidence checks.
 Original full-history Git bundles preserve prior commit IDs and private evidence.
 See PUBLICATION_REVIEW.md. Existing other GitHub branches were not rewritten.
+
+## Recorded experiment context — participant observation
+
+For the eight-window File Download experiment, the participant reported seeing
+the MacBook's Wi-Fi icon disappear and later return. The exact time was not
+recorded. This is contextual information, not independently timestamped evidence;
+it cannot be assigned to W6, W7 or any other measurement window, or establish
+when Wi-Fi association was lost or restored.
+
+The recorded measurements remain the basis for the dashboard explanation:
+Wi-Fi answered 9/10 ICMP probes in W6 while its selected HTTPS request timed out.
+Cellular had reached only 1/3 normal qualifying observations, so the normal rule
+retained Wi-Fi. In W7, 0/10 Wi-Fi replies triggered the availability exception
+and cellular fallback. A request timeout alone does not establish that the entire
+Wi-Fi network was unavailable. No experimental files or timestamps were changed.
+
+## Roadmap — future work, not implemented or evaluated
+
+- **Wi-Fi association monitoring:** record minimal, timestamped operating-system
+  association/disassociation status in future approved experiments. This could
+  distinguish Wi-Fi association changes from missed ICMP replies and application
+  failures. Avoid collecting SSIDs, BSSIDs, MAC addresses or private socket details;
+  preserve the current privacy safeguards. The participant's icon observation
+  does not substitute for this monitoring.
+- **Faster application-failure detection:** investigate earlier recognition of
+  failed or stalled application requests as an additional decision signal. Test
+  transient, server-side and path-related failures separately; an HTTPS timeout
+  alone must not be treated as proof of whole-network unavailability. Any future
+  handling must be evaluated against false alarms and switching stability.
+
+These are research directions, not current capabilities or measured improvements.
+Any implementation or live validation requires separate review and approval.
+The frozen algorithms, hold/dwell rules, thresholds and existing results remain
+unchanged; no new monitoring, probing or traffic is enabled by this roadmap.

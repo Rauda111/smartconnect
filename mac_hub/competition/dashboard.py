@@ -104,7 +104,7 @@ def explanation(row, mode):
     if row[other+'_status'] != 'reachable':
         return selected+' was retained because the other connection was unavailable in this observation.'
     if mode == MODES[0] and row['window'] == 6:
-        return 'The selected Wi-Fi HTTPS request timed out. Cellular had only 1/3 normal qualifying observations, so the normal switching rule retained Wi-Fi. A request timeout alone does not prove the whole Wi-Fi network was unavailable. In Window 7, Wi-Fi probes became unavailable and the availability exception selected cellular.'
+        return 'Wi-Fi responded to 9/10 ICMP probes. The selected Wi-Fi HTTPS request timed out. Cellular had only 1/3 normal qualifying observations, so the normal switching rule retained Wi-Fi. A request timeout alone does not prove the whole Wi-Fi network was unavailable. In Window 7, Wi-Fi returned 0/10 probe replies, triggering availability-driven cellular fallback through the availability exception.'
     if row['qualifying_count']:
         return selected+' was retained while the alternative builds its normal three-observation hold. One better-looking sample is not enough.'
     if row['window'] == 1:
@@ -152,7 +152,7 @@ def overview(rows, requests, mode, index):
         st.caption('Recorded samples are not live collection. Selection applies to a new request; socket readback is not packet-confirmed physical egress.' if mode==MODES[0] else 'Read-only log viewer. Socket readback is not packet-confirmed physical egress; this page never starts collection.')
 
 
-def technical(rows, requests, index):
+def technical(rows, requests, index, mode):
     r = rows[index]; history = rows[:index+1]
     st.subheader('Technical Details')
     st.caption('Replay is paused while this area is open. Inspect a different window with the navigation controls; nothing advances automatically.')
@@ -194,6 +194,8 @@ def technical(rows, requests, index):
             st.info('No request ledger available. No outcomes are invented.')
         st.write('Calibration samples both paths before selection; its alternating interfaces are not policy switches. Selected-outcome requests follow the recommendation. Bounded goodput includes all fresh HTTPS overhead and is not link capacity.')
     with st.expander('Evidence provenance and limits', expanded=False):
+        if mode==MODES[0]:
+            st.write("Participant observation (context only): the participant saw the MacBook's Wi-Fi icon disappear and later return during the experiment. The exact time was not recorded; this is not independently timestamped evidence and cannot be assigned to a measurement window.")
         st.write('Public package: mac_hub/competition/reports/20261104-final/. Recorded CSV and provenance hashes are checked. UTC timestamps and exact stored values are preserved; display metrics round to three decimals.')
         st.write('This fallback run gives the same selections as Wi-Fi-first; it demonstrates integrated fallback, not comparative superiority. No separate baseline HTTPS outcomes were executed.')
         st.write('No seamless session migration, verified 5G radio, actual video QoE, measured handover time or packet-confirmed physical egress is claimed. Historical movement boundaries were not recorded. Historical W15 parsed RTT excludes a late reply present in the ping summary.')
@@ -310,7 +312,7 @@ def main():
             b.button('Explain terms', key='explain_terms', on_click=ui.inspect_details, args=(state,True), help='Open a plain-English glossary and pause replay.')
             index = state['window']-1
             if state.get('technical'):
-                technical(rows, requests, index)
+                technical(rows, requests, index, mode)
             else:
                 if state.get('guided'):
                     tour(rows[index])

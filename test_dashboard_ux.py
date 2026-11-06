@@ -78,18 +78,39 @@ class UIContracts(unittest.TestCase):
         app.button(key='timeline_6').click().run()
         self.assertFalse(app.exception)
         why=next(x.value for x in app.markdown if 'class="why"' in x.value)
-        for fact in ('selected Wi-Fi HTTPS request timed out',
+        for fact in ('Wi-Fi responded to 9/10 ICMP probes',
+                     'selected Wi-Fi HTTPS request timed out',
                      'Cellular had only 1/3 normal qualifying observations',
                      'normal switching rule retained Wi-Fi',
                      'timeout alone does not prove the whole Wi-Fi network was unavailable',
-                     'In Window 7, Wi-Fi probes became unavailable',
-                     'availability exception selected cellular'):
+                     'In Window 7, Wi-Fi returned 0/10 probe replies',
+                     'availability-driven cellular fallback through the availability exception'):
             self.assertIn(fact,why)
         rows,_=recorded()
         self.assertEqual(rows[5]['wifi_status'],'reachable')
+        self.assertEqual(rows[5]['wifi_received'],9)
+        self.assertEqual(rows[5]['wifi_sent'],10)
+        self.assertEqual(rows[6]['wifi_received'],0)
+        self.assertEqual(rows[6]['wifi_sent'],10)
         self.assertEqual(rows[5]['selected'],'wifi')
         self.assertEqual(rows[5]['selected_request_status'],'timeout')
         self.assertEqual(rows[5]['qualifying_count'],1)
+
+    def test_participant_icon_observation_is_untimestamped_context_only(self):
+        app=start()
+        app.toggle(key='technical').set_value(True).run()
+        self.assertFalse(app.exception)
+        note=next(x.value for x in app.markdown if 'Participant observation (context only)' in x.value)
+        for detail in ("MacBook's Wi-Fi icon disappear and later return",
+                       'exact time was not recorded',
+                       'not independently timestamped evidence',
+                       'cannot be assigned to a measurement window'):
+            self.assertIn(detail,note)
+        provenance=next(e for e in app.expander if e.label=='Evidence provenance and limits')
+        self.assertFalse(provenance.proto.expanded)
+        app.radio(key='mode').set_value('Historical policy replay').run()
+        app.toggle(key='technical').set_value(True).run()
+        self.assertFalse(any('Participant observation (context only)' in x.value for x in app.markdown))
 
     def test_previous_next_each_timeline_window_and_boundaries(self):
         app=start()
