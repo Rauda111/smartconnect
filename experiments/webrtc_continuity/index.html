@@ -7,7 +7,7 @@
 <label>Signaling <select id="signaling"><option value="broker">Local broker · same Mac only</option><option value="manual">Private manual SDP exchange · separate machines possible</option></select></label>
 <label>Approved ICE configuration <textarea id="ice" spellcheck="false" aria-describedby="iceHelp">{"iceServers":[],"iceTransportPolicy":"all"}</textarea></label>
 <p id="iceHelp">No default STUN/TURN. Enter only separately approved servers and credentials. This private control field is not exported. Relay-only requires a configured TURN server.</p>
-<label><input type="checkbox" id="policy"> Read an approved existing Video-policy log through the local broker (never starts a collector)</label>
+<label><input type="checkbox" id="policy"> Mac peer A: read an approved existing Video-policy log locally, including with manual remote signaling (never starts a collector)</label>
 <label>Approved session limit (seconds, 30–300) <input type="number" id="duration" min="30" max="300" value="120"></label>
 <label class="warning"><input type="checkbox" id="approval"> The operator has explicitly approved this media/signaling experiment, both clients, configured ICE destinations and duration, and camera/microphone use. This checkbox does not substitute for approval before an agent runs it.</label>
 </fieldset>

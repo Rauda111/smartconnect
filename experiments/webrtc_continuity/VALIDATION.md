@@ -7,12 +7,12 @@ was rewritten, merged or pushed; no GitHub backup was modified.
 
 ## Results
 
-- Node v24.13.0: **27 tests passed**, 0 failed, 0 skipped.
+- Node v24.13.0: **30 tests passed**, 0 failed, 0 skipped.
   `node --test experiments/webrtc_continuity/test_core.cjs experiments/webrtc_continuity/test_app.cjs`
 - Python 3.13.5: **8 new server/policy tests passed**; **42 existing focused
   competition/dashboard tests passed**, 0 failures/errors, 0 skipped.
   `/opt/anaconda3/bin/python -m unittest experiments.webrtc_continuity.test_server test_dashboard_ux test_dashboard_finalization test_download_decision_display test_competition_demo`
-- Total: **77 offline tests passed**. This is not a full-repository suite claim.
+- Total: **80 offline tests passed**. This is not a full-repository suite claim.
 - `node --check` passes for core.js and app.js; `git diff --check` passes.
 - Frozen mac_hub code, dashboard, policy, thresholds, evidence, original application
   and dependency files compare unchanged against the base. Only this new isolated
@@ -84,3 +84,14 @@ may require approved TURN. Actual permissions, interface state and peer reachabi
 remain unverified. See FEASIBILITY.md and PROTOCOL.md for sources and promotion
 gates. **Recommendation: research-only; keep the frozen new-request dashboard as
 the EDGE demonstration until approved live evidence supports a narrower claim.**
+
+## Mac–Windows adaptation
+
+Added TWO_LAPTOPS.md with exact software, local launch commands, private runtime
+file manifest, manual remote connection steps, stationary first test, separately
+approved path verification, interruption uncertainty and attributed baseline
+comparison. app.js now permits Mac A to read local policy while using manual
+remote signaling. Windows B never polls policy. Three added mocked wiring tests
+cover this behavior and denied approval. No Windows host or live media was run.
+Changed files in this adaptation: app.js, index.html, test_app.cjs, README.md,
+FEASIBILITY.md, VALIDATION.md, TWO_LAPTOPS.md. Frozen branch remains unchanged.

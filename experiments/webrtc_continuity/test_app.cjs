@@ -63,3 +63,20 @@ test('approved duration uses an independent end timer, not only stats polling',a
  assert.equal(f.calls.instance.closed,true);assert(f.calls.stopped>=2);assert.equal(f.calls.pc,1);
  assert(f.calls.instance.events.some(e=>e.kind==='approved_time_limit_reached'));
 });
+
+
+test('Mac manual signaling can read local policy without joining or polling remote signaling',async()=>{
+ const f=setup();f.element('approval').checked=true;f.element('signaling').value='manual';f.element('policy').checked=true;
+ await f.element('start').click();await new Promise(setImmediate);
+ assert.deepEqual(f.calls.fetch.map(x=>x.path),['/policy']);assert.equal(f.calls.pc,1);
+ await f.element('stop').click();assert(!f.calls.fetch.some(x=>x.path==='/leave'));
+});
+test('Windows answerer never polls Mac policy even when its checkbox is checked',async()=>{
+ const f=setup();f.element('approval').checked=true;f.element('role').value='B';f.element('signaling').value='manual';f.element('policy').checked=true;
+ await f.element('start').click();await new Promise(setImmediate);
+ assert.equal(f.calls.fetch.length,0);await f.element('stop').click();
+});
+test('policy checkbox cannot bypass approval in manual mode',async()=>{
+ const f=setup();f.element('signaling').value='manual';f.element('policy').checked=true;
+ await f.element('start').click();assert.equal(f.calls.fetch.length,0);assert.equal(f.calls.media,0);
+});

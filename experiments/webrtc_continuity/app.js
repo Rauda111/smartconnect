@@ -51,13 +51,15 @@
   async function polling() {
     if(stopped)return;
     try {
+      if(active.signaling==='broker') {
       const result=await api('/signal?role='+active.role+'&client='+encodeURIComponent(client));
       if(stopped)return;
       if(!Array.isArray(result.messages) || inbox.length+result.messages.length>64)throw new Error('invalid_signaling_batch');
       inbox.push(...result.messages);
       while(inbox.length && !call.busy && !stopped)await call.receive(inbox.shift());
-      if(active.policy)await call.applyPolicy(await api('/policy'));
-    } catch (_) {if(!stopped){call.event('signaling_poll_failure');status('Signaling unavailable. The call was not recreated. Restore signaling or end the session explicitly.');}}
+      }
+      if(active.policy && active.role==='A')await call.applyPolicy(await api('/policy'));
+    } catch (_) {if(!stopped){call.event(active.signaling==='broker'?'signaling_poll_failure':'policy_poll_failure');status('Local signaling or policy input unavailable. No call was recreated; inspect events and restore the approved input.');}}
     if(!stopped)signalTimer=setTimeout(polling,500);
   }
   async function sampling() {
@@ -86,7 +88,7 @@
     let configured;
     try {configured=configuration();}catch(_){status('Invalid private configuration. Check ICE servers, TURN requirement and duration locally.');return;}
     active={role:$('role').value,mode:$('mode').value,signaling:$('signaling').value,policy:$('policy').checked,duration:configured.duration};
-    if(active.signaling==='broker' && !token){status('No local broker access token. Open an operator-provided private URL or choose manual signaling.');return;}
+    if((active.signaling==='broker' || (active.policy && active.role==='A')) && !token){status('No local access token. Open this server’s private URL; manual signaling without policy reading can run without a token.');return;}
     $('start').disabled=true;$('configuration').disabled=true;$('configuration').hidden=true;
     $('condition').textContent=(active.mode==='baseline' ? 'Ordinary WebRTC baseline' : 'SmartConnect-assisted ICE recovery only')+' · Peer '+active.role+' · Physical interface unverified.';
     try {
@@ -104,7 +106,7 @@
       const ready=await call.start(stream,configured.rtc,{approved:true});
       if(stopped)return;
       status(ready===false ? 'Initial signaling failed. The same peer connection is retained; retry signaling or end explicitly. No continuity is claimed.' : 'Approved peer started. Awaiting signaling/media; no Wi-Fi/cellular path or continuity has been verified.');
-      if(active.signaling==='broker')void polling();
+      if(active.signaling==='broker' || (active.policy && active.role==='A'))void polling();
       void sampling();showEvent();
     } catch (_) {
       stopped=true;if(call)call.close();if(stream)for(const t of stream.getTracks())t.stop();

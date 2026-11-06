@@ -1,7 +1,7 @@
 # SmartConnect controlled-call continuity research
 
 **Isolated prototype, not validated handover. Not recommended as an EDGE Demo Day
-continuity claim yet.** Read FEASIBILITY.md and PROTOCOL.md first. The frozen
+continuity claim yet.** For the confirmed Mac–Windows setup, start with TWO_LAPTOPS.md. Read FEASIBILITY.md and PROTOCOL.md first. The frozen
 competition dashboard/engine/evidence are untouched. No live call has been run by
 this implementation task; mocks are not experimental results.
 
@@ -80,7 +80,7 @@ its policy checkbox on A. This reads only existing completed observations; it
 never starts a collector, probe or HTTPS request. File Download logs, stale
 observations (over 45 seconds or future timestamps), malformed files and finished
 runs are rejected. Both baseline and assisted trials can read the same input.
-For manual signaling, a current sanitized snapshot from `server.policy_snapshot`
+Local automatic policy reading also works with manual remote signaling on Mac peer A, using its private local URL token. Windows peer B does not poll policy. Each resulting restart still needs private manual offer/answer exchange. Alternatively, a current sanitized snapshot from `server.policy_snapshot`
 may be pasted in the private policy field; it is operator-supplied, not
 independently authenticated. Do not use historical/fabricated inputs as a live
 policy demonstration.

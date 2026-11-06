@@ -86,8 +86,9 @@ browser. Remote playback may require a user gesture; headphones avoid feedback.
 getUserMedia requires a secure context (localhost is the normal local-development
 case; arbitrary HTTP LAN hosting is not equivalent). macOS local-network prompts,
 managed-device policy, university restrictions, captive portals, iPhone trust/
-tethering availability, cellular service and concurrent Wi-Fi/en6 availability
-remain unverified. Never bypass a permission or certificate warning.
+permissions and actual peer reachability remain unverified. The participant has
+confirmed the M1 Mac, Windows peer, and concurrent Wi-Fi/USB cellular availability;
+the USB name was previously en6 and must be reconfirmed before path verification. Never bypass a permission or certificate warning.
 [Media capture requirements](https://www.w3.org/TR/mediacapture-streams/)
 
 A Python aiortc/aioice implementation would need additional dependencies and a
