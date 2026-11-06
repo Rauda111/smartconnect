@@ -59,6 +59,38 @@ class UIContracts(unittest.TestCase):
         for p in self.patches:p.start()
         self.addCleanup(lambda:[p.stop() for p in self.patches])
 
+    def test_historical_recommendation_label_and_no_executed_requests(self):
+        app=start()
+        self.assertTrue(any('<small>SELECTED FOR A NEW REQUEST</small>' in x.value for x in app.markdown))
+        app.radio(key='mode').set_value('Historical policy replay').run()
+        for profile in ('video_call','file_download'):
+            app.selectbox(key='profile').set_value(profile).run()
+            self.assertFalse(app.exception)
+            card=next(x.value for x in app.markdown if 'class="selection"' in x.value)
+            self.assertIn('<small>Policy recommendation</small>',card)
+            self.assertNotIn('SELECTED FOR A NEW REQUEST',card)
+            self.assertTrue(any('historical ICMP observations were replayed' in x.value and 'no actual HTTPS requests were executed in this dataset' in x.value for x in app.info))
+        app.radio(key='mode').set_value('Recorded real experiment').run()
+        self.assertTrue(any('<small>SELECTED FOR A NEW REQUEST</small>' in x.value for x in app.markdown))
+
+    def test_window_six_explains_timeout_hold_and_later_availability(self):
+        app=start()
+        app.button(key='timeline_6').click().run()
+        self.assertFalse(app.exception)
+        why=next(x.value for x in app.markdown if 'class="why"' in x.value)
+        for fact in ('selected Wi-Fi HTTPS request timed out',
+                     'Cellular had only 1/3 normal qualifying observations',
+                     'normal switching rule retained Wi-Fi',
+                     'timeout alone does not prove the whole Wi-Fi network was unavailable',
+                     'In Window 7, Wi-Fi probes became unavailable',
+                     'availability exception selected cellular'):
+            self.assertIn(fact,why)
+        rows,_=recorded()
+        self.assertEqual(rows[5]['wifi_status'],'reachable')
+        self.assertEqual(rows[5]['selected'],'wifi')
+        self.assertEqual(rows[5]['selected_request_status'],'timeout')
+        self.assertEqual(rows[5]['qualifying_count'],1)
+
     def test_previous_next_each_timeline_window_and_boundaries(self):
         app=start()
         self.assertTrue(app.button(key='previous').disabled)

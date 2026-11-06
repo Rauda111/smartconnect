@@ -104,7 +104,7 @@ def explanation(row, mode):
     if row[other+'_status'] != 'reachable':
         return selected+' was retained because the other connection was unavailable in this observation.'
     if mode == MODES[0] and row['window'] == 6:
-        return 'Wi-Fi was retained while cellular had only one qualifying observation out of three. The selected Wi-Fi HTTPS request then timed out.'
+        return 'The selected Wi-Fi HTTPS request timed out. Cellular had only 1/3 normal qualifying observations, so the normal switching rule retained Wi-Fi. A request timeout alone does not prove the whole Wi-Fi network was unavailable. In Window 7, Wi-Fi probes became unavailable and the availability exception selected cellular.'
     if row['qualifying_count']:
         return selected+' was retained while the alternative builds its normal three-observation hold. One better-looking sample is not enough.'
     if row['window'] == 1:
@@ -116,9 +116,10 @@ def explanation(row, mode):
 
 def overview(rows, requests, mode, index):
     r = rows[index]
+    selection_label = 'Policy recommendation' if mode==MODES[1] else 'SELECTED FOR A NEW REQUEST'
     left, right = st.columns([1, 2])
     with left:
-        st.markdown(f'<div class="selection"><small>SELECTED FOR A NEW REQUEST</small><h2>{LABELS[r["selected"]]}</h2><span>Window {r["window"]} of {len(rows)}</span></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="selection"><small>{selection_label}</small><h2>{LABELS[r["selected"]]}</h2><span>Window {r["window"]} of {len(rows)}</span></div>', unsafe_allow_html=True)
     with right:
         st.markdown('<div class="why"><b>Why this decision?</b><p>'+escape(explanation(r, mode))+'</p></div>', unsafe_allow_html=True)
     for col, n in zip(st.columns(2), NETWORKS):
@@ -132,7 +133,7 @@ def overview(rows, requests, mode, index):
             <div class="network-foot">Echo replies: {replies} · Small-download calibration: {fmt(r.get(n+'_calibration_goodput_Mbps'), ' Mbps')}</div></section>''', unsafe_allow_html=True)
     outcome = r['selected_request_status']
     if outcome == 'not_collected':
-        st.info('No HTTPS outcomes were collected in this historical replay. Only policy decisions are replayed.')
+        st.info('No HTTPS outcomes were collected: historical ICMP observations were replayed, and no actual HTTPS requests were executed in this dataset.')
     else:
         a, b, c = st.columns(3)
         a.metric('Latest inspected HTTPS result', 'Completed' if outcome=='success' else 'Failed · '+outcome, help='The actual selected-outcome request at the inspected window; separate from calibration.')
@@ -145,7 +146,10 @@ def overview(rows, requests, mode, index):
     elif requests:
         public = requests if 'interface' in requests[0] else request_table(requests)
         st.caption(f"LOGGED REQUESTS · {sum(x['status']=='success' for x in public)}/{len(public)} completed, including calibration when present.")
-    st.caption('Recorded samples are not live collection. Selection applies to a new request; socket readback is not packet-confirmed physical egress.' if mode!=MODES[2] else 'Read-only log viewer. Socket readback is not packet-confirmed physical egress; this page never starts collection.')
+    if mode==MODES[1]:
+        st.caption('Historical observations only; policy recommendations are replayed, not executed request outcomes.')
+    else:
+        st.caption('Recorded samples are not live collection. Selection applies to a new request; socket readback is not packet-confirmed physical egress.' if mode==MODES[0] else 'Read-only log viewer. Socket readback is not packet-confirmed physical egress; this page never starts collection.')
 
 
 def technical(rows, requests, index):
