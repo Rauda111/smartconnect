@@ -1,6 +1,6 @@
 # One-session Mac–Windows hardware validation
 
-Status: **prepared, not run by this implementation**. The participant reports separate working Wi-Fi and cellular sessions; successful recovery inside one existing session is not yet demonstrated. Treat offline test fixtures as software tests only.
+Status: **two-laptop functional baseline accepted; do not repeat it. Assisted handover not run.** The baseline had approximately 65 seconds of connected media within its 120-second session limit. Its Mac selected host candidate matched `en6` with Wi-Fi active. Reliable `en0`-first control is a blocker under the requirement to keep both interfaces available. Use the accepted-baseline and assisted-readiness section of [STAGING_AND_HARDWARE.md](STAGING_AND_HARDWARE.md) before the stages below. Successful physical recovery inside one existing session is not yet demonstrated. Treat offline test fixtures as software tests only.
 
 ## Approval and scope
 

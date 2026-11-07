@@ -127,6 +127,163 @@ viewed read-only. Its service, branch, credentials and deployment were not
 modified. Free staging can still sleep or restart; readiness must be checked
 again before an approved hardware trial.
 
+## Accepted baseline and assisted-trial readiness
+
+The user accepted the 2026-11-07 two-laptop baseline. **Do not repeat it.**
+Both saved peer logs and the operator observation establish bidirectional live
+video/audio. The 120-second call limit included setup; connected media lasted
+approximately 65 seconds. The selected Mac host candidate matched `en6`, while
+`en0` remained active. This establishes a candidate/interface association, not
+independent packet egress or Wi-Fi-to-cellular handover. Missing Windows private
+endpoint evidence is a recorded limitation, not a reason to repeat the baseline.
+All 19 baseline/staging preparation evidence files were hash-verified into the
+owner-only durable archive `~/SmartConnectEvidence/accepted-baseline-20261107T184453Z`;
+archived files are owner-read-only and originals remain unchanged.
+
+The machine-readable companion is [assisted_trial_plan.json](assisted_trial_plan.json).
+No assisted media, probes, captures, interface changes or deployment were started
+for this preparation. Existing production and staging runtime settings are unchanged.
+
+### Blocking requirement: reliable Wi-Fi-first selection
+
+The deployed browser cannot bind a peer connection or ICE socket to `en0`.
+`RTCConfiguration` exposes candidate policy `all`/`relay`, not an interface selector;
+ICE restart negotiates new ICE credentials/connectivity checks. Neither selects
+Wi-Fi by name. See the [WebRTC configuration specification](https://www.w3.org/TR/webrtc/#rtcconfiguration-dictionary)
+and [ICE restart definition](https://www.w3.org/TR/webrtc/#dom-rtcofferoptions-icerestart).
+
+Editing only the candidates sent in SDP is not a reliable interface restriction:
+the local ICE agent still owns its gathered sockets and can learn peer-reflexive
+paths through connectivity checks. A TURN relay also does not identify or bind
+its physical underlay. See [RFC 8445, sections 7.2.5.3.1 and 7.3.1.3](https://www.rfc-editor.org/rfc/rfc8445).
+Do not implement cosmetic candidate ordering or mark Wi-Fi verified from the
+engine's recommendation. The accepted baseline is direct evidence that active
+Wi-Fi alone does not establish the desired starting path.
+
+The smallest robust architectural change under the strict two-interface
+requirement is **Mac-side, per-call interface control in the native ICE/socket
+layer**, retaining the existing engine, scoped signaling/policy service and
+Windows browser. Merely wrapping the existing page in a native window is not
+sufficient. This component is **specified, not implemented or hardware-validated**.
+Native WebRTC exposes network enumeration and socket-factory integration points;
+those must be adapted to actual macOS interface binding, with `en0`-or-fail setup,
+then admission of `en6` without replacing the peer connection or tracks.
+[Native network-manager interface](https://webrtc.googlesource.com/src/+/main/rtc_base/network.h)
+and [native packet socket factory](https://webrtc.googlesource.com/src/+/refs/heads/main/p2p/base/basic_packet_socket_factory.cc).
+
+A temporary USB disconnect during setup would be operationally smaller but would
+relax the requirement that both interfaces remain available. A host firewall or
+routing workaround adds separate network manipulation and isolation risks. Neither
+is silently authorized by this plan. No additional account, paid resource, global
+route change, firewall modification or modified recommendation is proposed as a
+hidden part of the trial.
+
+### Native component acceptance contract
+
+- Leave `en0` and `en6` up; real ICMP observations on both remain unmodified.
+- Restrict this new trial's initial **media sockets** to `en0`, or fail visibly.
+  Do not claim that binding a source address alone independently proves egress.
+- Preserve one native peer-connection identity, call scope and original media
+  track identities across enabling `en6` and subsequent ICE recovery. Log private
+  identifiers separately and publish only preservation results.
+- After the initial path is independently confirmed, make `en6` eligible for that
+  same peer connection. Confirm that media remains on `en0` with both interfaces
+  available before any degradation stage; if it moves early, retain the outcome
+  and stop qualification rather than declaring a handover.
+- Reuse the actual policy envelopes and original engine explanations. No alternate
+  scorer, changed hold/dwell/margin, fabricated loss, forced recommendation, or
+  replacement call is permitted.
+- Save sanitized counters/events automatically. Retain bounded private selected-pair
+  history throughout the call so its final export remains available after closure;
+  no Windows live-download timing dependency should be needed for the trial's
+  essential Mac pre/post path proof.
+
+### Prepared 300-second trial gates (not permission to execute)
+
+1. **Transport readiness:** the native interface-control component must be built,
+   checked offline, then deployed/installed only within approved scope. An ordinary
+   browser call that happens to choose Wi-Fi is not a substitute for this control.
+2. **Session approval and coordinated start:** one new integrated assisted session,
+   at most 300 seconds from the first peer's Start action; both cameras/microphones,
+   staging HTTPS signaling, configured ICE/media and cellular usage must be approved.
+   Coordinate both laptops before starting the timer. Do not repeat the baseline.
+3. **Real engine:** start exactly one persistent `Session('video_call')` through
+   the existing bridge. Fixed target `1.1.1.1`, `en0` and `en6`, at most 18 windows
+   × 10 ICMP echoes × 2 interfaces = 360 echoes, 5-second pauses, at most 270 seconds.
+   Reduce that ceiling to the remaining global 300-second budget minus a shutdown
+   margin. No parallel collector or reset of hold/dwell state in the same call.
+   The bridge's session lease and per-request/probe bounds still apply.
+4. **Arm only on evidence:** require fresh engine output genuinely recommending
+   Wi-Fi, moving audio/video on both peers, the selected Mac candidate matching
+   `en0`, and independently corroborated media egress on `en0`. Both interfaces
+   must still be available. Failure of any condition is an honest stop condition.
+5. **Capture approval:** before each capture, derive the exact IPv4/IPv6 media
+   tuple from current private stats and present the actual interface/filter. Proposed
+   ceiling: 20 seconds, 2,000 packets, 96-byte snap length, non-promiscuous capture,
+   owner-only local storage. Exclude ICMP probes and staging HTTPS; account for
+   STUN/DTLS packets on the same tuple when interpreting media traffic. No capture
+   is run from an old baseline tuple or without its separate approval.
+6. **Perturbation approval:** only after arming may a separately approved, bounded
+   physical Wi-Fi degradation/interruption occur. Never fabricate its measurements.
+   If the user requires both interfaces to stay available throughout, use a real
+   approved degradation while keeping them up; an actual Wi-Fi outage needs an
+   explicit exception at that stage. No default route, service order or other app
+   steering is included.
+7. **Record the genuine transition:** require an accepted, current bridge window
+   with `wifi → cellular`, measured RTT/loss and the original explanation. Normal
+   superiority requires the unchanged 3-window hold / 30-second dwell / 0.05 margin;
+   a measured outage may legitimately use the existing availability exception.
+   If conditions do not produce a change, record that result; never manufacture one.
+8. **Verify the same session:** correlate private pre/post call identity, original
+   PC/tracks, the transition and request timeline, fresh `en6` selected-path evidence,
+   independent egress corroboration, and at least 15 seconds of resumed audio **and**
+   video on both peers. For an outage trial, `en0` must remain unavailable during
+   that observation. Counter gaps are sampled bounds, not exact perceptual freeze
+   or handover latency. A new ICE pair or restart alone is insufficient.
+9. **End and preserve:** stop within the global deadline, save both sanitized logs,
+   private path history, interface snapshots, bridge journal and any approved
+   captures. Preserve failures and incomplete/censored gaps. Restore only changes
+   specifically authorized by the perturbation approval.
+
+### Recovery attribution
+
+The current implementation logs `recovery_requested.cause` separately as
+`policy_change`, `ice_failed`, `ice_disconnected`, `video_stalled` or `manual`.
+Only `policy_change` is an engine-triggered application request. The other three
+automatic causes are application failure fallbacks, not engine decisions. Ordinary
+browser ICE recovery can also occur without an application restart request.
+
+Correlate the accepted bridge window and browser `policy_recommendation` with each
+request and the subsequent media/path observations. If media/path recovery precedes
+the policy request, report ordinary/fallback recovery. If a failure request precedes
+or overlaps the policy request, label the attribution mixed/indeterminate. A policy
+request followed by recovery is temporally associated with the engine intervention;
+one such trial does not prove that the intervention alone caused recovery. Record
+cooldown, stale-window, queue and retry-limit effects rather than relabeling them.
+A policy-only application-restart mode would improve a later causal comparison but
+cannot disable the browser's internal ICE behavior and is not currently implemented.
+
+### Exact next approval / scope decision
+
+The 300-second live trial is **not ready for approval** while reliable Wi-Fi-first
+transport control is absent. The next scope decision is:
+
+> Approve a Mac-only native interface-control adaptation for the assisted trial,
+> keeping both interfaces up, the existing recommendation engine, staging service
+> and Windows browser. Authorize software implementation/offline validation only;
+> camera/microphone, live probes, captures, interface interruption and any new
+> deployment remain subject to separate approval.
+
+This changes the Mac client architecture beyond the current browser implementation;
+it is not another baseline run or a request to repeat evidence transfers. Once a
+concrete native build passes the acceptance contract, request the bounded live
+session/probe approval in steps 2–3. Request the actual capture and physical
+interruption approvals at steps 5–6, with their concrete scope.
+
+Focused preparation verification: 33 Python bridge tests and 50 JavaScript core /
+Python-to-JavaScript contract tests passed. Probe sockets/media were mocks in these
+checks; they are software evidence only and did not repeat the accepted baseline.
+
 ## One sequential hardware-validation procedure
 
 The agent performs software commands and evidence processing. The operator handles

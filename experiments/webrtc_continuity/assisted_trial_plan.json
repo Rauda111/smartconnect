@@ -1,0 +1,92 @@
+{
+  "schema": 1,
+  "status": "blocked_on_reliable_wifi_first_transport_control",
+  "baseline_status": "accepted_do_not_repeat",
+  "preserved_evidence_files": 19,
+  "application_deployed_commit": "dd6c3722768f5000288b8b0fb4ce3a7449ded076",
+  "staging_origin": "https://smartconnect-prototype2-staging-4b5e878.onrender.com",
+  "production_changes_authorized": false,
+  "paid_resources_authorized": false,
+  "trial": {
+    "max_total_seconds_from_first_start": 300,
+    "mode": "smartconnect",
+    "mac_role": "A",
+    "windows_role": "B",
+    "baseline_repeat": false,
+    "new_live_operations_approved": false
+  },
+  "engine": {
+    "implementation": "mac_hub.competition.run.Session -> mac_hub.phase4.policy.Controller -> mac_hub.engine.Engine",
+    "application": "video_call",
+    "persistent_session": true,
+    "hold_windows": 3,
+    "dwell_seconds": 30,
+    "margin": 0.05,
+    "measurements": "actual_bound_icmp_only",
+    "force_recommendation": false
+  },
+  "proposed_bridge_budget": {
+    "interfaces": [
+      "en0",
+      "en6"
+    ],
+    "target": "1.1.1.1",
+    "max_windows": 18,
+    "echoes_per_interface_per_window": 10,
+    "max_echo_sends": 360,
+    "pause_seconds": 5,
+    "max_runtime_seconds": 270,
+    "must_end_before_global_trial_deadline": true,
+    "execute_now": false
+  },
+  "wifi_first": {
+    "browser_can_bind_named_interface": false,
+    "candidate_filtering_is_binding_proof": false,
+    "both_interfaces_must_remain_up": true,
+    "required_component": "Mac-only native ICE/socket interface control",
+    "component_status": "specified_not_implemented",
+    "initial_behavior": "en0_or_fail",
+    "same_pc_tracks_on_en6_admission": true,
+    "independent_initial_path_proof_required": true
+  },
+  "capture": {
+    "approved": false,
+    "max_seconds_each": 20,
+    "max_packets_each": 2000,
+    "snap_length_bytes": 96,
+    "promiscuous": false,
+    "filter_status": "must_derive_from_current_trial_private_selected_tuple",
+    "private_storage": true
+  },
+  "perturbation": {
+    "approved": false,
+    "wifi_interruption_max_seconds_if_later_approved": 60,
+    "must_fit_remaining_trial_budget": true,
+    "fake_conditions": false
+  },
+  "post_transition": {
+    "required_interface": "en6",
+    "same_pc_and_tracks_required": true,
+    "same_private_session_required": true,
+    "bidirectional_audio_and_video_progress_seconds": 15,
+    "independent_egress_proof_required": true,
+    "for_outage_claim_wifi_must_remain_unavailable": true
+  },
+  "attribution": {
+    "engine_request_cause": "policy_change",
+    "application_failure_request_causes": [
+      "ice_failed",
+      "ice_disconnected",
+      "video_stalled"
+    ],
+    "manual_cause": "manual",
+    "ordinary_browser_recovery_without_app_request_possible": true,
+    "single_trial_proves_exclusive_engine_causality": false
+  },
+  "offline_tests": {
+    "python_bridge_passed": 33,
+    "javascript_core_and_integration_passed": 50,
+    "live_media_probes_or_captures_started": false
+  },
+  "next_scope_approval": "Mac-only native interface-control adaptation: software/offline work only; no live trial approval implied"
+}
