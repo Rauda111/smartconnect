@@ -95,7 +95,7 @@
       this.pc=null;this.stream=null;this.originalTracks=[];this.events=[];this.samples=[];
       this.metrics=new Metrics();this.revision=0;this.remoteRevision=0;this.busy=false;
       this.closed=false;this.origin=0;this.restarts=0;this.lastRestart=-Infinity;
-      this.pending=null;this.lastSignal=null;this.recommended=null;this.policyWindow=0;
+      this.pending=null;this.lastSignal=null;this.lastSignalAttempt=-Infinity;this.recommended=null;this.policyWindow=0;
       this.remoteTracks=[];this.remotePreserved=true;
       this.lastVideoFrames=null;this.lastVideoProgress=null;this.stallReported=false;this.disconnectedSince=null;
     }
@@ -137,6 +137,7 @@
         if(this.closed) return false;
         this.revision++;
         this.lastSignal={mode:this.mode,revision:this.revision,description:{type:'offer',sdp:this.pc.localDescription.sdp}};
+        this.lastSignalAttempt=this.clock();
         await this.send(this.lastSignal);
         this.event(restart?'ice_restart_offer_sent':'initial_offer_sent',{revision:this.revision});
         return true;
@@ -167,6 +168,7 @@
     }
     async retrySignal() {
       if(!this.lastSignal || this.closed) return false;
+      this.lastSignalAttempt=this.clock();
       try {await this.send(this.lastSignal);this.event('signaling_retried');return true;}
       catch (_) {this.event('signaling_failure',{stage:'retry'});return false;}
     }
@@ -204,6 +206,11 @@
         if(this.policyStatus==='fresh' && this.clock()>this.policyValidUntil){this.policyStatus='stale';this.event('policy_input_status',{status:'stale'});}
         if(this.pending==='policy_change' && this.clock()>this.policyValidUntil)this.pending=null;
         if(this.pending) await this.requestRestart(this.pending);
+        if(this.mode==='smartconnect' && this.role==='A' &&
+           this.pc.signalingState==='have-local-offer' &&
+           this.lastSignal && this.lastSignal.description.type==='offer' &&
+           this.clock()-this.lastSignalAttempt>=3000)
+          await this.retrySignal();
         const report=await this.pc.getStats();
         if(this.closed)return null;
         const now=this.clock();
