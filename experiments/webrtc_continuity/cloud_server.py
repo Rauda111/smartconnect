@@ -54,12 +54,13 @@ def cloud_config(env):
 def main():
     try:
         host, token, port = cloud_config(os.environ)
+        broker = Broker(token, policy_token=os.environ.get('SMARTCONNECT_POLICY_TOKEN'))
     except (ValueError, TypeError) as error:
         print('Cloud signaling configuration error: ' + str(error), file=sys.stderr)
         raise SystemExit(2)
     server = QuietCloudServer(('0.0.0.0', port), CloudHandler)
     server.public_hostname = host
-    server.broker = Broker(token)
+    server.broker = broker
     print('SmartConnect HTTPS-proxied signaling ready; no media starts until client approval.')
     try:
         server.serve_forever()

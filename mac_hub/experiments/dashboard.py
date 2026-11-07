@@ -35,7 +35,7 @@ def experiments():
             st.line_chart(chart.set_index('elapsed_seconds'))
         long=trace.melt(id_vars=['elapsed_seconds'],value_vars=['wifi_first','smartconnect'],var_name='Policy',value_name='Recommended path')
         st.altair_chart(alt.Chart(long).mark_line(interpolate='step-after').encode(
-            x=alt.X('elapsed_seconds:Q',title='Elapsed seconds'),y='Recommended path:N',color='Policy:N'),width='stretch')
+            x=alt.X('elapsed_seconds:Q',title='Elapsed seconds'),y='Recommended path:N',color='Policy:N'),use_container_width=True)
         st.subheader('Run metrics and missing-data counts')
         st.dataframe(per_run[(per_run.scenario==scenario)&(per_run.application==app)&(per_run.seed==seed)],hide_index=True)
         st.caption('Recommended handovers count direct Wi-Fi↔cellular recommendation changes. Outages and reattachments are separate. Quiet-region changes and reversals are stability proxies, not proven unnecessary switches.')
@@ -54,7 +54,7 @@ def experiments():
         bars['upper']=bars['mean']+bars.sample_sd
         base=alt.Chart(bars).encode(x='method:N')
         st.altair_chart(base.mark_bar().encode(y=alt.Y('mean:Q',title=metric),color='method:N')+
-                       base.transform_filter('isValid(datum.sample_sd)').mark_rule().encode(y='lower:Q',y2='upper:Q'),width='stretch')
+                       base.transform_filter('isValid(datum.sample_sd)').mark_rule().encode(y='lower:Q',y2='upper:Q'),use_container_width=True)
         st.caption('Mean ± sample SD across synthetic seed-level runs. Measured captures are separate; n=1 has no SD. No pooling of synthetic and measured evidence.')
         st.dataframe(summary,hide_index=True)
         with st.expander('Experimental report / poster wording'):

@@ -1,5 +1,10 @@
 # SmartConnect WebRTC recovery experiment patch
 
+**Historical patch instructions.** The partial-file ZIP instructions below apply
+only to the earlier recovery patch. For the current integration, use the complete
+matching client/server revision described in [INTEGRATION.md](INTEGRATION.md).
+Its session-aware protocol must not be mixed with older hosted assets.
+
 This patch is for the local `codex/webrtc-continuity-poc` branch. It is **not** a verified seamless handover.
 
 ## Changes

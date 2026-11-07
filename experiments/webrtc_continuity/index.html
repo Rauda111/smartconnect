@@ -1,19 +1,28 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SmartConnect — Controlled Call Research</title><link rel="icon" href="data:,"><link rel="stylesheet" href="/style.css"></head><body>
-<header><small>ISOLATED RESEARCH · NOT VALIDATED FOR EDGE</small><h1>Controlled WebRTC call</h1><p>Genuine camera/microphone media, one peer connection, explicit ICE recovery. Browser interface binding is unavailable.</p></header>
+<header><small>INTEGRATED PROTOTYPE · HARDWARE VERIFICATION PENDING</small><h1>SmartConnect Video Call</h1><p>Video Call · live measurements → recommendation → same-session ICE recovery → independently checked media path.</p></header>
 <p class="warning">No seamless Wi-Fi → cellular claim. A recommendation is not an observed media path. Same-Mac calls may stay on loopback. No collection starts by opening this page.</p>
 <fieldset id="configuration"><legend>Approved experiment configuration</legend>
 <label>Peer role <select id="role"><option>A</option><option>B</option></select></label>
 <label>Condition <select id="mode"><option value="baseline">Ordinary WebRTC baseline</option><option value="smartconnect">SmartConnect-assisted ICE recovery</option></select></label>
-<label>Signaling <select id="signaling"><option value="broker">Local broker · same Mac only</option><option value="manual">Private manual SDP exchange · separate machines possible</option></select></label>
+<label>Signaling <select id="signaling"><option value="broker">Automatic signaling · approved shared server</option><option value="manual">Private manual SDP exchange · separate machines possible</option></select></label>
 <label>Approved ICE configuration <textarea id="ice" spellcheck="false" aria-describedby="iceHelp">{"iceServers":[],"iceTransportPolicy":"all"}</textarea></label>
 <p id="iceHelp">No default STUN/TURN. Enter only separately approved servers and credentials. This private control field is not exported. Relay-only requires a configured TURN server.</p>
-<label><input type="checkbox" id="policy"> Mac peer A: read an approved existing Video-policy log locally, including with manual remote signaling (never starts a collector)</label>
+<label><input type="checkbox" id="policy"> Mac peer A: enable recovery from approved measured Video-policy recommendations (never starts a collector)</label>
 <label>Approved session limit (seconds, 30–300) <input type="number" id="duration" min="30" max="300" value="120"></label>
 <label class="warning"><input type="checkbox" id="approval"> The operator has explicitly approved this media/signaling experiment, both clients, configured ICE destinations and duration, and camera/microphone use. This checkbox does not substitute for approval before an agent runs it.</label>
 </fieldset>
 <nav><button id="start">Start this peer — camera + microphone</button><button id="stop" disabled>End this session</button><button id="restart" disabled>Request ICE recovery</button><button id="retry" disabled>Retry last signaling message</button><button id="play">Play remote audio/video</button><button id="export" disabled>Download sanitized observations</button></nav>
 <p id="condition">No active condition. Private setup is for the operator, not projection.</p>
 <p id="status" role="status">Not started. No media, ICE gathering or signaling polling has begun.</p>
+<div class="overview" aria-label="Measured call overview">
+<section><h2>Wi-Fi · en0</h2><p id="quality_wifi">Unavailable</p><p>ICMP RTT/loss measured on Mac. Score and trend derived by Prototype 1.</p></section>
+<section><h2>Cellular USB · en6</h2><p id="quality_cellular">Unavailable</p><p>Cellular radio generation unverified. Jitter, throughput and RSSI unavailable.</p></section>
+<section><h2>Recommended network</h2><p id="recommendation">Unavailable</p><p id="decision">Awaiting fresh measured policy.</p><p id="policyFreshness">Measured ICMP unavailable</p><p id="stability">Policy stability state unavailable</p></section>
+<section><h2>Call connection</h2><p id="connection">Not started</p><p id="delivery">Media delivery unavailable</p></section>
+<section><h2>Requested recovery cause</h2><p id="recoveryCause">None</p><p>Baseline uses ordinary browser recovery. Assisted requests are logged separately.</p></section>
+<section><h2>Observed WebRTC path</h2><p id="transport">Unavailable</p><p>Physically verified interface: <strong>unverified</strong>. Match private candidate evidence with the offline verifier.</p></section>
+<section><h2>Observed continuity</h2><p id="continuity">No media observations yet.</p><p>Counter progress gaps are sampled observations, not exact interruption or handover latency.</p><p id="preservation">Track preservation unavailable.</p></section>
+</div>
 <div class="videos"><section><h2>Local camera</h2><video id="local" muted autoplay playsinline></video></section><section><h2>Remote media</h2><video id="remote" autoplay playsinline></video></section></div>
 <p>Use headphones. Actual interface: <strong>unverified</strong>. ICE-pair changes do not independently identify en0/en6. Recovery never replaces the call automatically.</p>
 <details><summary>Private signaling controls — contains credentials; do not project or publish</summary>
@@ -22,6 +31,7 @@
 <label>Incoming private message <textarea id="incoming" spellcheck="false"></textarea></label><button id="receive" disabled>Apply received signaling</button>
 <label>Sanitized, current Video-policy recommendation (manual transport only) <textarea id="policyInput" spellcheck="false" placeholder="Current approved policy snapshot; not a fabricated or stale recommendation"></textarea></label><button id="applyPolicy" disabled>Apply current approved recommendation</button>
 </details>
-<details open><summary>Sanitized observations</summary><pre id="metrics">Unavailable — no approved call has run.</pre><p>Counter-progress gaps use 500 ms polling and a 1000 ms stall marker. They are not handover latency, exact frame loss or measured perceptual audio interruption. Background throttling can affect observations. Missing values stay null.</p></details>
+<details><summary>Private path verification · contains network addresses</summary><p>After approval, this button reads current browser statistics and downloads a private candidate snapshot for the offline interface verifier. It does not start probes or traffic capture. Keep this evidence private; do not project or publish it. An address match identifies candidate/interface correspondence, not independently observed packet egress.</p><button id="privatePath" disabled>Download private path snapshot</button></details>
+<details><summary>Technical details · sanitized observations</summary><pre id="metrics">Unavailable — no approved call has run.</pre><p>Counter-progress gaps use 500 ms polling and a 1000 ms stall marker. They are not handover latency, exact frame loss or measured perceptual audio interruption. Background throttling can affect observations. Missing values stay null.</p></details>
 <details><summary>Session events</summary><pre id="events">No events.</pre></details>
 <script src="/core.js"></script><script src="/app.js"></script></body></html>

@@ -1,5 +1,10 @@
 # Mac + Windows: first genuine call and continuity validation
 
+**Legacy manual-signaling procedure.** The current hosted integration is described
+in [INTEGRATION.md](INTEGRATION.md); Windows needs only its browser in that mode.
+Statements below about the absence of remote signaling describe the earlier
+prototype, not the integrated hosted broker.
+
 Status: implemented browser media/signaling wiring; offline-tested only. No real
 call or physical migration has been demonstrated. This is separate from the
 frozen competition dashboard. All launch instructions below are for a future,
@@ -45,9 +50,9 @@ camera/microphone, headphones. These Windows prerequisites have not been checked
 on the participant's machine. No Node, Streamlit, Python media package, Git or
 administrator access is needed to run the call page.
 
-Privately transfer ONLY these six runtime files from this directory to
+Privately transfer ONLY these seven runtime files from this directory to
 C:\SmartConnectCall on Windows, after approval for that transfer:
-server.py, index.html, core.js, app.js, style.css, __init__.py.
+server.py, policy_channel.py, index.html, core.js, app.js, style.css, __init__.py.
 Do not transfer logs, .git, evidence or credentials. Provision approved STUN/TURN
 separately if required; use temporary credentials and keep them off projection.
 No dependency downloads, hosted service provisioning or file transfers were run.
@@ -61,7 +66,7 @@ cd /Users/raudaalshaeili/smartconnect
 /opt/anaconda3/bin/python -m experiments.webrtc_continuity.server --approved-local-traffic
 ```
 
-Windows PowerShell, after the six files exist and local-listener approval:
+Windows PowerShell, after the seven files exist and local-listener approval:
 
 ```powershell
 cd C:\SmartConnectCall

@@ -1,5 +1,12 @@
 # SmartConnect controlled-call continuity research
 
+**Current Prototype 1 + 2 integration:** use [INTEGRATION.md](INTEGRATION.md)
+for the Mac bridge, authenticated hosted policy channel and setup;
+[INTEGRATION_AUDIT.md](INTEGRATION_AUDIT.md) for scope and architecture;
+[HARDWARE_VALIDATION.md](HARDWARE_VALIDATION.md) for the approval-gated experiment;
+and [INTEGRATION_TESTS.md](INTEGRATION_TESTS.md) for software validation.
+The remainder of this README describes the earlier loopback/manual prototype.
+
 **Isolated prototype, not validated handover. Not recommended as an EDGE Demo Day
 continuity claim yet.** For the confirmed Mac–Windows setup, start with TWO_LAPTOPS.md. Read FEASIBILITY.md and PROTOCOL.md first. The frozen
 competition dashboard/engine/evidence are untouched. No live call has been run by

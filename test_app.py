@@ -22,7 +22,11 @@ class HandoverDisplayTests(unittest.TestCase):
             "Handover Events", "Final Results", "Live Hardware Monitoring",
         ])
         self.assertTrue(app.tabs[0].dataframe)
-        self.assertEqual(len(app.tabs[1].get("vega_lite_chart")), 5)
+        # Streamlit 1.45 exposes Altair elements with the Arrow-prefixed name;
+        # newer versions use vega_lite_chart. Both must still render five charts.
+        charts = (app.tabs[1].get("vega_lite_chart")
+                  + app.tabs[1].get("arrow_vega_lite_chart"))
+        self.assertEqual(len(charts), 5)
         self.assertTrue(app.tabs[2].slider)
         self.assertEqual(len(app.tabs[3].dataframe), 1)
         self.assertEqual(len(app.tabs[3].dataframe[0].value), 1)
