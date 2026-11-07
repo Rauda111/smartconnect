@@ -157,3 +157,26 @@ test('assisted initiator attempts recovery after sustained ICE disconnection',as
  f.now=3000;await f.call.sample();assert.equal(f.call.restarts,1);
  assert(f.call.events.some(e=>e.kind==='recovery_requested' && e.cause==='ice_disconnected'));
 });
+
+test('unanswered recovery offer retries after 3 seconds and stops after answer',async()=>{
+  const f=fixture();
+  await f.start();
+  await f.answer();
+  await f.call.requestRestart('manual');
+  assert.equal(f.messages.length,2);
+
+  f.now=2999;
+  await f.call.sample();
+  assert.equal(f.messages.length,2);
+
+  f.now=3000;
+  await f.call.sample();
+  assert.equal(f.messages.length,3);
+  assert.equal(f.messages[2].revision,2);
+  assert(f.call.events.some(e=>e.kind==='signaling_retried'));
+
+  await f.answer();
+  f.now=6500;
+  await f.call.sample();
+  assert.equal(f.messages.length,3);
+});
