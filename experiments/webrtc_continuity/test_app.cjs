@@ -3,7 +3,7 @@ const test=require('node:test'),assert=require('node:assert/strict'),vm=require(
 const api=require('./core.js');
 const source=fs.readFileSync(__dirname+'/app.js','utf8');
 function setup(){
- const elements=new Map(),calls={fetch:[],media:0,pc:0,timers:[],stopped:0,incoming:[],responseStatus:200,policy:null,now:0,listeners:{},downloads:[],lease:360,mediaDelay:0,policyDelay:0};
+ const elements=new Map(),calls={fetch:[],media:0,pc:0,timers:[],stopped:0,incoming:[],responseStatus:200,policy:null,now:0,listeners:{},downloads:[],downloadFailure:false,lease:360,mediaDelay:0,policyDelay:0};
  const defaults={role:'A',mode:'baseline',signaling:'broker',ice:'{"iceServers":[],"iceTransportPolicy":"all"}',duration:'120'};
  function element(id){if(!elements.has(id))elements.set(id,{value:defaults[id] || '',checked:false,disabled:false,textContent:'',handlers:{},addEventListener(type,fn){this.handlers[type]=fn;},async click(){if(this.handlers.click)return this.handlers.click();},play:async()=>{}});return elements.get(id);}
  const tracks=[{kind:'video',stop(){calls.stopped++;}},{kind:'audio',stop(){calls.stopped++;}}];
@@ -17,7 +17,7 @@ function setup(){
   getSenders(){return this.senders;}getReceivers(){return [];}close(){}
  }
  class MediaStream{constructor(){this.tracks=[];}getTracks(){return this.tracks;}addTrack(t){this.tracks.push(t);}}
- const sandbox={document:{getElementById:element,createElement:()=>({click(){calls.downloads.push(this);}}),visibilityState:'visible',addEventListener(type,fn){calls.listeners[type]=fn;}},location:{hash:'#role=A&token=test-only-token',pathname:'/'},history:{replaceState(){}},URLSearchParams,
+ const sandbox={document:{getElementById:element,createElement:()=>({click(){if(calls.downloadFailure)throw new Error('download blocked');calls.downloads.push(this);}}),visibilityState:'visible',addEventListener(type,fn){calls.listeners[type]=fn;}},location:{hash:'#role=A&token=test-only-token',pathname:'/'},history:{replaceState(){}},URLSearchParams,
   navigator:{mediaDevices:{async getUserMedia(constraints){calls.media++;calls.now+=calls.mediaDelay;calls.constraints=constraints;return{getTracks:()=>tracks};}},clipboard:{writeText:async()=>{}}},MediaStream,RTCPeerConnection:FakePC,
   SmartConnectContinuity:{...api,Call:class extends api.Call{constructor(options){super(options);calls.instance=this;}}},crypto:{randomUUID:()=> 'fixture-client-AAAA'},performance:{now:()=>calls.now},AbortController,
   fetch:async(path,options)=>{calls.fetch.push({path,options});if(path.startsWith('/policy'))calls.now+=calls.policyDelay;return{ok:calls.responseStatus===200,status:calls.responseStatus,json:async()=>path.startsWith('/signal?')?{session_id:'fixture-session',messages:calls.incoming.splice(0)}:path==='/join'?{joined:true,session_id:'fixture-session',absolute_expires_in_seconds:calls.lease}:path.startsWith('/policy')?(calls.policy || {status:'not_configured'}):{accepted:true}};},
@@ -190,4 +190,29 @@ test('approved private TURN config reaches WebRTC without leaking credentials in
  f.element('ice').value=JSON.stringify({iceServers:[{urls:'turns:example.invalid:5349',username:'PRIVATE-USER',credential:'PRIVATE-CREDENTIAL'}],iceTransportPolicy:'relay'});
  await f.element('start').click();assert.equal(f.calls.config.iceTransportPolicy,'relay');assert.equal(f.calls.config.iceServers[0].credential,'PRIVATE-CREDENTIAL');
  assert(!JSON.stringify(f.calls.instance.export()).includes('PRIVATE'));await f.element('stop').click();
+});
+
+test('explicit end automatically downloads sanitized evidence once with peer and start time',async()=>{
+ const f=setup();await f.element('stop').click();assert.equal(f.calls.downloads.length,0);
+ const g=setup();g.element('approval').checked=true;await g.element('start').click();await new Promise(setImmediate);
+ assert.equal(g.calls.downloads.length,0);await g.element('stop').click();await g.element('stop').click();
+ assert.equal(g.calls.downloads.length,1);assert.match(g.calls.downloads[0].download,/^controlled-call-A-\d{4}-.*\.json$/);
+ const data=await (await fetch(g.calls.downloads[0].href)).json();
+ assert(data.events.some(e=>e.kind==='session_explicitly_ended'));assert.equal(data.physical_egress_verified,false);
+ const raw=JSON.stringify(data);for(const value of ['fixture-session','test-only-token','fixture-offer','"description":','"local_candidate":'])assert(!raw.includes(value));
+});
+test('time limit and broker expiry automatically preserve final observations without starting new calls',async()=>{
+ for(const expiry of ['timer','broker']){
+  const f=setup();f.element('approval').checked=true;f.element('role').value='B';await f.element('start').click();await new Promise(setImmediate);
+  if(expiry==='timer')f.calls.timers.find(t=>t.ms===120000).fn();
+  else {f.calls.responseStatus=409;await f.calls.timers.filter(t=>t.fn.name==='polling').at(-1).fn();}
+  await new Promise(setImmediate);assert.equal(f.calls.downloads.length,1);assert.match(f.calls.downloads[0].download,/^controlled-call-B-/);
+  assert.equal(f.calls.instance.closed,true);assert.equal(f.calls.pc,1);assert.equal(f.calls.media,1);
+ }
+});
+test('blocked automatic download does not prevent shutdown and manual export remains available',async()=>{
+ const f=setup();f.element('approval').checked=true;await f.element('start').click();f.calls.downloadFailure=true;
+ await f.element('stop').click();assert.equal(f.calls.instance.closed,true);assert.equal(f.element('export').disabled,false);
+ assert.match(f.element('status').textContent,/if no file appeared/);assert.equal(f.calls.downloads.length,0);
+ f.calls.downloadFailure=false;await f.element('export').click();assert.equal(f.calls.downloads.length,1);
 });

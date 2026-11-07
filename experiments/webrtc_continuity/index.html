@@ -14,6 +14,7 @@
 <nav><button id="start">Start this peer — camera + microphone</button><button id="stop" disabled>End this session</button><button id="restart" disabled>Request ICE recovery</button><button id="retry" disabled>Retry last signaling message</button><button id="play">Play remote audio/video</button><button id="export" disabled>Download sanitized observations</button></nav>
 <p id="condition">No active condition. Private setup is for the operator, not projection.</p>
 <p id="status" role="status">Not started. No media, ICE gathering or signaling polling has begun.</p>
+<p>Approved calls automatically collect sanitized counters/events and request a local evidence download when ended or timed out. If the browser blocks it, use Download sanitized observations before closing this page. Media and private candidate addresses are not included.</p>
 <div class="overview" aria-label="Measured call overview">
 <section><h2>Wi-Fi · en0</h2><p id="quality_wifi">Unavailable</p><p>ICMP RTT/loss measured on Mac. Score and trend derived by Prototype 1.</p></section>
 <section><h2>Cellular USB · en6</h2><p id="quality_cellular">Unavailable</p><p>Cellular radio generation unverified. Jitter, throughput and RSSI unavailable.</p></section>

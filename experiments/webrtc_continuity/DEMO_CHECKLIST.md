@@ -1,5 +1,8 @@
 # Competition demonstration · 9–13 November 2026
 
+For the next rehearsal, use [STAGING_AND_HARDWARE.md](STAGING_AND_HARDWARE.md)
+as the single sequential procedure. Do not combine instructions across trials.
+
 ## Before the session
 
 - [ ] Keep the existing Prototype 1 dashboard and recorded evidence available.

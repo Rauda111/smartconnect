@@ -9,6 +9,7 @@
   if(location.hash) history.replaceState(null,'',location.pathname);
   let call=null,stream=null,client=null,stopped=true,signalTimer=null,sampleTimer=null,limitTimer=null;
   let active=null,sessionId=null,started=0,sampleBusy=false,signalCursor=0,lifecycleEnded=false,leaseUntil=Infinity;
+  let automaticEvidenceAttempted=false;
   const inbox=[]; // Preserve messages if media recovery is still generating its offer.
   const remoteStream=new MediaStream();
   $('remote').srcObject=remoteStream;
@@ -108,7 +109,7 @@
         const p=await api('/policy'+(sessionId?'?'+peerQuery():''));
         if(stopped)return;await call.applyPolicy(p);renderPolicy();
       }
-    } catch (error) {if(error.sessionExpired){stopped=true;clearTimeout(sampleTimer);clearTimeout(limitTimer);call.close();renderClosed('shared session expired');for(const id of ['stop','restart','retry','receive','applyPolicy','privatePath'])$(id).disabled=true;showEvent();status('Shared session ended or expired. Reload both peers for an explicitly approved new session.');return;}if(!stopped){await call.applyPolicy({status:'unavailable'});renderPolicy();call.event(active.signaling==='broker'?'signaling_poll_failure':'policy_poll_failure');status('Local signaling or policy input unavailable. No call was recreated; inspect events and restore the approved input.');}}
+    } catch (error) {if(error.sessionExpired){stopped=true;clearTimeout(sampleTimer);clearTimeout(limitTimer);call.close();downloadEvidenceAtEnd();renderClosed('shared session expired');for(const id of ['stop','restart','retry','receive','applyPolicy','privatePath'])$(id).disabled=true;showEvent();status('Shared session ended or expired. Sanitized evidence download requested; use Download sanitized observations if no file appeared. Reload both peers for an explicitly approved new session.');return;}if(!stopped){await call.applyPolicy({status:'unavailable'});renderPolicy();call.event(active.signaling==='broker'?'signaling_poll_failure':'policy_poll_failure');status('Local signaling or policy input unavailable. No call was recreated; inspect events and restore the approved input.');}}
     if(!stopped)signalTimer=setTimeout(polling,500);
   }
   async function sampling() {
@@ -129,12 +130,13 @@
   async function stop() {
     stopped=true;lifecycleEnded=true;inbox.length=0;clearTimeout(signalTimer);clearTimeout(sampleTimer);clearTimeout(limitTimer);
     if(call)call.close();
+    downloadEvidenceAtEnd();
     renderClosed('session ended');
     if(stream)for(const track of stream.getTracks())track.stop();
     if(active && active.signaling==='broker' && client) {try{await api('/leave','POST',peerData());}catch(_){/* Fixed status below, no raw exception. */}}
     for(const id of ['stop','restart','retry','receive','applyPolicy','privatePath'])$(id).disabled=true;
     $('export').disabled=!call;
-    status('Session ended explicitly or at its approved time limit. Reload for a new, separately approved session. No automatic restart.');
+    status('Session ended explicitly or at its approved time limit. Sanitized evidence download requested; use Download sanitized observations if no file appeared. Reload for a new, separately approved session. No automatic restart.');
     showEvent();
   }
   $('start').addEventListener('click',async()=>{
@@ -199,7 +201,17 @@
     const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));
     const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
   }
-  $('export').addEventListener('click',()=>{if(call)download(call.export(),'controlled-call-observations.json');});
+  function evidenceFilename() {
+    return 'controlled-call-'+call.role+'-'+(call.startedUTC || 'unstarted').replace(/[^0-9TZ-]/g,'-')+'.json';
+  }
+  function downloadEvidenceAtEnd() {
+    if(!call || automaticEvidenceAttempted)return;
+    automaticEvidenceAttempted=true;
+    // Local sanitized data only. Never auto-save SDP, candidates, or media.
+    // Browsers may block automatic downloads; the explicit export stays enabled.
+    try{download(call.export(),evidenceFilename());}catch(_){/* Explicit export remains available. */}
+  }
+  $('export').addEventListener('click',()=>{if(call)download(call.export(),evidenceFilename());});
   $('privatePath').addEventListener('click',async()=>{
     if(!call || stopped)return;
     try {download(await call.privatePathSnapshot(),'PRIVATE-selected-media-path.json');status('Private candidate snapshot saved. Match it to fresh interface evidence using the offline verifier; this does not prove packet egress or handover.');}

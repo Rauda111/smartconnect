@@ -1,5 +1,9 @@
 # Prototype 1 → Prototype 2 integration
 
+For the next real two-laptop trial, follow the single sequential
+[staging and hardware runbook](STAGING_AND_HARDWARE.md). It includes the prepared
+separate-service configuration, approval boundaries and automatic evidence saving.
+
 This is the current integration guide; older loopback/manual-signaling setup guides describe earlier versions. The frozen competition dashboard, recorded evidence and existing decision engine are retained. The new work connects the Mac's existing Video Call policy to the separate WebRTC application.
 
 ## What the demonstration establishes

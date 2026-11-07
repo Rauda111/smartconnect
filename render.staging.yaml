@@ -1,0 +1,22 @@
+# REVIEWED STAGING PLAN ONLY: creating/syncing this service requires approval.
+# Confirm the name is unused; never apply this definition to the live service.
+services:
+  - type: web
+    name: smartconnect-prototype2-staging-4b5e878
+    runtime: python
+    plan: free
+    region: frankfurt
+    repo: https://github.com/Rauda111/smartconnect
+    branch: codex/prototype-integration-demo
+    autoDeployTrigger: "off"
+    numInstances: 1
+    buildCommand: python -m compileall -q experiments/webrtc_continuity
+    startCommand: python -m experiments.webrtc_continuity.cloud_server
+    healthCheckPath: /healthz
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.13.5"
+      - key: SMARTCONNECT_SIGNAL_TOKEN
+        sync: false
+      - key: SMARTCONNECT_POLICY_TOKEN
+        sync: false

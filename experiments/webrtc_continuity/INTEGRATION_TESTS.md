@@ -1,5 +1,8 @@
 # Integration validation · 7 November 2026
 
+Follow-up staging preparation is recorded at the end of this report. The table
+below records the original `4b5e878` integration result.
+
 Base revision: `22c401b`. Delivery branch: `codex/prototype-integration-demo`.
 All results below are software tests with mocked probe/media transports or offline
 recorded/synthetic regression inputs. **No physical handover result is claimed.**
@@ -90,3 +93,37 @@ The shortest remaining path is: review this commit, approve the matching hosted
 deployment and separate writer secret, then execute the staged procedure in
 [HARDWARE_VALIDATION.md](HARDWARE_VALIDATION.md). Use
 [DEMO_CHECKLIST.md](DEMO_CHECKLIST.md) for the competition presentation.
+
+## Follow-up: staging and evidence preparation
+
+The original commit was confirmed clean and pushed to the dedicated GitHub branch.
+The readiness follow-up adds a separate-service Render Blueprint, one sequential
+hardware runbook, automatic sanitized downloads at call end/expiry, and an opt-in
+loopback HTTP smoke checker. No algorithm or recovery policy was changed.
+
+Relevant follow-up suites: **72 Python cases and 77 JavaScript/contract cases
+passed (149 total, zero failures)**. The added cases cover automatic end/expiry
+downloads, private-data exclusion, blocked-download fallback, and rejection of
+unapproved loopback-listener startup. Python compilation, JavaScript syntax,
+YAML parsing/explicit free-plan/single-instance/no-secret assertions and Git
+whitespace checks also pass. The prior broader repository regression remains
+applicable; its source was not changed or rerun unnecessarily.
+
+The actual loopback HTTP smoke check passed with an ephemeral listener on
+`127.0.0.1`, private temporary test credentials and fixture measurements/SDP.
+It exercised the production bridge `Writer`, HTTP handler, broker scope, policy
+delivery, signaling acknowledgements, unauthorized requests and room teardown.
+The listener was shut down afterward. This is additional transport evidence,
+not a browser/media or physical-network test. No external probes or routes were
+used. An initial sandbox bind restriction was resolved through the approved
+loopback-only execution; no application defect or external network was involved.
+
+The server and cloud tests additionally pass under `python3 -S`, demonstrating
+that the proposed Render service does not need the dashboard's pip dependencies.
+Prepared staging credential values were checked with the real configuration
+validator without displaying them or creating a listener.
+
+Render account inspection is blocked by sign-in. No staging service has been
+created, secrets uploaded or production configuration changed. Read-only local
+inventory found `en6` absent, so USB hardware preparation is also required.
+See [STAGING_AND_HARDWARE.md](STAGING_AND_HARDWARE.md) for exact next actions.
