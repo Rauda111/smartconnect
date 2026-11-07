@@ -271,8 +271,9 @@ transport control is absent. The next scope decision is:
 > Approve a Mac-only native interface-control adaptation for the assisted trial,
 > keeping both interfaces up, the existing recommendation engine, staging service
 > and Windows browser. Authorize software implementation/offline validation only;
-> camera/microphone, live probes, captures, interface interruption and any new
-> deployment remain subject to separate approval.
+> camera/microphone, live probes, captures and interface interruption remain
+> subject to separate approval. Production stays unchanged and no paid resources
+> are enabled. The existing separate free-staging authorization remains in force.
 
 This changes the Mac client architecture beyond the current browser implementation;
 it is not another baseline run or a request to repeat evidence transfers. Once a
