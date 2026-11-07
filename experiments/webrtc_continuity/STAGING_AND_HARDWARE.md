@@ -9,10 +9,13 @@ for the next hardware trial. It does not authorize deployment or live experiment
 - The isolated checkout was clean at `4b5e878`; that commit was pushed to GitHub.
 - The integration branch remains separate from `codex/webrtc-render-signaling`.
 - [render.staging.yaml](../../render.staging.yaml) defines a separate staging
-  service. No service has been created and production has not been changed.
+  service. The user approved this separate free deployment, which is now live;
+  production has not been changed.
 - Distinct URL-safe staging signal/writer credentials were generated privately in
   the ignored `.env.staging` file in the isolated checkout, with mode `0600`.
-  Their values were not displayed, committed, uploaded or used in a live service.
+  Their values were imported privately into the separate staging service through
+  Render’s `.env` file chooser. They were not displayed, committed or reused from
+  production.
 - Source configuration validation accepts these credentials. The server/cloud
   tests also pass with Python site-packages disabled: deployment needs no pip
   install of the simulation/dashboard dependencies.
@@ -23,9 +26,10 @@ for the next hardware trial. It does not authorize deployment or live experiment
 - Read-only local inventory found `en0` active but **`en6` absent** at preparation
   time. This is not a reachability test; the iPhone USB link must be connected and
   rechecked before a trial.
-- The available Render browser session requires sign-in. Actual account quota,
-  production configuration, service region and active revision remain unverified.
-  No Render API credential is available in the current process.
+- Render sign-in and deployment completed on 2026-11-07. Read-only billing showed
+  Hobby, no card on file, 3.03/750 free hours, 6 MB/5 GB bandwidth, and 1/500
+  pipeline minutes used before creation. No paid resource or billing change was
+  enabled. No Render API credential was needed.
 
 The only call-code addition after `4b5e878` is automatic **sanitized** evidence
 download at explicit end, time limit or shared-session expiry. It uses peer role
@@ -81,8 +85,8 @@ The Blueprint uses `sync: false` for these secrets. Do not replace it with
 `+`, `/` or `=`, which this application's deliberate URL-safe validation rejects.
 The prepared credentials avoid changing the validated security contract.
 
-After deployment approval and Render sign-in, the agent will perform the service
-setup and private secret transfer through an authorized interface. No secret
+The user approved deployment and completed Render sign-in. The agent performed
+service setup and private secret transfer through Render’s `.env` file chooser. No secret
 values should be pasted into chat, command arguments, screenshots, public logs,
 PRs or source. Keep `.env.staging` private; never use `git add -f`. The agent can
 load its values into a subprocess environment without printing them. No user
@@ -90,14 +94,38 @@ code copying or file editing is needed.
 
 ### Deployment acceptance before any live call
 
-The agent will verify the actual staging URL and deployed commit, healthy startup,
-matching client asset content and an inert initial page. It will check that
-unauthorized policy calls return 403, the writer sees no active session before
-joining, and authenticated test-only signaling/policy scope works. These smoke
-checks use fixture data in an isolated room, explicitly end it, and are never
-published as live measurements. No media/probe access is part of deployment
-approval. If the service lacks the new protocol or the browser assets differ,
-stop before a call.
+Completed at 2026-11-07 18:10:20 UTC: 27 staging HTTPS checks passed. The browser
+was separately observed idle, with no media, ICE or signaling polling started.
+The test used synthetic measurements and synthetic SDP in a temporary staging
+room, then ended it and verified the writer again saw no active session. No live
+probe, camera/microphone session, packet capture or Wi-Fi interruption occurred.
+
+| Verified deployed setting | Actual value |
+| --- | --- |
+| Staging URL | https://smartconnect-prototype2-staging-4b5e878.onrender.com |
+| Render service | `srv-dbnmiae7bikc73cviig0` |
+| Deployment | `dep-dbnmib67bikc73cvikb0` — Live |
+| Application commit | `dd6c3722768f5000288b8b0fb4ce3a7449ded076` |
+| Plan / region | Free ($0/month) / Frankfurt |
+| Project assignment | None; separate from the existing Production project |
+| Runtime | Python 3.13.5, one process |
+| Auto-deploy / PR previews | Off / Off |
+| Health check | `/healthz`, HTTP 200 |
+
+Acceptance covered byte-for-byte matching HTML, JavaScript and CSS; no-store
+headers; cross-origin rejection; unauthenticated rejection; reader/writer
+credential separation; four fixture policy windows through the actual bridge;
+policy reads by both roles; retained-until-ACK offer delivery; answer delivery;
+and room cleanup. Physical interface remained explicitly unverified. Sanitized
+JSON was saved locally at
+`/private/tmp/smartconnect-staging-evidence/acceptance-20261107T181020Z.json`.
+The application remains at the commit above; a later documentation-only commit
+does not trigger deployment because auto-deploy is off.
+
+Production service `smartconnect` (`srv-dbn0al0n74is73fhd6b0`, Singapore) was
+viewed read-only. Its service, branch, credentials and deployment were not
+modified. Free staging can still sleep or restart; readiness must be checked
+again before an approved hardware trial.
 
 ## One sequential hardware-validation procedure
 
@@ -105,11 +133,10 @@ The agent performs software commands and evidence processing. The operator handl
 the two devices, permissions and expressly approved physical network actions.
 Do not proceed past a numbered approval boundary until it is granted.
 
-1. **Approve staging deployment only.** Authorize one separate free-plan staging
-   service from this branch, with the two separate credentials and auto-deploy
-   disabled; no production changes or paid resources. Sign in to Render when
-   prompted. The agent deploys and completes the acceptance checks above. This
-   approval does not include probes, media, Wi-Fi interruption or capture.
+1. **Staging deployment — completed.** The approved separate free service is live
+   and passed the acceptance checks above, with distinct staging credentials and
+   auto-deploy disabled. This approval does not include probes, media, Wi-Fi
+   interruption or capture. **The current next step is step 2.**
 
 2. **Prepare devices.** Connect the iPhone by USB, enable its Personal Hotspot and
    complete any device trust prompt yourself. Keep Mac Wi-Fi and Windows home
@@ -225,6 +252,7 @@ transport check. Run it only with local-listener authorization:
 /opt/anaconda3/bin/python -m experiments.webrtc_continuity.transport_smoke --approved-loopback-check
 ```
 
-The default offline test suites do not start this listener. Render-side Blueprint
-validation and staged HTTP/browser acceptance still require account access and
-deployment approval; they have not been represented as completed.
+The default offline test suites do not start this listener. Deployment used the
+Render service form with the prepared Blueprint-equivalent settings; no Blueprint
+sync was applied. Hosted HTTP/browser acceptance is recorded above. Hardware
+validation remains pending, and no physical handover success is claimed.
