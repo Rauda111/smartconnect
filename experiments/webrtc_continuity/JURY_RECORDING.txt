@@ -1,0 +1,158 @@
+SMARTCONNECT - ONE REAL RECORDING / LIVE JURY REHEARSAL
+Prepared 8 November 2026 (Asia/Dubai)
+
+STATUS AND SCOPE
+This isolated change prepares the recording workflow; it has not been deployed.
+The current working staging service, production, credentials, accepted baseline,
+integrated observation and offline evidence edition are retained. No new real
+media session, recording, ICMP measurement, capture or Wi-Fi interruption has run.
+The Prototype 1 engine, signaling protocol and recovery policy are unchanged.
+
+WHAT THE JURY SEES
+Three independent panels: recommendation; observed candidate/interface association;
+physically verified interface. The last remains NOT ESTABLISHED: an exact OS
+address match is not packet-egress proof. Mac quality includes real RTT/loss,
+normal and adjusted scores, original explanation, hold/dwell/margin, and the
+existing prototype guardrails. Both peers show selected pair generation, candidate
+types/protocol, browser network type if supplied, connection state, received-media
+progress, freezes, gaps, object preservation and recovery cause.
+
+Windows explicitly labels all en0/en6 measurements and the recommendation REMOTE
+MAC. Windows' own path is a separately matched local adapter. Its remote candidate
+type is displayed; the Mac's physical egress is not guessed from it. Missing browser
+network type is UNKNOWN. Match results expire when inventory/stats are stale,
+ambiguous, inactive, wrong-peer, mDNS-obscured, relayed or not selected/connected.
+No private IP, port, SDP, raw session ID or credential is rendered in jury view.
+
+RECORDING DESIGN
+Use current Chrome or Edge. A separate checkbox and button gate screen/audio
+recording. The browser chooser must select the CURRENT SmartConnect tab. Capture
+Handle verifies the exact tab; desktop/window/wrong-tab selections are stopped
+before recording. No other application's/system audio is captured. The already
+approved local and remote WebRTC audio tracks feed a recording-only mix; the
+original tracks and peer connection are not replaced or reacquired for recording.
+Private controls stay hidden for the recorded session. No recording starts on load.
+
+The page saves one local ZIP containing the full unedited WebM, sanitized call
+observations, address-match history, recording timestamps and up to 16 actual
+screen stills. Connected/recovery events create automatic still markers; the
+operator can add a marker. No recording is uploaded. A one-way session fingerprint
+in the technical export permits cross-peer correlation without exporting the raw
+session ID. Treat raw footage/technical bundles as private pending complete review.
+Recorder limit: 420 seconds including setup; call: 300 seconds. A size guard stops
+oversized recordings. Early stop/error remains an observed outcome, never success.
+
+OS INVENTORY - NO NETWORK MEASUREMENTS
+Mac: jury_inventory.py reads ifconfig locally every 5 seconds, at most 420 seconds.
+Windows: the prepared START-WINDOWS.cmd opens the private launcher and runs the
+same bounded local inventory using built-in PowerShell networking cmdlets. It
+does not change routes/firewalls or bypass execution policy. Addresses are written
+only to SmartConnectPrivate/current-interfaces.json and PRIVATE inventory history.
+Each browser chooses that one file once, before recording. No uploads or repeated
+USB transfers occur during the call. Inventory timestamps are never freshened by
+the reader; 30-second-old data cannot support a current match. Unexpected reader
+or permission failures show UNKNOWN and do not disrupt the call.
+
+EXACT PREPARATION (AFTER STAGING UPDATE APPROVAL)
+1. Connect both laptop power supplies and headphones. Connect iPhone USB to Mac
+   and enable Personal Hotspot. Keep home Wi-Fi available on both laptops. Confirm
+   en0 and en6 are active through the local check. Do not change routes or disable
+   Wi-Fi. Put the offline evidence MP4 ready in another player as a fallback.
+2. Mac: run 0-Check-Staging.command in SmartConnectRecordingPrivate. It verifies
+   HTTPS health/authentication, idle room and the exact reviewed client assets.
+   It does not join, start media or send measurement probes.
+3. Before moving the USB, prepare the refreshed Windows kit on it. On Windows,
+   double-click START-WINDOWS.cmd. Keep the inventory console open. Its browser
+   launcher must open the existing staging site. No new credentials are entered.
+4. Mac: run 1-Start-Local-Inventory.command and open the private Mac launcher.
+5. Both pages: select A on Mac / B on Windows, SmartConnect-assisted, automatic
+   signaling and 300 seconds. Leave default ICE unless a separate relay is approved.
+   Mac A only: enable measured-policy recovery. Link the local current-interfaces
+   JSON file once using Link private local interface inventory. Windows file is in
+   %USERPROFILE%\SmartConnectPrivate; Mac file is in ~/SmartConnectPrivate.
+6. Keep private controls off the projector. Do Not Disturb and browser fullscreen
+   should be set before capture. Obtain consent from everyone recorded. A separate
+   camera/phone can film a 15-30 second horizontal physical setup shot while the
+   hotspot iPhone stays connected; do not disturb USB to obtain the shot.
+
+EXACT APPROVED RECORDING / REHEARSAL SEQUENCE
+7. Only after separate explicit media, screen/audio recording and probe approval,
+   tick the media and recording approval boxes on BOTH pages. Open sanitized jury
+   view. Click Start approved tab recording on each laptop; select ONLY its current
+   SmartConnect tab in the browser chooser. Confirm RECORDING on both. Start the
+   Mac local inventory close enough to this step to remain active for the full run.
+8. Have the separate external camera ready. Both laptop tab recorders are running,
+   but call audio is not available until the approved call connects.
+9. Windows B clicks Start this peer first; Mac A clicks Start immediately afterward.
+   Allow camera/microphone. Click Play remote audio/video if needed. Wave and say
+   Mac to Windows, then Windows to Mac. Confirm visible movement and audible speech
+   in each direction. Connected alone is insufficient. Now say three, two, one,
+   mark and wave for alignment of both recordings. Record the external setup shot
+   around this same mark. UTC clocks aid alignment but are not assumed synchronized.
+10. Mac: run 2-Start-Approved-Measurements.command and acknowledge only the already
+    granted scope: at most 360 ICMP echoes to 1.1.1.1 across en0/en6, over at most
+    270 seconds inside the shared 300-second call budget. It reuses the real engine
+    and automatically saves measured observations and decision explanations.
+11. Show the initial candidate association on each laptop. If UNKNOWN, state that
+    limitation; do not guess. Show the fresh recommendation and four-decimal scores,
+    then any naturally occurring policy_change request. Do not press manual recovery
+    to manufacture a policy event. Both links remain available throughout.
+12. If no recommendation changes naturally, retain that outcome. Explain the PRIOR
+    7 November run separately: about 275 connected seconds, two policy-triggered
+    restarts, Wi-Fi -> cellular -> Wi-Fi recommendations, preserved PC/tracks, and
+    Mac candidate association remaining en0. Use the dated offline evidence edition
+    after this call; do not present replay or its counters as the new live run.
+13. End BOTH peers within the approved 300-second budget. Recording stops and the
+    ZIP download is requested. If blocked, click Download recording bundle before
+    closing the page. If recording was stopped early, also save Download sanitized
+    observations at call end. Do not reload until downloads are confirmed.
+14. Windows: copy the new SmartConnect-recording-B ZIP, any final controlled-call-B
+    JSON and PRIVATE inventory history into this kit's RETURN-EVIDENCE folder.
+    Safely return the USB once, AFTER the run. No mid-call transfers are required.
+    Mac files are collected from Downloads automatically by the post-run helper.
+
+SAFE FAILURE / VENUE FALLBACK
+If no two-way media appears within 30 seconds after both permissions finish, or
+setup exceeds 90 seconds, explicitly end both peers. Keep all failed-attempt evidence.
+Play the local offline MP4; do not troubleshoot network equipment on stage.
+No automatic new call is created. A retry is a new separately approved experiment.
+The default client has no STUN/TURN. HTTPS reachability does not prove direct media
+reachability. Guest-network isolation, NAT/firewalls or hotspot USB/Wi-Fi isolation
+can block media. Qualify the exact venue topology before presenting it. No paid
+relay or change of network settings is part of this preparation.
+
+AUTOMATIC POST-PROCESSING
+3-Process-New-Recordings.command finds new A/B recording bundles on Mac/USB and
+preserves each source unchanged. recording_prepare.py verifies archive structure,
+correlates roles, converts a full MP4 without temporal cuts, extracts PNG frames
+every 15 seconds plus an initial frame, and creates a DRAFT highlights edit up to
+150 seconds. Cuts remain chronological, never loop footage, and are visibly labeled
+RECORDED EXCERPT with source times. Recovery markers select relevant real moments;
+missing events are not invented. The edit decision list and source hashes are kept.
+Watch the ENTIRE raw recordings and draft with sound before sharing. No thumbnail
+scan can prove privacy. External-camera footage and a clearly labeled historical
+conclusion can be assembled after that review; no raw footage exists yet.
+
+APPROVALS STILL REQUIRED
+First: deploy the reviewed source commit only to the existing Free staging service.
+Do not merge into production, change tokens/configuration, or add paid resources.
+Rollback uses the previous source revision dd6c372 WITH CURRENT rotated credentials;
+never restore a pre-rotation environment that could reactivate the revoked reader.
+Next: one 300-second two-laptop call, cameras/microphones and direct ICE/media;
+screen/call-audio recording on both laptops up to 420 seconds including setup;
+one short external setup clip; and <=360 echoes to 1.1.1.1 across en0/en6 for <=270
+seconds inside the call. No route changes, Wi-Fi interruption or packet capture.
+
+LIMITATIONS / HONEST CLAIM
+The UI, archive/extraction logic and matching rules have offline tests. Native
+browser capture permissions, Windows OS inventory execution and live media with
+the new recorder remain untested until approval. Capture overhead may affect the
+new run; report its actual counters and interruptions. Independent address matching
+does not prove packet egress, cellular radio generation, physical migration or a
+causal recovery benefit. The demo does not depend on forcing handover.
+
+PRIMARY API REFERENCES
+https://developer.chrome.com/docs/capabilities/web-apis/file-system-access
+https://developer.chrome.com/docs/web-platform/screen-sharing-controls
+https://developer.chrome.com/docs/web-platform/capture-handle
+https://webrtc.org/getting-started/turn-server

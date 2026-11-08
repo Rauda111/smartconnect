@@ -293,7 +293,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header('Referrer-Policy', 'no-referrer')
         self.send_header('X-Content-Type-Options', 'nosniff')
         self.send_header('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; media-src 'self' blob:; img-src 'self' data:; base-uri 'none'; frame-ancestors 'none'")
-        self.send_header('Permissions-Policy', 'camera=(self), microphone=(self)')
+        self.send_header('Permissions-Policy', 'camera=(self), microphone=(self), display-capture=(self)')
         self.end_headers()
         self.wfile.write(body)
 
@@ -308,7 +308,8 @@ class Handler(BaseHTTPRequestHandler):
         if not self.allowed_origin():
             return self.reply(403, {'error': 'origin_not_allowed'})
         assets = {'/': ('index.html','text/html; charset=utf-8'), '/index.html': ('index.html','text/html; charset=utf-8'),
-                  '/core.js': ('core.js','application/javascript'), '/app.js': ('app.js','application/javascript'), '/style.css': ('style.css','text/css')}
+                  '/core.js': ('core.js','application/javascript'), '/app.js': ('app.js','application/javascript'), '/style.css': ('style.css','text/css'),
+                  '/jury.js': ('jury.js','application/javascript'), '/recording.js': ('recording.js','application/javascript')}
         if self.path in assets:
             name, mime = assets[self.path]
             return self.reply(200, (ROOT/name).read_bytes(), mime)

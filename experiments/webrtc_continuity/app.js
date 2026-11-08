@@ -13,6 +13,10 @@
   const inbox=[]; // Preserve messages if media recovery is still generating its offer.
   const remoteStream=new MediaStream();
   $('remote').srcObject=remoteStream;
+  const jury=typeof SmartConnectJury==='undefined'?null:SmartConnectJury.create({document,
+    getRole:()=>active?.role || $('role').value,getEvidence:()=>call?.export() || null,
+    getFingerprint:async()=>{if(!call?.evidenceSessionId)return null;try{return Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(call.evidenceSessionId))),b=>b.toString(16).padStart(2,'0')).join('');}catch(_){return null;}},
+    getStreams:()=>[stream,remoteStream]});
   const status=text=>{$('status').textContent=text;};
   const showEvent=()=>{
     if(call?.negotiationBlocked)$('restart').disabled=true;
@@ -118,7 +122,8 @@
     try {
       if(performance.now()-started>=active.duration*1000) {call.event('approved_time_limit_reached');await stop();return;}
       const sample=await call.sample();
-      if(sample && !stopped){renderSample(sample);$('metrics').textContent=JSON.stringify({latest:sample,progress:call.export().progress},null,2);if(sample.policy_input_status==='stale')renderPolicy();}
+      if(sample && !stopped){renderSample(sample);$('metrics').textContent=JSON.stringify({latest:sample,progress:call.export().progress},null,2);if(sample.policy_input_status==='stale')renderPolicy();void jury?.update(call,sample);}
+      else if(!stopped)jury?.unavailable();
       showEvent();
     } finally {sampleBusy=false;if(!stopped)sampleTimer=setTimeout(sampling,500);}
   }
@@ -159,8 +164,9 @@
       $('condition').textContent+=' · session limit '+Math.floor(active.duration)+' s';
       $('local').srcObject=stream;stopped=false;started=performance.now();
       call=new SmartConnectContinuity.Call({role:active.role,mode:active.mode,sessionId,evidenceSessionId:sessionId || crypto.randomUUID(),policyRecoveryEnabled:active.policy,pcFactory:config=>new RTCPeerConnection(config),send,
-        onEvent:e=>{showEvent();if(e.kind==='recovery_requested')$('recoveryCause').textContent=({policy_change:'SmartConnect policy change',ice_failed:'ICE failure',ice_disconnected:'ICE disconnected',video_stalled:'Video frame progress stalled',manual:'Operator request'})[e.cause] || 'Unavailable';if(e.kind==='recovery_requested')status(active.signaling==='manual' ? 'Recovery offer requested. MANUAL signaling: exchange the NEW offer/answer between laptops; automatic end-to-end recovery is unavailable.' : 'ICE recovery requested. Verify signaling delivery and actual media counters.');if(['signaling_failure','recovery_limit_reached','initial_offer_limit_reached'].includes(e.kind))status(call.negotiationBlocked?'Negotiation could not roll back safely. Automatic attempts stopped; end this session explicitly.':'Recovery/signaling needs attention. Bounded attempts retain the same peer connection; inspect sanitized events.');if(e.kind==='negotiation_blocked')status('Negotiation could not roll back safely. Automatic attempts stopped; end this session explicitly.');},
-        onTrack:event=>{if(!remoteStream.getTracks().includes(event.track))remoteStream.addTrack(event.track);$('remote').play().catch(()=>status('Remote playback needs a user gesture: press Play remote audio/video.'));}});
+        onEvent:e=>{showEvent();jury?.event(e);if(e.kind==='recovery_requested')$('recoveryCause').textContent=({policy_change:'SmartConnect policy change',ice_failed:'ICE failure',ice_disconnected:'ICE disconnected',video_stalled:'Video frame progress stalled',manual:'Operator request'})[e.cause] || 'Unavailable';if(e.kind==='recovery_requested')status(active.signaling==='manual' ? 'Recovery offer requested. MANUAL signaling: exchange the NEW offer/answer between laptops; automatic end-to-end recovery is unavailable.' : 'ICE recovery requested. Verify signaling delivery and actual media counters.');if(['signaling_failure','recovery_limit_reached','initial_offer_limit_reached'].includes(e.kind))status(call.negotiationBlocked?'Negotiation could not roll back safely. Automatic attempts stopped; end this session explicitly.':'Recovery/signaling needs attention. Bounded attempts retain the same peer connection; inspect sanitized events.');if(e.kind==='negotiation_blocked')status('Negotiation could not roll back safely. Automatic attempts stopped; end this session explicitly.');},
+        onTrack:event=>{if(!remoteStream.getTracks().includes(event.track))remoteStream.addTrack(event.track);jury?.attachAudio();$('remote').play().catch(()=>status('Remote playback needs a user gesture: press Play remote audio/video.'));}});
+      jury?.attachAudio();
       $('stop').disabled=false;$('receive').disabled=false;$('export').disabled=false;$('privatePath').disabled=false;
       $('restart').disabled=active.mode!=='smartconnect' || active.role!=='A';
       $('applyPolicy').disabled=active.signaling!=='manual' || active.role!=='A';
@@ -175,6 +181,7 @@
       for(const id of ['stop','restart','retry','receive','applyPolicy','privatePath'])$(id).disabled=true;
       if(active.signaling==='broker'){try{await api('/leave','POST',peerData());}catch(_){}}
       status('Peer could not start. Check browser/macOS media permission, secure context and signaling privately. Reload explicitly to retry.');
+      void jury?.finish();
     }
   });
   $('stop').addEventListener('click',stop);
@@ -207,6 +214,8 @@
   function downloadEvidenceAtEnd() {
     if(!call || automaticEvidenceAttempted)return;
     automaticEvidenceAttempted=true;
+    if(jury?.isRecording()){void jury.finish();return;}
+    void jury?.finish();
     // Local sanitized data only. Never auto-save SDP, candidates, or media.
     // Browsers may block automatic downloads; the explicit export stays enabled.
     try{download(call.export(),evidenceFilename());}catch(_){/* Explicit export remains available. */}
@@ -224,6 +233,7 @@
     if(call && !stopped){call.event('browser_visibility',{state:document.visibilityState==='visible'?'visible':'hidden'});renderPolicy();}
   });
   addEventListener('pagehide',()=>{
+    jury?.suspend();
     stopped=true;lifecycleEnded=true;inbox.length=0;clearTimeout(signalTimer);clearTimeout(sampleTimer);clearTimeout(limitTimer);
     if(call)call.close();if(stream)for(const t of stream.getTracks())t.stop();renderClosed('page suspended');
     for(const id of ['stop','restart','retry','receive','applyPolicy','privatePath'])$(id).disabled=true;

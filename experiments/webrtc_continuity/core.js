@@ -68,6 +68,8 @@
         local_candidate_type:local ? enumValue(local.candidateType,['host','srflx','prflx','relay']) : 'unknown',
         remote_candidate_type:remote ? enumValue(remote.candidateType,['host','srflx','prflx','relay']) : 'unknown',
         protocol:local ? enumValue(local.protocol,['udp','tcp']) : 'unknown',
+        local_network_type:local ? enumValue(local.networkType,['wifi','cellular','ethernet','bluetooth','vpn','wimax']) : 'unknown',
+        selected_pair_state:pair ? enumValue(pair.state,['frozen','waiting','in-progress','failed','succeeded']) : 'unknown',
         pair_rtt_seconds:pair && finite(pair.currentRoundTripTime) ? pair.currentRoundTripTime : null,
         video_packets_received:sum(video,'packetsReceived'), video_packets_lost:sum(video,'packetsLost'),
         frames_decoded:v, frames_dropped:sum(video,'framesDropped'), freezes:sum(video,'freezeCount'),

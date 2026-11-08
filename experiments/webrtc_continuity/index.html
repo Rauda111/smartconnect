@@ -11,6 +11,24 @@
 <label>Approved session limit (seconds, 30–300) <input type="number" id="duration" min="30" max="300" value="120"></label>
 <label class="warning"><input type="checkbox" id="approval"> The operator has explicitly approved this media/signaling experiment, both clients, configured ICE destinations and duration, and camera/microphone use. This checkbox does not substitute for approval before an agent runs it.</label>
 </fieldset>
+<section id="jurySetup"><h2>Private jury / recording preparation</h2>
+<p>Use current Chrome or Edge. Link this laptop's generated interface inventory before recording. It stays local and is never uploaded. File access does not start probes or media.</p>
+<button id="juryInventory">Link private local interface inventory</button>
+<label><input type="checkbox" id="recordApproval"> The operator separately approved this tab's screen recording, recording participants' call audio/video, and local evidence downloads, up to 420 seconds including setup. No desktop or unrelated tab capture.</label>
+<button id="juryView">Open sanitized jury view</button></section>
+<section id="juryPanel" hidden>
+<div class="jury-heading"><strong id="juryPeer">MACBOOK · PEER A</strong><span>APPLICATION · VIDEO CALL</span><span id="juryClock">UTC clock starts with call statistics</span><span id="juryElapsed">NOT STARTED</span></div>
+<div class="jury-top">
+<article><h2 id="juryRecommendationTitle">RECOMMENDED NETWORK · THIS MAC</h2><strong id="juryRecommendation">UNAVAILABLE</strong><p id="juryExplanation">Waiting for fresh measured policy.</p></article>
+<article><h2>OBSERVED WEBRTC PATH</h2><strong id="juryAssociation">UNKNOWN / UNVERIFIED</strong><p id="juryLocalPathTitle">MAC LOCAL CANDIDATE ASSOCIATION</p><p id="juryPair">No selected candidate pair</p></article>
+<article><h2>PHYSICALLY VERIFIED INTERFACE</h2><strong>NOT ESTABLISHED</strong><p id="juryVerification">No fresh independent interface match</p><p>Candidate/interface matching does not prove packet egress or cellular handover.</p></article>
+</div><div class="jury-lower">
+<article><h2 id="juryMeasurementsTitle">LOCAL MAC QUALITY · en0 / en6</h2><p><b>Wi-Fi en0:</b> <span id="jury_wifi">UNAVAILABLE</span></p><p><b>iPhone USB en6:</b> <span id="jury_cellular">UNAVAILABLE</span></p><p id="juryStability">Hold / dwell unavailable</p><p class="jury-note">Prototype guardrails: RTT ≤60 ms, loss ≤2%; jitter unavailable. RTT/loss cover 60% of the profile. No radio-generation claim.</p></article>
+<article><h2>THIS PEER'S MEDIA / RECOVERY</h2><p id="juryConnection">NOT STARTED</p><p id="juryProgress">Media progress unavailable</p><p id="juryFreezes">Freeze and gap counters unavailable</p><p id="juryPreservation">Object preservation unavailable</p><p><b>Recovery request:</b> <span id="juryRecovery">NONE</span></p></article>
+</div><div class="jury-path-details"><p id="juryNetworkType">Browser-reported local network type: unknown</p><p id="juryRemote">Remote candidate / interface unknown</p><p id="juryMatchDetail">No local inventory</p><p id="juryLastMatch">No address match recorded for this call</p></div>
+</section>
+<div class="record-controls"><button id="recordStart">Start approved tab recording</button><button id="recordStop" disabled>Stop recording</button><button id="recordStill" disabled>Save still marker</button><button id="recordSave" disabled>Download recording bundle</button><button id="juryBack">Return to private setup</button><span id="recordState">NOT RECORDING</span></div>
+<p id="juryNotice">No camera, screen recording or probes start by opening this page.</p>
 <nav><button id="start">Start this peer — camera + microphone</button><button id="stop" disabled>End this session</button><button id="restart" disabled>Request ICE recovery</button><button id="retry" disabled>Retry last signaling message</button><button id="play">Play remote audio/video</button><button id="export" disabled>Download sanitized observations</button></nav>
 <p id="condition">No active condition. Private setup is for the operator, not projection.</p>
 <p id="status" role="status">Not started. No media, ICE gathering or signaling polling has begun.</p>
@@ -35,4 +53,4 @@
 <details><summary>Private path verification · contains network addresses</summary><p>After approval, this button reads current browser statistics and downloads a private candidate snapshot for the offline interface verifier. It does not start probes or traffic capture. Keep this evidence private; do not project or publish it. An address match identifies candidate/interface correspondence, not independently observed packet egress.</p><button id="privatePath" disabled>Download private path snapshot</button></details>
 <details><summary>Technical details · sanitized observations</summary><pre id="metrics">Unavailable — no approved call has run.</pre><p>Counter-progress gaps use 500 ms polling and a 1000 ms stall marker. They are not handover latency, exact frame loss or measured perceptual audio interruption. Background throttling can affect observations. Missing values stay null.</p></details>
 <details><summary>Session events</summary><pre id="events">No events.</pre></details>
-<script src="/core.js"></script><script src="/app.js"></script></body></html>
+<script src="/core.js"></script><script src="/recording.js"></script><script src="/jury.js"></script><script src="/app.js"></script></body></html>

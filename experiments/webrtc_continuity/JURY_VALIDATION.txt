@@ -1,0 +1,46 @@
+SMARTCONNECT RECORDING PREPARATION — 8 NOVEMBER 2026
+
+Isolated branch: codex/jury-recording-demo, based on 7e4b63f.
+Deployment status: NOT DEPLOYED. Separate staging-only approval is required.
+
+VALIDATED OFFLINE
+104 JavaScript/contract tests passed across core, app, integration, jury and recorder.
+90 Python tests passed across continuity/server/policy, inventory, extraction,
+correlation and the bounded operator helper (82-suite plus 8 operator safety tests).
+The real media-processing test uses an explicitly synthetic two-second fixture,
+never a camera: an unindexed WebM -> full MP4 -> PNGs -> labeled draft excerpts.
+Original source bytes are retained; no tests are represented as hardware evidence.
+Mac command files parse; the packaged engine/policy runtime matches repository bytes.
+Mac and Windows jury layouts checked at 1366 x 768 using idle pages only.
+Windows labels the recommendation REMOTE MAC; both approval boxes stayed unchecked.
+No secret values are present in changed source; the Windows kit contains no writer.
+
+PRESERVATION / READ-ONLY AUDIT
+All 19 baseline, 56 integrated-observation and 10 rotation preservation-manifest
+entries match SHA-256; all 41 entries in the original offline package also match.
+Staging HTTPS health responded successfully after waking. Its four existing client
+assets match preserved deployment source dd6c372. Current reader authentication and
+writer idle-room checks passed without joining. The revoked reader was rejected.
+Production health could not be confirmed: two bounded HTTPS requests timed out.
+No deployment, environment/credential change or production write was performed.
+Local OS check: en0 active, en6 inactive; iPhone connection remains a physical step.
+The USB was not mounted; the complete reader-only Windows kit is ready on the Mac.
+
+REMAINING HARDWARE CHECKS / LIMITATIONS
+No new camera, microphone, screen recording, ICMP, packet capture or network change.
+Windows PowerShell execution and native browser capture permissions remain untested.
+After approval: verify recordings contain both call audio directions, both browser
+evidence exports correlate, and observed candidates match fresh local inventory.
+Capture adds workload; the new run's counters must be reported as observed.
+Candidate-to-interface matching is independent OS corroboration, not packet-egress
+proof. Physical handover remains unverified; browser interface selection is unchanged.
+Same-Wi-Fi/HTTPS connectivity does not establish WebRTC reachability. Existing
+staging has no default STUN/TURN/media relay. Qualify the real venue before its slot;
+use the preserved offline evidence edition if direct peer media is blocked.
+
+REPRODUCTION
+SMARTCONNECT_TEST_PYTHON=/opt/anaconda3/bin/python node --test experiments/webrtc_continuity/test_core.cjs experiments/webrtc_continuity/test_app.cjs experiments/webrtc_continuity/test_integration.cjs experiments/webrtc_continuity/test_jury.cjs experiments/webrtc_continuity/test_recording.cjs
+/opt/anaconda3/bin/python -m unittest discover -s experiments/webrtc_continuity -p 'test_*.py'
+The kit builder requires a NEW destination and the existing private credential kit:
+/opt/anaconda3/bin/python experiments/webrtc_continuity/prepare_jury_kit.py --output <new-private-folder>
+No dependency installation, deployment or media activation is performed by the builder.

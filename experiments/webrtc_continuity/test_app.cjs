@@ -21,7 +21,9 @@ function setup(){
   navigator:{mediaDevices:{async getUserMedia(constraints){calls.media++;calls.now+=calls.mediaDelay;calls.constraints=constraints;return{getTracks:()=>tracks};}},clipboard:{writeText:async()=>{}}},MediaStream,RTCPeerConnection:FakePC,
   SmartConnectContinuity:{...api,Call:class extends api.Call{constructor(options){super(options);calls.instance=this;}}},crypto:{randomUUID:()=> 'fixture-client-AAAA'},performance:{now:()=>calls.now},AbortController,
   fetch:async(path,options)=>{calls.fetch.push({path,options});if(path.startsWith('/policy'))calls.now+=calls.policyDelay;return{ok:calls.responseStatus===200,status:calls.responseStatus,json:async()=>path.startsWith('/signal?')?{session_id:'fixture-session',messages:calls.incoming.splice(0)}:path==='/join'?{joined:true,session_id:'fixture-session',absolute_expires_in_seconds:calls.lease}:path.startsWith('/policy')?(calls.policy || {status:'not_configured'}):{accepted:true}};},
-  setTimeout(fn,ms){calls.timers.push({fn,ms});return calls.timers.length;},clearTimeout(){},addEventListener(type,fn){calls.listeners[type]=fn;},Blob,URL,console};
+  setTimeout(fn,ms){calls.timers.push({fn,ms});return calls.timers.length;},clearTimeout(){},clearInterval(){},addEventListener(type,fn){calls.listeners[type]=fn;},Blob,URL,TextEncoder,console};
+ vm.runInNewContext(fs.readFileSync(__dirname+'/recording.js','utf8'),sandbox,{filename:'recording.js'});
+ vm.runInNewContext(fs.readFileSync(__dirname+'/jury.js','utf8'),sandbox,{filename:'jury.js'});
  vm.runInNewContext(source,sandbox,{filename:'app.js'});
  return{element,calls};
 }
