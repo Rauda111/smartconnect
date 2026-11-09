@@ -18,6 +18,7 @@
 <button id="juryView">Open sanitized jury view</button></section>
 <section id="juryPanel" hidden>
 <div class="jury-heading"><strong id="juryPeer">MACBOOK · PEER A</strong><span>APPLICATION · VIDEO CALL</span><span id="juryClock">UTC clock starts with call statistics</span><span id="juryElapsed">NOT STARTED</span></div>
+<div class="jury-inventory-status"><p><b>LOCAL OS INVENTORY</b> · <strong id="juryInventoryState">NOT LINKED</strong></p><p id="juryInventoryInterfaces">Link this laptop’s private inventory in setup.</p><p>OS-reported adapter availability. This does not identify the WebRTC media path or prove packet egress.</p></div>
 <div class="jury-top">
 <article><h2 id="juryRecommendationTitle">RECOMMENDED NETWORK · THIS MAC</h2><strong id="juryRecommendation">UNAVAILABLE</strong><p id="juryExplanation">Waiting for fresh measured policy.</p></article>
 <article><h2>OBSERVED WEBRTC PATH</h2><strong id="juryAssociation">UNKNOWN / UNVERIFIED</strong><p id="juryLocalPathTitle">MAC LOCAL CANDIDATE ASSOCIATION</p><p id="juryPair">No selected candidate pair</p></article>
@@ -25,7 +26,7 @@
 </div><div class="jury-lower">
 <article><h2 id="juryMeasurementsTitle">LOCAL MAC QUALITY · en0 / en6</h2><p><b>Wi-Fi en0:</b> <span id="jury_wifi">UNAVAILABLE</span></p><p><b>iPhone USB en6:</b> <span id="jury_cellular">UNAVAILABLE</span></p><p id="juryStability">Hold / dwell unavailable</p><p class="jury-note">Prototype guardrails: RTT ≤60 ms, loss ≤2%; jitter unavailable. RTT/loss cover 60% of the profile. No radio-generation claim.</p></article>
 <article><h2>THIS PEER'S MEDIA / RECOVERY</h2><p id="juryConnection">NOT STARTED</p><p id="juryProgress">Media progress unavailable</p><p id="juryFreezes">Freeze and gap counters unavailable</p><p id="juryPreservation">Object preservation unavailable</p><p><b>Recovery request:</b> <span id="juryRecovery">NONE</span></p></article>
-</div><div class="jury-path-details"><p id="juryNetworkType">Browser-reported local network type: unknown</p><p id="juryRemote">Remote candidate / interface unknown</p><p id="juryMatchDetail">No local inventory</p><p id="juryLastMatch">No address match recorded for this call</p></div>
+</div><div class="jury-path-details"><p id="juryNetworkType">Browser-reported local network type: awaiting call statistics</p><p id="juryRemote">Remote candidate / interface unknown</p><p id="juryMatchDetail">Media path not checked · call not started</p><p id="juryLastMatch">No address match recorded for this call</p></div>
 </section>
 <div class="record-controls"><button id="recordStart">Start approved tab recording</button><button id="recordStop" disabled>Stop recording</button><button id="recordStill" disabled>Save still marker</button><button id="recordSave" disabled>Download recording bundle</button><button id="juryBack">Return to private setup</button><span id="recordState">NOT RECORDING</span></div>
 <p id="juryNotice">No camera, screen recording or probes start by opening this page.</p>

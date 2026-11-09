@@ -1,0 +1,58 @@
+LOCAL INVENTORY READINESS CORRECTION — 9 November 2026
+
+Based on staging commit b4b6bcb. Prepared on an isolated branch; deployment requires
+separate staging approval. Production, credentials, Free plan and Auto-Deploy Off
+are not changed by this patch.
+
+PROBLEM REPRODUCED OFFLINE
+In b4b6bcb, successful file linking sets inventory_linked=true and announces success.
+Opening jury view replaces that notice and leaves the HTML's "No local inventory"
+label untouched until the first call sample. This label is not a reliable pre-call
+diagnostic. Browser network type is also initialized to unknown until live stats.
+The linked FileSystemFileHandle remains held when switching jury/setup views.
+
+CORRECTION
+Show a separate LOCAL OS INVENTORY summary: NOT LINKED, LINKED / FRESH,
+LINKED / STALE, or LINKED / READ UNAVAILABLE. Show only sanitized interface IDs,
+OS-reported types and snapshot age, never addresses, adapter names or credentials.
+After an operator links a file, refresh it locally every two seconds before the
+call as well as during call sampling. A helper updating the same file restores
+freshness without a new file selection. Failed reads never retain a fresh claim.
+Reject wrong-peer, malformed or future-dated inventories. Stop refresh on session
+end/page suspension and label the remaining inventory historical.
+Initial media labels now say they are waiting for call statistics.
+
+EVIDENCE LIMITS
+OS inventory can establish adapter availability before media starts. The actual
+WebRTC path cannot be established before a connected candidate pair exists.
+An exact host-candidate / fresh OS-address match corroborates the candidate's
+interface; it does not independently prove packet egress or physical handover.
+Hidden/mDNS, relay, stale, absent or ambiguous candidate data stays unverified.
+Windows still displays the REMOTE MAC recommendation separately from its own
+local inventory and local candidate association.
+
+VALIDATION
+111 JavaScript and real Python-engine contract tests passed using the existing
+Anaconda interpreter (no dependency installs). Seven regression tests cover link
+state before a call, stale-to-fresh updates without relinking, failed reads,
+invalid peer data, lifecycle cleanup, sanitization and truthful initial labels.
+Offline visual fixtures for Mac and Windows checked at 1366 x 768; media and
+recording controls were disabled. These fixtures are not hardware evidence.
+No live call, recording, measurement probe, packet capture or network interruption
+was started during this correction.
+
+OPERATOR CORRECTION
+On existing b4b6bcb, do not relink solely because the idle jury panel says "No local
+inventory" after an earlier successful link. Restart an expired inventory helper
+just before the call; it updates the same linked file. If the page was reloaded,
+closed or replaced, file handles must be linked once again.
+Applying this patch requires reopening the private launcher on each laptop and
+linking the file once in the new page. This is page setup, not a repeated call.
+Do not refresh a credential-free URL and expect its in-memory reader to survive.
+Before recording, the proposed sequence is: fresh OS inventory on both laptops;
+start the already-approved call; verify connected media and any available exact
+candidate/interface association; then record that SAME session. The call remains
+capped at 300 seconds, probes at 360 echoes / 270 seconds within that call, and
+recording at 420 seconds. Reconfirm readiness before activation.
+If actual packet-egress proof is required before recording, that remains a
+separate hardware validation requirement; this display fix cannot supply it.

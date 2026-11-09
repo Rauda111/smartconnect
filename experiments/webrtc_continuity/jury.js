@@ -34,19 +34,42 @@
     return {...base,status:'candidate_interface_match',interface:found.id,network,reason:'exact_host_address_match',inventory_captured_at:new Date(stamp).toISOString()};
   }
   function recommendationLabel(role){return role==='B'?'REMOTE MAC RECOMMENDATION':'RECOMMENDED NETWORK · THIS MAC';}
+  function inventoryStatus(inventory,role,now=Date.now()){
+    const invalid={status:'unavailable',age_seconds:null,interfaces:[]};
+    if(!inventory || inventory.schema!==1 || inventory.kind!=='interface_inventory' || inventory.role!==role || inventory.platform!==(role==='A'?'macos':'windows') || !Array.isArray(inventory.interfaces) || inventory.interfaces.length>100)return invalid;
+    const stamp=Date.parse(inventory.captured_at);
+    if(!finite(stamp) || now-stamp< -2000)return invalid;
+    const interfaces=inventory.interfaces.filter(item=>item && item.active===true && (role==='A'?/^en\d+$/:/^adapter-\d+$/).test(item.id||''))
+      .map(item=>({id:item.id,network:role==='A'?(item.id==='en0'?'wifi':item.id==='en6'?'cellular':'unknown'):['wifi','ethernet','cellular'].includes(item.network)?item.network:'unknown'}));
+    return {status:now-stamp<=30000?'fresh':'stale',age_seconds:Math.max(0,(now-stamp)/1000),interfaces};
+  }
   function create({document:doc,getRole,getEvidence,getStreams,getFingerprint=async()=>null}){
-    const $=id=>doc.getElementById(id);let handle=null,inventory=null,busy=false,lastRead=0,ended=false,juryMode=false,lastMatch=null;
+    const $=id=>doc.getElementById(id);let handle=null,inventory=null,busy=false,inventoryBusy=false,inventoryTimer=null,ended=false,juryMode=false,lastMatch=null;
     const matches=[],readiness={inventory_linked:false};let recorder=null;
     const put=(id,value)=>{$(id).textContent=value;};
     const announce=text=>put('juryNotice',text);
     function labels(){const b=getRole()==='B';put('juryPeer',b?'WINDOWS · PEER B':'MACBOOK · PEER A');put('juryRecommendationTitle',recommendationLabel(getRole()));put('juryMeasurementsTitle',b?'REMOTE MAC QUALITY · en0 / en6':'LOCAL MAC QUALITY · en0 / en6');put('juryLocalPathTitle',b?'WINDOWS LOCAL CANDIDATE ASSOCIATION':'MAC LOCAL CANDIDATE ASSOCIATION');}
-    function enter(){labels();juryMode=true;doc.body.classList.add('jury-mode');$('juryPanel').hidden=false;$('jurySetup').hidden=true;announce('Jury view: private controls hidden. Recommendation, candidate association and packet-egress proof remain separate.');}
+    function renderInventory(){
+      const s=inventoryStatus(inventory,getRole());readiness.inventory_fresh=!ended && !!handle && s.status==='fresh';
+      put('juryInventoryState',ended?'STOPPED · HISTORICAL':!handle?'NOT LINKED':s.status==='fresh'?'LINKED · FRESH':s.status==='stale'?'LINKED · STALE':'LINKED · READ UNAVAILABLE');
+      const names={wifi:'Wi-Fi',cellular:getRole()==='A'?'Cellular USB':'Cellular',ethernet:'Ethernet',unknown:'Type unknown'};
+      put('juryInventoryInterfaces',!handle?'Link this laptop’s private inventory in setup.':s.status==='unavailable'?'Cannot validate this peer’s inventory. Check its helper; relink only if the file moved or access was lost.':
+        (!ended && s.status==='fresh'?'OS-reported active interfaces: ':'Last reported active interfaces: ')+(s.interfaces.map(i=>names[i.network]+' · '+i.id).join(' | ')||'none')+' · snapshot age '+number(s.age_seconds)+' s'+(!ended && s.status==='stale'?' · restart the local inventory helper.':''));
+    }
+    function stopInventoryRefresh(){if(inventoryTimer!==null)clearInterval(inventoryTimer);inventoryTimer=null;}
+    async function refreshInventory(){
+      if(!handle || inventoryBusy || ended)return;inventoryBusy=true;
+      try{await read();}catch(_){inventory=null;}finally{inventoryBusy=false;renderInventory();}
+    }
+    function enter(){labels();renderInventory();juryMode=true;doc.body.classList.add('jury-mode');$('juryPanel').hidden=false;$('jurySetup').hidden=true;announce('Jury view: private controls hidden. OS inventory, media path and packet-egress proof remain separate.');}
     function leave(){if(recorder?.active)return;doc.body.classList.remove('jury-mode');juryMode=false;$('juryPanel').hidden=true;$('jurySetup').hidden=false;}
     async function link(){
-      if(recorder?.active)return;
+      if(ended || recorder?.active)return;
       if(typeof root.showOpenFilePicker!=='function'){announce('Live inventory reading is unavailable in this browser. Current path remains UNVERIFIED. Use Chrome or Edge.');return;}
-      try{[handle]=await root.showOpenFilePicker({multiple:false,types:[{description:'Private interface inventory',accept:{'application/json':['.json']}}]});await read();if(!inventory || inventory.role!==getRole())throw new Error();readiness.inventory_linked=true;announce('Local inventory linked privately. Addresses stay on this laptop; matching begins only during an approved call.');}
+      stopInventoryRefresh();
+      try{[handle]=await root.showOpenFilePicker({multiple:false,types:[{description:'Private interface inventory',accept:{'application/json':['.json']}}]});await read();if(inventoryStatus(inventory,getRole()).status==='unavailable')throw new Error();readiness.inventory_linked=true;inventoryTimer=setInterval(()=>{void refreshInventory();},2000);announce('Local inventory linked privately. Addresses stay on this laptop; matching begins only during an approved call.');}
       catch(_){handle=null;inventory=null;readiness.inventory_linked=false;announce('Inventory not linked. Media path stays UNVERIFIED; no addresses are shown.');}
+      renderInventory();
     }
     async function read(){const file=await handle.getFile();if(file.size>65536)throw new Error();inventory=JSON.parse(await file.text());}
     function showMatch(m){
@@ -75,7 +98,7 @@
       if(busy)return;busy=true;
       try{
         // Re-read in-place OS inventory; timestamps are not refreshed by this reader.
-        if(Date.now()-lastRead>2000){await read();lastRead=Date.now();}
+        await refreshInventory();
         const snapshot=await call.privatePathSnapshot();if(ended || call.closed)return;
         const m=match(snapshot,inventory,getRole());showMatch(m);matches.push({...m,elapsed_ms:sample.elapsed_ms});if(matches.length>1000)matches.shift();
       }catch(_){if(!ended)showMatch({status:'unverified',reason:'inventory_or_stats_unavailable'});}finally{busy=false;}
@@ -86,12 +109,12 @@
     }
     if(root.SmartConnectRecording)recorder=root.SmartConnectRecording.create({document:doc,getRole,getEvidence:async()=>({call:getEvidence(),session_fingerprint_sha256:await getFingerprint(),interface_associations:matches,physical_egress_verified:false,physical_handover_verified:false}),getStreams,enter,announce});
     $('juryView').addEventListener('click',enter);$('juryBack').addEventListener('click',leave);$('juryInventory').addEventListener('click',link);
-    labels();
+    labels();renderInventory();
     return {update,event,unavailable:()=>{showMatch({status:'unverified',reason:'current_stats_unavailable'});put('juryConnection','CURRENT STATS UNAVAILABLE');},attachAudio:()=>recorder?.attachAudio(),
       hasRecording:()=>!!recorder?.hasRecording,
       isRecording:()=>!!recorder?.active,
-      finish:()=>{ended=true;put('juryElapsed','SESSION ENDED');put('juryAssociation','SESSION ENDED · see historical matches');put('juryVerification','No current media path after session end');return recorder?.finish();},
-      suspend:()=>{ended=true;recorder?.abort();},getReadiness:()=>({...readiness,juryMode})};
+      finish:()=>{ended=true;stopInventoryRefresh();renderInventory();put('juryElapsed','SESSION ENDED');put('juryAssociation','SESSION ENDED · see historical matches');put('juryVerification','No current media path after session end');return recorder?.finish();},
+      suspend:()=>{ended=true;stopInventoryRefresh();renderInventory();recorder?.abort();},getReadiness:()=>({...readiness,juryMode})};
   }
-  const api={ip,match,recommendationLabel,create};if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.SmartConnectJury=api;
+  const api={ip,match,recommendationLabel,inventoryStatus,create};if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.SmartConnectJury=api;
 })(typeof globalThis!=='undefined'?globalThis:this);
