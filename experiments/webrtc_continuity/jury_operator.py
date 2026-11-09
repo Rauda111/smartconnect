@@ -46,7 +46,8 @@ def check(staging=False):
     config=credentials()
     states=interface_status()
     result={'checked_at':utc(),'interfaces_active':states,'engine_imports':Session('video_call').controller is not None,'private_credentials_valid':True,'http_only_check':staging,'venue_media_qualified':False,'media_or_icmp_started':False}
-    result['launcher_files_present']=all((ROOT/name).is_file() for name in ['SmartConnect-Mac-A.html','SmartConnect-Windows-B.html'])
+    result['launcher_files_present']=(all((ROOT/name).is_file() for name in ['SmartConnect-Mac-A.html','SmartConnect-Windows-B.html'])
+        or all((ROOT/name).is_file() for name in ['PRIVATE-Mac-Launch.html','3 - Windows Laptop/PRIVATE-Windows-Launch.html']))
     if staging:
         healthy=False
         for attempt in range(3):
@@ -108,10 +109,10 @@ def import_evidence():
         with os.fdopen(fd,'wb') as f:f.write(source.read_bytes())
         imported+=1
     print(f'Imported {imported} new peer export(s) privately; cross-peer analysis is still required.')
-    print('After the session, transfer the Windows recording ZIP and local inventory history once; run 3-Process-New-Recordings.command.')
+    print('Windows observations remain in its Downloads folder. Transfer later only if cross-peer analysis is needed; recording and inventory remain optional.')
     return 0
 
-def collect(approved=False):
+def collect(approved=False,wait_for_export=True):
     # MUST precede credential access, session HTTP, journal creation and probes.
     if not approved:raise ValueError('Fresh separate approval is required')
     from experiments.webrtc_continuity.policy_bridge import Writer, active_session, run, BridgeError
@@ -120,14 +121,17 @@ def collect(approved=False):
     if not all(interface_status().values()):raise ValueError('Both en0 and en6 must be active')
     writer=Writer(ORIGIN,config['SMARTCONNECT_POLICY_TOKEN'])
     requested=time.monotonic();scope=active_session(writer,initial=True)
-    duration=remaining_budget(scope['expires_in_seconds'],time.monotonic()-requested)
+    # Idle-heartbeat expiry is shorter than the absolute room lifetime. The call
+    # budget is anchored to the first join, not to the rolling idle deadline.
+    absolute=scope.get('absolute_expires_in_seconds',scope['expires_in_seconds'])
+    duration=remaining_budget(absolute,time.monotonic()-requested)
     if duration<=16:raise ValueError('Too little approved call time remains')
     name='competition-'+datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
     run_dir=ROOT/'runs'/name;run_dir.mkdir(mode=0o700,parents=True)
     save(run_dir/'approval-scope.json',{'operator_acknowledged_at':utc(),'max_call_seconds':300,'max_probe_seconds':270,'maximum_echoes':360,'target':'1.1.1.1','interfaces':['en0','en6'],'packet_capture':False,'network_interruption':False,'existing_export_hashes':[fingerprint(p) for p in existing_exports()]})
     pointer=ROOT/'last-run.json';temp=ROOT/'last-run.new.json';temp.write_text(json.dumps({'name':name}));temp.chmod(0o600);os.replace(temp,pointer)
     deadline=time.monotonic()+duration
-    end_shared=requested+scope['expires_in_seconds']-60
+    end_shared=requested+absolute-60
     lock=threading.Lock();reserved=0
     fd=os.open(run_dir/'probe-observations.jsonl',os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o600)
     journal=os.fdopen(fd,'w')
@@ -152,7 +156,7 @@ def collect(approved=False):
         journal.close();result.update({'maximum_echoes_reserved':reserved,'finished_at':utc(),'physical_handover_verified':False});save(run_dir/'collector-result.json',result)
     print(json.dumps(result),flush=True)
     print('End BOTH browser peers by the 300-second budget. Waiting briefly for the automatic Mac export.',flush=True)
-    wait_until=min(time.monotonic()+40,end_shared+8)
+    wait_until=min(time.monotonic()+40,end_shared+8) if wait_for_export else time.monotonic()
     try:
         while time.monotonic()<wait_until:time.sleep(min(1,wait_until-time.monotonic()))
     except KeyboardInterrupt:pass

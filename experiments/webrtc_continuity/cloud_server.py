@@ -23,11 +23,15 @@ class CloudHandler(Handler):
                 and (not self.headers.get('Origin') or self.headers['Origin'] == expected_origin))
 
     def do_GET(self):
-        if not self.allowed_origin():
-            return self.reply(403, {'error': 'origin_not_allowed'})
         if self.path == '/healthz':
+            if not self.allowed_origin():
+                return self.reply(403, {'error': 'origin_not_allowed'})
             return self.reply(200, {'status': 'ok'})
         return super().do_GET()
+
+    def navigation_origin(self):
+        hostname = self.server.public_hostname
+        return 'https://' + hostname if self.headers.get('Host') == hostname else None
 
 
 class QuietCloudServer(ThreadingHTTPServer):

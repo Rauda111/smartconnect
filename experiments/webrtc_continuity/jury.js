@@ -44,25 +44,41 @@
     return {status:now-stamp<=30000?'fresh':'stale',age_seconds:Math.max(0,(now-stamp)/1000),interfaces};
   }
   function create({document:doc,getRole,getEvidence,getStreams,getFingerprint=async()=>null}){
+    const simpleDemo=doc.body?.dataset?.juryDemo==='true';
     const $=id=>doc.getElementById(id);let handle=null,inventory=null,busy=false,inventoryBusy=false,inventoryTimer=null,ended=false,juryMode=false,lastMatch=null;
-    const matches=[],readiness={inventory_linked:false};let recorder=null;
+    const matches=[],readiness={inventory_linked:false};let recorder=null,hasSample=false;
     const put=(id,value)=>{$(id).textContent=value;};
     const announce=text=>put('juryNotice',text);
-    function labels(){const b=getRole()==='B';put('juryPeer',b?'WINDOWS · PEER B':'MACBOOK · PEER A');put('juryRecommendationTitle',recommendationLabel(getRole()));put('juryMeasurementsTitle',b?'REMOTE MAC QUALITY · en0 / en6':'LOCAL MAC QUALITY · en0 / en6');put('juryLocalPathTitle',b?'WINDOWS LOCAL CANDIDATE ASSOCIATION':'MAC LOCAL CANDIDATE ASSOCIATION');}
+    function labels(){const b=getRole()==='B';put('juryPeer',b?'WINDOWS · PEER B':'MACBOOK · PEER A');put('juryRecommendationTitle',recommendationLabel(getRole()));put('juryMeasurementsTitle',b?'REMOTE MAC QUALITY · en0 / en6':'LOCAL MAC QUALITY · en0 / en6');put('juryLocalPathTitle',b?'WINDOWS LOCAL CANDIDATE ASSOCIATION':'MAC LOCAL CANDIDATE ASSOCIATION');if(simpleDemo){put('juryWifiTitle',b?'REMOTE MAC WI-FI · en0':'WI-FI · MAC en0');put('juryCellularTitle',b?'REMOTE MAC CELLULAR USB · en6':'CELLULAR USB · MAC en6');}}
+    function availability(measurements=null){
+      if(!simpleDemo)return;
+      const os=inventoryStatus(inventory,getRole());
+      for(const [network,iface,prefix] of [['wifi','en0','juryWifi'],['cellular','en6','juryCellular']]){
+        const m=measurements?.[network];let text='NOT MEASURED',quality='Waiting for approved measurements';
+        if(ended){text='SESSION ENDED';quality='Last measurements are in Technical Details';}
+        else if(m){text=({reachable:'RESPONDING · ICMP',no_reply:'NO PROBE REPLIES',error:'MEASUREMENT UNAVAILABLE'}[m.status]||'UNVERIFIED');quality=number(m.latency_ms)+' ms RTT · '+number(m.loss_percent)+'% loss';}
+        else if(getRole()==='A'&&os.status==='fresh'){
+          const adapter=inventory.interfaces.find(i=>i && i.id===iface);
+          text=adapter?.active===true?'AVAILABLE · OS REPORTED':adapter?.active===false?'INACTIVE · OS REPORTED':'NOT REPORTED';
+        }
+        put(prefix+'Availability',text);put(prefix+'Quality',quality);
+      }
+    }
     function renderInventory(){
       const s=inventoryStatus(inventory,getRole());readiness.inventory_fresh=!ended && !!handle && s.status==='fresh';
       put('juryInventoryState',ended?'STOPPED · HISTORICAL':!handle?'NOT LINKED':s.status==='fresh'?'LINKED · FRESH':s.status==='stale'?'LINKED · STALE':'LINKED · READ UNAVAILABLE');
       const names={wifi:'Wi-Fi',cellular:getRole()==='A'?'Cellular USB':'Cellular',ethernet:'Ethernet',unknown:'Type unknown'};
       put('juryInventoryInterfaces',!handle?'Link this laptop’s private inventory in setup.':s.status==='unavailable'?'Cannot validate this peer’s inventory. Check its helper; relink only if the file moved or access was lost.':
         (!ended && s.status==='fresh'?'OS-reported active interfaces: ':'Last reported active interfaces: ')+(s.interfaces.map(i=>names[i.network]+' · '+i.id).join(' | ')||'none')+' · snapshot age '+number(s.age_seconds)+' s'+(!ended && s.status==='stale'?' · restart the local inventory helper.':''));
+      if(!hasSample || ended)availability();
     }
     function stopInventoryRefresh(){if(inventoryTimer!==null)clearInterval(inventoryTimer);inventoryTimer=null;}
     async function refreshInventory(){
       if(!handle || inventoryBusy || ended)return;inventoryBusy=true;
       try{await read();}catch(_){inventory=null;}finally{inventoryBusy=false;renderInventory();}
     }
-    function enter(){labels();renderInventory();juryMode=true;doc.body.classList.add('jury-mode');$('juryPanel').hidden=false;$('jurySetup').hidden=true;announce('Jury view: private controls hidden. OS inventory, media path and packet-egress proof remain separate.');}
-    function leave(){if(recorder?.active)return;doc.body.classList.remove('jury-mode');juryMode=false;$('juryPanel').hidden=true;$('jurySetup').hidden=false;}
+    function enter(){labels();renderInventory();juryMode=true;doc.body.classList.add('jury-mode');$('juryPanel').hidden=false;$('jurySetup').hidden=!simpleDemo;if(simpleDemo)$('technicalDetails').open=false;announce('OS inventory, media path and packet-egress proof remain separate.');}
+    function leave(){if(recorder?.active)return;if(simpleDemo){$('technicalDetails').open=true;return;}doc.body.classList.remove('jury-mode');juryMode=false;$('juryPanel').hidden=true;$('jurySetup').hidden=false;}
     async function link(){
       if(ended || recorder?.active)return;
       if(typeof root.showOpenFilePicker!=='function'){announce('Live inventory reading is unavailable in this browser. Current path remains UNVERIFIED. Use Chrome or Edge.');return;}
@@ -81,8 +97,9 @@
       put('juryLastMatch',lastMatch?'Last address match: '+lastMatch.interface+' at '+lastMatch.checked_at.slice(11,19)+' UTC · historical if current status is unknown':'No address match recorded for this call');
     }
     async function update(call,sample){
-      if(ended)return;labels();const current=new Date().toISOString();put('juryClock',current.slice(11,23)+' UTC');put('juryElapsed','Call +'+number(sample.elapsed_ms/1000)+' s');
+      if(ended)return;hasSample=true;labels();const current=new Date().toISOString();put('juryClock',current.slice(11,23)+' UTC');put('juryElapsed','Call +'+number(sample.elapsed_ms/1000)+' s');
       const p=call.policySnapshot,fresh=p && call.policyStatus==='fresh' && call.clock()<=call.policyValidUntil;
+      availability(fresh?p.measurements:null);
       put('juryRecommendation',fresh?({wifi:'Wi-Fi',cellular:'Cellular',none:'No eligible path'}[p.recommended]||'UNAVAILABLE'):'UNAVAILABLE / STALE');
       put('juryExplanation',fresh?(p.explanation||'Explanation unavailable'):'Waiting for fresh measured policy; no recommendation is inferred.');
       put('juryStability',fresh?'Hold '+number(p.stability?.hold_count,0)+' / '+number(p.stability?.hold_required,0)+' · dwell '+number(p.stability?.dwell_seconds,0)+' s · margin '+number(p.stability?.margin,2):'Stability rules unavailable');
@@ -109,11 +126,11 @@
     }
     if(root.SmartConnectRecording)recorder=root.SmartConnectRecording.create({document:doc,getRole,getEvidence:async()=>({call:getEvidence(),session_fingerprint_sha256:await getFingerprint(),interface_associations:matches,physical_egress_verified:false,physical_handover_verified:false}),getStreams,enter,announce});
     $('juryView').addEventListener('click',enter);$('juryBack').addEventListener('click',leave);$('juryInventory').addEventListener('click',link);
-    labels();renderInventory();
+    labels();renderInventory();if(simpleDemo)enter();
     return {update,event,unavailable:()=>{showMatch({status:'unverified',reason:'current_stats_unavailable'});put('juryConnection','CURRENT STATS UNAVAILABLE');},attachAudio:()=>recorder?.attachAudio(),
       hasRecording:()=>!!recorder?.hasRecording,
       isRecording:()=>!!recorder?.active,
-      finish:()=>{ended=true;stopInventoryRefresh();renderInventory();put('juryElapsed','SESSION ENDED');put('juryAssociation','SESSION ENDED · see historical matches');put('juryVerification','No current media path after session end');return recorder?.finish();},
+      finish:()=>{ended=true;stopInventoryRefresh();renderInventory();put('juryElapsed','SESSION ENDED');put('juryConnection','ENDED · CAMERA / MIC OFF');put('juryRecommendation','SESSION ENDED');put('juryExplanation','Last measured decisions remain in Technical Details and the saved evidence.');put('juryAssociation','SESSION ENDED · see historical matches');put('juryVerification','No current media path after session end');return recorder?.finish();},
       suspend:()=>{ended=true;stopInventoryRefresh();renderInventory();recorder?.abort();},getReadiness:()=>({...readiness,juryMode})};
   }
   const api={ip,match,recommendationLabel,inventoryStatus,create};if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.SmartConnectJury=api;

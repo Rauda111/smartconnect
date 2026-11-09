@@ -2,7 +2,7 @@
 const test=require('node:test'),assert=require('node:assert/strict'),vm=require('node:vm'),fs=require('node:fs');
 const api=require('./core.js');
 const source=fs.readFileSync(__dirname+'/app.js','utf8');
-function setup(){
+function setup(options={}){
  const elements=new Map(),calls={fetch:[],media:0,pc:0,timers:[],stopped:0,incoming:[],responseStatus:200,policy:null,now:0,listeners:{},downloads:[],downloadFailure:false,lease:360,mediaDelay:0,policyDelay:0};
  const defaults={role:'A',mode:'baseline',signaling:'broker',ice:'{"iceServers":[],"iceTransportPolicy":"all"}',duration:'120'};
  function element(id){if(!elements.has(id))elements.set(id,{value:defaults[id] || '',checked:false,disabled:false,textContent:'',handlers:{},addEventListener(type,fn){this.handlers[type]=fn;},async click(){if(this.handlers.click)return this.handlers.click();},play:async()=>{}});return elements.get(id);}
@@ -17,15 +17,16 @@ function setup(){
   getSenders(){return this.senders;}getReceivers(){return [];}close(){}
  }
  class MediaStream{constructor(){this.tracks=[];}getTracks(){return this.tracks;}addTrack(t){this.tracks.push(t);}}
- const sandbox={document:{getElementById:element,createElement:()=>({click(){if(calls.downloadFailure)throw new Error('download blocked');calls.downloads.push(this);}}),visibilityState:'visible',addEventListener(type,fn){calls.listeners[type]=fn;}},location:{hash:'#role=A&token=test-only-token',pathname:'/'},history:{replaceState(){}},URLSearchParams,
-  navigator:{mediaDevices:{async getUserMedia(constraints){calls.media++;calls.now+=calls.mediaDelay;calls.constraints=constraints;return{getTracks:()=>tracks};}},clipboard:{writeText:async()=>{}}},MediaStream,RTCPeerConnection:FakePC,
+ const storage=options.storage || new Map();
+ const sandbox={document:{body:options.simpleDemo?{dataset:{juryDemo:'true'},classList:{add(){},remove(){},toggle(){}}}:undefined,getElementById:element,createElement:()=>({click(){if(calls.downloadFailure)throw new Error('download blocked');calls.downloads.push(this);}}),visibilityState:'visible',addEventListener(type,fn){calls.listeners[type]=fn;}},location:{hash:options.hash??'#role=A&token=test-only-token',pathname:'/',reload(){calls.reloads=(calls.reloads||0)+1;}},sessionStorage:{getItem:k=>storage.get(k)??null,setItem:(k,v)=>storage.set(k,v),removeItem:k=>storage.delete(k)},history:{replaceState(){calls.urlCleaned=true;}},URLSearchParams,
+  navigator:{mediaDevices:{async getUserMedia(constraints){calls.media++;calls.now+=calls.mediaDelay;calls.constraints=constraints;if(options.mediaGate)await options.mediaGate;return{getTracks:()=>tracks};}},clipboard:{writeText:async()=>{}}},MediaStream,RTCPeerConnection:FakePC,
   SmartConnectContinuity:{...api,Call:class extends api.Call{constructor(options){super(options);calls.instance=this;}}},crypto:{randomUUID:()=> 'fixture-client-AAAA'},performance:{now:()=>calls.now},AbortController,
-  fetch:async(path,options)=>{calls.fetch.push({path,options});if(path.startsWith('/policy'))calls.now+=calls.policyDelay;return{ok:calls.responseStatus===200,status:calls.responseStatus,json:async()=>path.startsWith('/signal?')?{session_id:'fixture-session',messages:calls.incoming.splice(0)}:path==='/join'?{joined:true,session_id:'fixture-session',absolute_expires_in_seconds:calls.lease}:path.startsWith('/policy')?(calls.policy || {status:'not_configured'}):{accepted:true}};},
+  fetch:async(path,request)=>{calls.fetch.push({path,options:request});if(path.startsWith('/policy'))calls.now+=calls.policyDelay;if(options.handler)return options.handler(path,request);return{ok:calls.responseStatus===200,status:calls.responseStatus,json:async()=>path.startsWith('/signal?')?{session_id:'fixture-session',messages:calls.incoming.splice(0)}:path==='/join'?{joined:true,session_id:'fixture-session',absolute_expires_in_seconds:calls.lease}:path.startsWith('/policy')?(calls.policy || {status:'not_configured'}):{accepted:true}};},
   setTimeout(fn,ms){calls.timers.push({fn,ms});return calls.timers.length;},clearTimeout(){},clearInterval(){},addEventListener(type,fn){calls.listeners[type]=fn;},Blob,URL,TextEncoder,console};
  vm.runInNewContext(fs.readFileSync(__dirname+'/recording.js','utf8'),sandbox,{filename:'recording.js'});
  vm.runInNewContext(fs.readFileSync(__dirname+'/jury.js','utf8'),sandbox,{filename:'jury.js'});
  vm.runInNewContext(source,sandbox,{filename:'app.js'});
- return{element,calls};
+ return{element,calls,storage,tracks};
 }
 test('page boot is inert: no network, media permission, peer connection or timers',()=>{
  const f=setup();assert.equal(f.calls.fetch.length,0);assert.equal(f.calls.media,0);assert.equal(f.calls.pc,0);assert.equal(f.calls.timers.length,0);
@@ -217,4 +218,58 @@ test('blocked automatic download does not prevent shutdown and manual export rem
  await f.element('stop').click();assert.equal(f.calls.instance.closed,true);assert.equal(f.element('export').disabled,false);
  assert.match(f.element('status').textContent,/if no file appeared/);assert.equal(f.calls.downloads.length,0);
  f.calls.downloadFailure=false;await f.element('export').click();assert.equal(f.calls.downloads.length,1);
+});
+
+test('refresh keeps tab-only authentication and configuration but never starts media',async()=>{
+ const first=setup({simpleDemo:true});first.element('role').value='B';first.element('mode').value='smartconnect';first.element('duration').value='300';first.element('policy').checked=false;
+ first.element('duration').handlers.change();
+ const next=setup({simpleDemo:true,storage:first.storage,hash:''});
+ assert.equal(next.element('role').value,'B');assert.equal(next.element('duration').value,'300');assert.equal(next.element('mode').value,'smartconnect');
+ assert.equal(next.calls.media,0);assert.equal(next.calls.fetch.length,0);assert.equal(next.calls.pc,0);assert.equal(next.element('approval').checked,false);
+ await next.element('start').click();assert.equal(next.calls.media,1);assert.equal(next.calls.fetch.find(x=>x.path==='/join').options.headers.Authorization,'Bearer test-only-token');await next.element('stop').click();
+});
+test('New Call releases the old session, preserves settings and prepares inert fresh tracks on next Start',async()=>{
+ const first=setup({simpleDemo:true});first.element('mode').value='smartconnect';first.element('duration').value='300';
+ await first.element('start').click();assert.equal(first.calls.pc,1);
+ await first.element('newCall').click();
+ assert.equal(first.calls.instance.closed,true);assert(first.calls.stopped>=2);assert.equal(first.element('local').srcObject,null);assert.equal(first.element('remote').srcObject,null);
+ assert.equal(first.calls.fetch.filter(x=>x.path==='/leave').length,1);assert.equal(first.calls.reloads,1);assert.equal(first.calls.downloads.length,1);assert.equal(first.storage.has('smartconnect.owned'),false);
+ const second=setup({simpleDemo:true,storage:first.storage,hash:''});
+ assert.equal(second.calls.media,0);assert.equal(second.calls.pc,0);assert.equal(second.calls.fetch.length,0);assert.equal(second.element('events').textContent,'');
+ await second.element('start').click();assert.equal(second.calls.pc,1);assert.notEqual(second.calls.instance,first.calls.instance);assert.notEqual(second.tracks[0],first.tracks[0]);assert.equal(second.element('duration').value,'300');await second.element('stop').click();
+});
+test('refresh with an unacknowledged old ownership releases it only on explicit Start',async()=>{
+ const first=setup();first.element('approval').checked=true;await first.element('start').click();
+ const next=setup({storage:first.storage,hash:'',simpleDemo:true});assert.equal(next.calls.fetch.length,0);assert.equal(next.calls.media,0);
+ await next.element('start').click();assert.deepEqual(next.calls.fetch.slice(0,2).map(x=>x.path),['/leave','/join']);await next.element('stop').click();await first.element('stop').click();
+});
+test('failed broker cleanup blocks New Call and a fresh camera request until retry',async()=>{
+ const first=setup({simpleDemo:true});await first.element('start').click();first.calls.responseStatus=503;
+ await first.element('newCall').click();assert.equal(first.calls.reloads,undefined);assert.equal(first.calls.instance.closed,true);assert.equal(first.calls.media,1);assert(first.storage.has('smartconnect.owned'));
+ first.calls.responseStatus=409;await first.element('newCall').click();assert.equal(first.calls.reloads,1);assert.equal(first.storage.has('smartconnect.owned'),false);
+});
+test('New Call from an unused page performs no signaling and no media',async()=>{
+ const f=setup({simpleDemo:true});await f.element('newCall').click();assert.equal(f.calls.fetch.length,0);assert.equal(f.calls.media,0);assert.equal(f.calls.pc,0);assert.equal(f.calls.reloads,1);
+});
+test('End during a pending broker join releases the late ownership without requesting media',async()=>{
+ let resolveJoin;const joined=new Promise(resolve=>{resolveJoin=resolve;});
+ const f=setup({simpleDemo:true,handler:async path=>path==='/join'?joined:{ok:true,status:200,json:async()=>({left:true})}});
+ const start=f.element('start').click();await new Promise(setImmediate);
+ assert.equal(f.element('stop').disabled,false);const end=f.element('stop').click();
+ resolveJoin({ok:true,status:200,json:async()=>({session_id:'late-session',absolute_expires_in_seconds:360})});
+ await Promise.all([start,end]);
+ assert.equal(f.calls.media,0);assert.equal(f.calls.pc,0);
+ assert.equal(f.calls.fetch.filter(x=>x.path==='/leave').length,1);
+ assert.equal(JSON.parse(f.calls.fetch.find(x=>x.path==='/leave').options.body).session_id,'late-session');
+ assert.equal(f.storage.has('smartconnect.owned'),false);
+ await f.element('newCall').click();assert.equal(f.calls.reloads,1);
+});
+test('New Call while camera permission is pending stops late tracks and creates no peer connection',async()=>{
+ let resolveMedia;const mediaGate=new Promise(resolve=>{resolveMedia=resolve;});
+ const f=setup({simpleDemo:true,mediaGate});const start=f.element('start').click();await new Promise(setImmediate);
+ assert.equal(f.calls.media,1);await f.element('start').click();assert.equal(f.calls.media,1);
+ await f.element('newCall').click();assert.equal(f.calls.reloads,1);assert.equal(f.storage.has('smartconnect.owned'),false);
+ resolveMedia();await start;
+ assert.equal(f.calls.pc,0);assert.equal(f.calls.stopped,2);assert.equal(f.element('local').srcObject,null);
+ assert.equal(f.calls.fetch.filter(x=>x.path==='/leave').length,1);
 });

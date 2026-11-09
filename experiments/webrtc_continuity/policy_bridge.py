@@ -103,7 +103,11 @@ def active_session(send, *, initial=False):
         raise BridgeError('Active call session expired or lease missing')
     if initial and window != 0:
         raise BridgeError('Policy already started; explicitly start a new call before restarting the collector')
-    return dict(session_id=session, policy_window=window, expires_in_seconds=expires)
+    absolute = finite(result.get('absolute_expires_in_seconds', expires))
+    if absolute is None or not 0 < absolute <= 360 or absolute + 1 < expires:
+        raise BridgeError('Invalid absolute call lease')
+    return dict(session_id=session, policy_window=window, expires_in_seconds=min(expires,absolute),
+                absolute_expires_in_seconds=absolute)
 
 
 def finite(value):

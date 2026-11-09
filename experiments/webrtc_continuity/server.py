@@ -304,12 +304,58 @@ class Handler(BaseHTTPRequestHandler):
                 and self.headers.get('Sec-Fetch-Site') != 'cross-site'
                 and (not self.headers.get('Origin') or self.headers['Origin'] in {'http://'+h for h in hosts}))
 
+    def navigation_origin(self):
+        """Validate the destination Host even for inert public-page navigation."""
+        port = self.server.server_address[1]
+        host = self.headers.get('Host')
+        return 'http://' + host if host in {f'127.0.0.1:{port}', f'localhost:{port}'} else None
+
+    def public_document_navigation(self):
+        return (self.path in {'/', '/index.html'} and self.navigation_origin() is not None
+                and self.headers.get('Sec-Fetch-Mode') == 'navigate'
+                and self.headers.get('Sec-Fetch-Dest') == 'document')
+
+    def private_launch(self):
+        """File launchers authenticate via POST body, never a secret URL.
+
+        Only this login entrypoint permits a null file Origin. Signaling, policy,
+        and all other POST routes retain their existing same-origin checks.
+        A top-level navigation and the actual reader credential are mandatory.
+        """
+        origin = self.navigation_origin()
+        if (not origin or self.headers.get('Origin') not in {'null', origin}
+                or self.headers.get('Sec-Fetch-Mode') != 'navigate'
+                or self.headers.get('Sec-Fetch-Dest') != 'document'):
+            return self.reply(403, {'error': 'origin_not_allowed'})
+        try:
+            size = int(self.headers.get('Content-Length', '-1'))
+            if (not 0 < size <= 1024 or self.headers.get('Transfer-Encoding')
+                    or self.headers.get('Content-Type', '').split(';', 1)[0] != 'application/x-www-form-urlencoded'):
+                raise ValueError()
+            raw = self.rfile.read(size)
+            if len(raw) != size:raise ValueError()
+            data = parse_qs(raw.decode('ascii'), keep_blank_values=True, max_num_fields=2, strict_parsing=True)
+            if set(data) != {'reader', 'role'} or any(len(v) != 1 for v in data.values()):raise ValueError()
+            reader, role = data['reader'][0], data['role'][0]
+            if not self.server.broker._authorized('Bearer '+reader, self.server.broker.token):
+                return self.reply(403, {'error': 'not_authorized'})
+            if role not in {'A', 'B'}:raise ValueError()
+            private = json.dumps({'reader': reader, 'role': role}).replace('<', '\\u003c')
+            page = ('<!doctype html><html><head><meta charset="utf-8"><title>SmartConnect</title></head><body>'
+                    '<p id="launchStatus">Opening your private SmartConnect dashboard. No media has started.</p>'
+                    '<script id="privateLaunch" type="application/json">'+private+'</script>'
+                    '<script src="/launch.js"></script></body></html>')
+            return self.reply(200, page.encode(), 'text/html; charset=utf-8')
+        except Exception:
+            return self.reply(400, {'error': 'invalid_launch'})
+
     def do_GET(self):
-        if not self.allowed_origin():
+        if not self.allowed_origin() and not self.public_document_navigation():
             return self.reply(403, {'error': 'origin_not_allowed'})
         assets = {'/': ('index.html','text/html; charset=utf-8'), '/index.html': ('index.html','text/html; charset=utf-8'),
                   '/core.js': ('core.js','application/javascript'), '/app.js': ('app.js','application/javascript'), '/style.css': ('style.css','text/css'),
-                  '/jury.js': ('jury.js','application/javascript'), '/recording.js': ('recording.js','application/javascript')}
+                  '/jury.js': ('jury.js','application/javascript'), '/recording.js': ('recording.js','application/javascript'),
+                  '/launch.js': ('launch.js','application/javascript')}
         if self.path in assets:
             name, mime = assets[self.path]
             return self.reply(200, (ROOT/name).read_bytes(), mime)
@@ -317,6 +363,8 @@ class Handler(BaseHTTPRequestHandler):
         self.reply(status, body)
 
     def do_POST(self):
+        if self.path == '/launch':
+            return self.private_launch()
         if not self.allowed_origin():
             return self.reply(403, {'error': 'origin_not_allowed'})
         try:
