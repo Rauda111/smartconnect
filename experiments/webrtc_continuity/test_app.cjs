@@ -251,6 +251,19 @@ test('failed broker cleanup blocks New Call and a fresh camera request until ret
 test('New Call from an unused page performs no signaling and no media',async()=>{
  const f=setup({simpleDemo:true});await f.element('newCall').click();assert.equal(f.calls.fetch.length,0);assert.equal(f.calls.media,0);assert.equal(f.calls.pc,0);assert.equal(f.calls.reloads,1);
 });
+test('End freezes completed observations, retains evidence download and New Call clears only the old view',async()=>{
+ const f=setup({simpleDemo:true});f.element('mode').value='smartconnect';await f.element('start').click();await new Promise(setImmediate);
+ f.calls.instance.clock=()=>f.calls.now;f.calls.instance.origin=0;
+ f.calls.now=10000;
+ await f.calls.instance.applyPolicy({session_id:'fixture-session',application:'video_call',status:'fresh',window:1,recommended:'wifi',age_seconds:0,reason_code:'hold',explanation:'Hold: insufficient advantage or candidate breaches observed guardrails',measurements:{wifi:{status:'reachable',latency_ms:18,loss_percent:0,score:.8},cellular:{status:'no_reply',latency_ms:null,loss_percent:100}}});
+ f.calls.now=20000;await f.element('stop').click();
+ assert.equal(f.element('completedBanner').hidden,false);assert.equal(f.element('juryRecommendation').textContent,'Wi-Fi');
+ assert.match(f.element('juryWifiQuality').textContent,/18.0 ms/);assert.match(f.element('completedTiming').textContent,/20.0 s/);
+ assert.equal(f.calls.instance.closed,true);assert.equal(f.calls.downloads.length,1);assert.equal(f.storage.has('smartconnect.owned'),false);
+ const fetches=f.calls.fetch.length;await f.element('newCall').click();assert.equal(f.calls.fetch.length,fetches);
+ const next=setup({simpleDemo:true,storage:f.storage,hash:''});assert.equal(next.element('completedBanner').hidden,true);
+ assert.equal(next.calls.media,0);assert.equal(next.calls.fetch.length,0);assert.equal(next.element('mode').value,'smartconnect');
+});
 test('End during a pending broker join releases the late ownership without requesting media',async()=>{
  let resolveJoin;const joined=new Promise(resolve=>{resolveJoin=resolve;});
  const f=setup({simpleDemo:true,handler:async path=>path==='/join'?joined:{ok:true,status:200,json:async()=>({left:true})}});

@@ -168,6 +168,9 @@
     if(stream)for(const track of stream.getTracks())track.stop();
     for(const track of remoteStream.getTracks())track.stop?.();
     $('local').srcObject=null;$('remote').srcObject=null;
+    // Freeze the historical display immediately; slow broker cleanup must not
+    // erase it or delay it. Recorder and broker shutdown keep their existing order.
+    if(call)jury?.complete();
     // A join already on the wire may acquire ownership after End is clicked.
     // Wait for its bounded response before releasing that exact session.
     if(joinPending)try{await joinPending;}catch(_){}
