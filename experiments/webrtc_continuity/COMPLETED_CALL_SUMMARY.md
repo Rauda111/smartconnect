@@ -57,7 +57,7 @@ been installed during preparation.
 
 ## Validation
 
-125 JavaScript/core/engine-contract tests and 107 Python continuity/bridge tests
+126 JavaScript/core/engine-contract tests and 107 Python continuity/bridge tests
 passed. Focused cases cover completed-summary staleness/missing values, frozen
 late callbacks, Windows attribution, candidate generations, duration, existing
 End/New Call evidence and reset behavior, approval gating, idle-room rejection,

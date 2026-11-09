@@ -50,6 +50,12 @@ test('Windows keeps remote Mac decisions separate from its own media metadata',(
  assert.equal(p.el('juryRecommendationTitle').textContent,'LAST REMOTE MAC RECOMMENDATION');
  assert.match(p.el('completedNetwork').textContent,/ethernet/);assert.equal(p.el('juryRecommendation').textContent,'Wi-Fi');
 });
+test('a later signaling answer alone is never labeled a recovery request or successful recovery',()=>{
+ const data=evidence();data.role='B';data.events=data.events.filter(e=>!['recovery_requested','ice_restart_offer_sent','negotiation_completed'].includes(e.kind));
+ data.events.push({kind:'answer_sent',revision:2,elapsed_ms:2000});const p=view(data);p.api.finish();
+ assert.match(p.el('completedRecovery').textContent,/0 local recovery request/);assert.match(p.el('completedRecoveryEvents').textContent,/Signaling answer sent/);
+ assert(!p.el('completedRecoveryEvents').textContent.includes('Recovery'));
+});
 test('no samples or accepted policy do not invent a duration, counters, recommendation or path',()=>{
  const p=view({started_utc:'2026-11-09T12:00:00Z',role:'A',events:[],samples:[]});p.api.finish();
  assert.match(p.el('completedTiming').textContent,/duration UNAVAILABLE/);assert.match(p.el('completedCounters').textContent,/decoded UNAVAILABLE/);

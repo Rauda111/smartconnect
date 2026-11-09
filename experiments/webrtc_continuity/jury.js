@@ -169,7 +169,7 @@
       put('completedCounters','Video decoded '+number(s?.frames_decoded,0)+' · encoded '+number(s?.video_frames_encoded,0)+' · video packets received '+number(s?.video_packets_received,0)+' / sent '+number(s?.video_packets_sent,0)+' · audio packets received '+number(s?.audio_packets_received,0)+' / sent '+number(s?.audio_packets_sent,0)+' · freezes '+number(s?.freezes,0));
       put('completedPreservation','Same peer connection '+yes(s?.same_peer_connection)+' · local tracks '+yes(s?.same_local_tracks)+' · observed remote tracks '+yes(s?.same_observed_receiver_tracks));
       const causes={policy_change:'Policy change',ice_failed:'ICE failure',ice_disconnected:'ICE disconnected',video_stalled:'Video stall',manual:'Manual request'};
-      const kinds={recovery_requested:'Recovery requested',ice_restart_offer_sent:'ICE restart offer sent',negotiation_completed:'Signaling negotiation completed',answer_sent:'Recovery answer sent',recovery_limit_reached:'Recovery limit reached',negotiation_blocked:'Negotiation blocked'};
+      const kinds={recovery_requested:'Recovery requested',ice_restart_offer_sent:'ICE restart offer sent',negotiation_completed:'Signaling negotiation completed',answer_sent:'Signaling answer sent',recovery_limit_reached:'Recovery limit reached',negotiation_blocked:'Negotiation blocked'};
       put('completedRecovery',recovery.filter(e=>e.kind==='recovery_requested').length+' local recovery request(s) · events from this peer');
       put('completedRecoveryEvents',recovery.length?recovery.map(e=>at(e.elapsed_ms)+' · '+kinds[e.kind]+(e.kind==='recovery_requested'?' · '+(causes[e.cause]||'UNAVAILABLE'):'')).join('\n'):'No ICE recovery events recorded on this peer.');
     }
